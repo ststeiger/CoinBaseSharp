@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+  <metadata>
+    <id>Sigil</id>
+    <version>4.5.0</version>
+    <title />
+    <authors>Kevin Montrose</authors>
+    <owners>Kevin Montrose</owners>
+    <licenseUrl>http://opensource.org/licenses/MS-PL</licenseUrl>
+    <projectUrl>https://github.com/kevin-montrose/Sigil</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>A fail-fast validation helper for .NET CIL generation.</description>
+    <summary />
+    <releaseNotes>Bug fixes around Switch, a new overload on NewObject(...) to support use with ConstructorBuilder, and support for creating type initializers.</releaseNotes>
+    <copyright>2013-2015 Kevin Montrose</copyright>
+    <language />
+    <tags>cil msil il bytecode</tags>
+  </metadata>
+</package>

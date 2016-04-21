@@ -1,0 +1,112 @@
+﻿
+https://jsonformatter.curiousconcept.com/
+http://json2csharp.com/
+https://github.com/kevin-montrose/Jil
+
+
+https://github.com/chrisgwilliams/Coinbase.NET
+
+
+API 2.0 : 
+https://github.com/bchavez/Coinbase
+
+
+
+
+
+https://developers.coinbase.com/api/v2#oauth2-coinbase-connect
+
+# Sandbox website
+
+https://sandbox.coinbase.com
+
+# Sandbox API endpoint
+
+https://api.sandbox.coinbase.com
+
+
+Wallet Endpoints
+Merchant Endpoints
+Data Endpoints
+
+
+Exchange API
+Blockchain API 
+
+
+List known currencies. 
+Currency codes will conform to the ISO 4217 standard where possible. 
+Currencies which have or had no representation in ISO 4217 
+may use a custom code (e.g. BTC).
+
+https://api.coinbase.com/v2/currencies
+
+
+https://api.coinbase.com/v2/exchange-rates
+https://api.coinbase.com/v2/prices/buy
+https://api.coinbase.com/v2/prices/sell
+https://api.coinbase.com/v2/prices/spot
+https://api.coinbase.com/v2/prices/historic
+https://api.coinbase.com/v2/time
+
+
+
+
+
+
+
+
+
+
+https://books.google.ch/books?id=nBsGVjwzBJEC&pg=PT396&lpg=PT396&dq=DownloadFileCompleted+callback+example&source=bl&ots=V3Ex-nzN3c&sig=TpnlM8qgxOCQZJUCVsJoXDQzBww&hl=en&sa=X&redir_esc=y#v=onepage&q&f=false
+http://eu.wiley.com/WileyCDA/WileyTitle/productCd-1118029771.html
+Professional Parallel Programming with C#: Master Parallel Extensions with .NET 4
+
+
+
+
+
+
+
+
+
+
+https://github.com/ngs-doo/json-benchmark
+http://theburningmonk.com/2014/08/json-serializers-benchmarks-updated-2/
+
+
+D:\username\Documents\Downloads\Coinbase-master\Coinbase-master\Source
+D:\username\Documents\Downloads\Coinbase.NET-master\Coinbase.NET-master
+
+
+
+Mono:
+ServiceStack: Serialization
+JIL: Deserialization 
+
+
+Windows:
+Serialization: JIL
+Deserialzation: JIL
+Revenj usable?
+	
+https://github.com/ngs-doo/revenj/blob/master/tutorials/revenj-tutorial-mono.md
+https://github.com/rpgmaker/NetJSON
+
+
+
+https://github.com/chrisgwilliams/Coinbase.NET
+https://github.com/bchavez/Coinbase
+
+
+coinbase feed api csharp:
+https://developers.coinbase.com/api/v2#create-a-new-order-for-a-checkout
+
+https://docs.exchange.coinbase.com/
+
+http://cryptorials.io/top-5-cryptocurrency-apis-for-developers/
+#1. Coinbase
+#2. Bitpay 
+#3. Block.io
+#4. Kraken
+#5. Faucetbox
