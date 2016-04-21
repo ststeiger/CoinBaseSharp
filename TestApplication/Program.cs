@@ -32,7 +32,51 @@ namespace TestApplication
             System.Console.WriteLine(hist.warnings.Count);
 
 
-            CoinBaseSharp.SQL.BatchedInsert(hist.data.prices, ItemToSqlInsert);
+            string createTable = @"
+IF 0 = (SELECT COUNT(*) FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = 'price_history' )
+EXECUTE('
+CREATE TABLE price_history
+(
+	 uid uniqueidentifier NULL 
+	,time datetime NULL 
+	,price decimal(20, 9) NULL 
+);
+')
+";
+
+            CoinBaseSharp.SQL.ExecuteNonQuery(createTable);
+
+            // CoinBaseSharp.SQL.BatchedInsert(hist.data.prices, ItemToSqlInsert);
+            CoinBaseSharp.SQL.BatchedInsert(hist.data.prices, delegate(System.Text.StringBuilder sb, CoinBaseSharp.API.V2.History.Price thisPrice) {
+                sb.Append("INSERT INTO price_history(uid, time, price) VALUES (");
+                sb.Append("'");
+                sb.Append(System.Guid.NewGuid().ToString());
+                sb.Append("'");
+                sb.Append(", ");
+
+                if (thisPrice.time == null)
+                    sb.Append("NULL");
+                else
+                {
+                    sb.Append("'");
+                    sb.Append(thisPrice.time.Replace("'", "''"));
+                    sb.Append("'");
+                }
+
+
+                sb.Append(", ");
+
+                if (thisPrice.price == null)
+                    sb.Append("NULL");
+                else
+                {
+                    sb.Append("'");
+                    sb.Append(thisPrice.price.Replace("'", "''"));
+                    sb.Append("'");
+                }
+
+                sb.AppendLine(");");
+            });
 
 
 
@@ -54,21 +98,32 @@ namespace TestApplication
 
         public static void ItemToSqlInsert(System.Text.StringBuilder sb, CoinBaseSharp.API.V2.History.Price thisPrice)
         {
-            sb.Append("INSERT INTO T_FOO(uid, time, price) VALUES (");
+            sb.Append("INSERT INTO price_history(uid, time, price) VALUES (");
+            sb.Append("'");
             sb.Append(System.Guid.NewGuid().ToString());
+            sb.Append("'");
             sb.Append(", ");
 
-            if(thisPrice.time == null)
+            if (thisPrice.time == null)
                 sb.Append("NULL");
             else
-                sb.Append(thisPrice.time);
+            {
+                sb.Append("'");
+                sb.Append(thisPrice.time.Replace("'", "''"));
+                sb.Append("'");
+            }
+                
 
             sb.Append(", ");
 
-            if(thisPrice.price == null)
+            if (thisPrice.price == null)
                 sb.Append("NULL");
             else
-                sb.Append(thisPrice.price);
+            {
+                sb.Append("'");
+                sb.Append(thisPrice.price.Replace("'","''"));
+                sb.Append("'");
+            }
             
             sb.AppendLine(");");
         }
