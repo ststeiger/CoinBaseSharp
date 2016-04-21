@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -32,13 +32,19 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Newtonsoft.Json, Version=8.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>Libs\Newtonsoft.JSON\net20\Newtonsoft.Json.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>Libs\Newtonsoft.JSON\net20\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="Npgsql">
+      <HintPath>Libs\Npgsql.dll</HintPath>
+    </Reference>
+    <Reference Include="MySql.Data">
+      <HintPath>Libs\mysql.data.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Configuration" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Currencies.cs" />
@@ -49,9 +55,10 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Time.cs" />
+    <Compile Include="JSON.cs" />
+    <Compile Include="SQL.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="currencies.txt" />
     <Content Include="Libs\JIL\Version.txt" />
     <Content Include="Libs\Microsoft.Net.Http\monoandroid\System.Net.Http.Extensions.dll" />
     <Content Include="Libs\Microsoft.Net.Http\monoandroid\System.Net.Http.Extensions.XML" />
@@ -124,9 +131,7 @@
     <Content Include="Libs\Newtonsoft.JSON\portable-net45%252Bwp80%252Bwin8%252Bwpa81%252Bdnxcore50\Newtonsoft.Json.dll" />
     <Content Include="Libs\Newtonsoft.JSON\portable-net45%252Bwp80%252Bwin8%252Bwpa81%252Bdnxcore50\Newtonsoft.Json.xml" />
     <Content Include="Libs\Newtonsoft.JSON\Version.txt" />
-    <Content Include="historic.txt" />
     <Content Include="info.txt" />
-    <Content Include="time.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
@@ -136,4 +141,13 @@
   <Target Name="AfterBuild">
   </Target>
   -->
+  <ItemGroup>
+    <EmbeddedResource Include="currencies.txt" />
+    <EmbeddedResource Include="historic.txt" />
+    <EmbeddedResource Include="time.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Libs\Npgsql.dll" />
+    <None Include="Libs\mysql.data.dll" />
+  </ItemGroup>
 </Project>
