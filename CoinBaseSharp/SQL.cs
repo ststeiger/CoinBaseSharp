@@ -39,8 +39,8 @@ namespace CoinBaseSharp
             if (System.StringComparer.InvariantCultureIgnoreCase.Equals(m_DataProvider, typeof(Npgsql.NpgsqlFactory).Namespace))
                 return GetFactory(typeof(Npgsql.NpgsqlFactory));
             
-            if (System.StringComparer.InvariantCultureIgnoreCase.Equals(m_DataProvider, typeof(MySql.Data.MySqlClient.MySqlClientFactory).Namespace))
-                return GetFactory(typeof(MySql.Data.MySqlClient.MySqlClientFactory));
+            // if (System.StringComparer.InvariantCultureIgnoreCase.Equals(m_DataProvider, typeof(MySql.Data.MySqlClient.MySqlClientFactory).Namespace))
+            //     return GetFactory(typeof(MySql.Data.MySqlClient.MySqlClientFactory));
             
             return GetFactory(typeof(System.Data.SqlClient.SqlClientFactory));
         }
@@ -77,8 +77,8 @@ namespace CoinBaseSharp
                     m_dbType = DbType_t.MS_SQL;
                 else if(object.ReferenceEquals(t, typeof(Npgsql.NpgsqlFactory)))
                     m_dbType = DbType_t.PostgreSQL;
-                else if(object.ReferenceEquals(t, typeof(MySql.Data.MySqlClient.MySqlClientFactory)))
-                    m_dbType = DbType_t.MySQL;
+                //else if(object.ReferenceEquals(t, typeof(MySql.Data.MySqlClient.MySqlClientFactory)))
+                //    m_dbType = DbType_t.MySQL;
                 
                 if(!m_dbType.HasValue)
                     m_dbType = DbType_t.MS_SQL;
@@ -138,6 +138,7 @@ namespace CoinBaseSharp
         protected static string m_staticConnectionString;
         protected static string m_DataProvider;
 
+        /*
         public static string GetMyConnectionString()
         {
             MySql.Data.MySqlClient.MySqlConnectionStringBuilder csb = new MySql.Data.MySqlClient.MySqlConnectionStringBuilder();
@@ -157,7 +158,7 @@ namespace CoinBaseSharp
             csb.DefaultCommandTimeout = 30;
             return csb.ToString();
         }
-
+        */
 
         public delegate void sqlGenerator_t<T>(System.Text.StringBuilder sb, T thisItem);
 

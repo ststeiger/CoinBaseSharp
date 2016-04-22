@@ -1,0 +1,16 @@
+﻿<Properties StartupItem="TestApplication/TestApplication.csproj" GitUserInfo="UsingMD">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="TestApplication/Program.cs">
+    <Files>
+      <File FileName="CoinBaseSharp/Historic.cs" Line="1" Column="1" />
+      <File FileName="CoinBaseSharp/historic.txt" Line="1" Column="1" />
+      <File FileName="CoinBaseSharp/SQL.cs" Line="555" Column="1" />
+      <File FileName="TestApplication/Program.cs" Line="102" Column="13" />
+      <File FileName="TestApplication/connections.config" Line="24" Column="118" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+</Properties>

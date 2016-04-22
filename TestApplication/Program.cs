@@ -37,11 +37,20 @@ IF 0 = (SELECT COUNT(*) FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = 'price
 EXECUTE('
 CREATE TABLE price_history
 (
-	 uid uniqueidentifier NULL 
-	,time datetime NULL 
-	,price decimal(20, 9) NULL 
+     uid uniqueidentifier NULL 
+    ,time datetime NULL 
+    ,price decimal(20, 9) NULL 
 );
 ')
+";
+
+            createTable = @"
+CREATE TABLE IF NOT EXISTS price_history
+(
+     uid uuid NULL 
+    ,time timestamp without time zone NULL 
+    ,price decimal(20, 9) NULL 
+);
 ";
 
             CoinBaseSharp.SQL.ExecuteNonQuery(createTable);
