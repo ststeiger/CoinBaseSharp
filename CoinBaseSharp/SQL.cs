@@ -159,7 +159,7 @@ namespace CoinBaseSharp
         }
 
 
-        public delegate void sqlGenerator_t<T>(System.Text.StringBuilder sb, T thisPrice);
+        public delegate void sqlGenerator_t<T>(System.Text.StringBuilder sb, T thisItem);
 
 
         public static int BatchedInsert<T>(System.Collections.Generic.IEnumerable<T> ls, sqlGenerator_t<T> sqlGenerator)

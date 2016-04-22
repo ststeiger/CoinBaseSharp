@@ -1,9 +1,11 @@
 ﻿
-
 namespace CoinBaseSharp.Helpers
 {
+
+
     public partial class HttpHelper
     {
+
 
         // https://stackoverflow.com/questions/4015324/http-request-with-post
         // https://stackoverflow.com/questions/4088625/net-simplest-way-to-send-post-with-data-and-read-response
@@ -19,7 +21,6 @@ namespace CoinBaseSharp.Helpers
                 return response;
             }
         }
-
 
 
         // Sample call : DownLoadFileInBackground2 ("http://www.contoso.com/logs/January.txt");
@@ -40,13 +41,10 @@ namespace CoinBaseSharp.Helpers
             client.DownloadProgressChanged += new System.Net.DownloadProgressChangedEventHandler(OnDownloadProgressChanged);
             client.UploadProgressChanged += new System.Net.UploadProgressChangedEventHandler(OnUploadProgressChanged);
 
-            
 
-            
 
             // https://stackoverflow.com/questions/22865612/passing-filename-to-downloadfilecompleted-in-async-file-download-using-webclient
             client.DownloadFileAsync(uri, "serverdata.txt", "data for callback, e.g. filename to save it as");
-            
             
 
             // System.Threading.AutoResetEvent waiter = new System.Threading.AutoResetEvent(false);
@@ -81,6 +79,7 @@ namespace CoinBaseSharp.Helpers
             System.Console.WriteLine("File has been downloaded to \"{0}\".", fileName);
         }
 
+
         public static void OnDownloadStringCompleted(object sender, System.Net.DownloadStringCompletedEventArgs e)
         {
             if (e.Error == null && !string.IsNullOrEmpty(e.Result))
@@ -89,6 +88,7 @@ namespace CoinBaseSharp.Helpers
                 // _results.Add(e.Result);
             }
         }
+
 
         public static void OnDownloadDataCompleted(object sender, System.Net.DownloadDataCompletedEventArgs e)
         {
@@ -174,5 +174,8 @@ namespace CoinBaseSharp.Helpers
             }
         }
 
-    }
-}
+
+    } // End partial class HttpHelper 
+
+
+} // End Namespace CoinBaseSharp.Helpers 

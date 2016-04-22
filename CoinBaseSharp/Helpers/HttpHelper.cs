@@ -41,10 +41,10 @@ namespace CoinBaseSharp.Helpers
             return sr.ReadToEnd().Trim();
         }
 
+
         public static string HttpPost(string URI, string Parameters)
         {
             string ProxyString = null;
-
 
             System.Net.WebRequest req = System.Net.WebRequest.Create(URI);
             req.Proxy = new System.Net.WebProxy(ProxyString, true);
@@ -64,5 +64,7 @@ namespace CoinBaseSharp.Helpers
         }
 
 
-    }
-}
+    } // End partial class HttpHelper
+
+
+} // End Namespace CoinBaseSharp.Helpers

@@ -46,7 +46,7 @@ CREATE TABLE price_history
 
             CoinBaseSharp.SQL.ExecuteNonQuery(createTable);
 
-            // CoinBaseSharp.SQL.BatchedInsert(hist.data.prices, ItemToSqlInsert);
+            // CoinBaseSharp.SQL.BatchedInsert(hist.data.prices, SqlInsertItem);
             CoinBaseSharp.SQL.BatchedInsert(hist.data.prices, delegate(System.Text.StringBuilder sb, CoinBaseSharp.API.V2.History.Price thisPrice) {
                 sb.Append("INSERT INTO price_history(uid, time, price) VALUES (");
                 sb.Append("'");
@@ -93,10 +93,9 @@ CREATE TABLE price_history
 
         } // End Sub Main 
 
-        // public static void ItemToSqlInsert<T>(System.Text.StringBuilder sb, T thisPrice)
 
-
-        public static void ItemToSqlInsert(System.Text.StringBuilder sb, CoinBaseSharp.API.V2.History.Price thisPrice)
+        // public delegate void sqlGenerator_t<T>(System.Text.StringBuilder sb, T thisItem);
+        public static void SqlInsertItem(System.Text.StringBuilder sb, CoinBaseSharp.API.V2.History.Price thisPrice)
         {
             sb.Append("INSERT INTO price_history(uid, time, price) VALUES (");
             sb.Append("'");
@@ -126,7 +125,7 @@ CREATE TABLE price_history
             }
             
             sb.AppendLine(");");
-        }
+        } // End Sub SqlInsertItem 
 
 
     } // End Class Program 
