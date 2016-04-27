@@ -1,12 +1,14 @@
 ﻿<Properties StartupItem="TestApplication/TestApplication.csproj" GitUserInfo="UsingMD">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="TestApplication/Program.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="CoinBaseSharp/JilHelper.cs">
     <Files>
       <File FileName="CoinBaseSharp/Historic.cs" Line="1" Column="1" />
       <File FileName="CoinBaseSharp/historic.txt" Line="1" Column="1" />
-      <File FileName="CoinBaseSharp/SQL.cs" Line="555" Column="1" />
+      <File FileName="CoinBaseSharp/SQL.cs" Line="1" Column="1" />
       <File FileName="TestApplication/Program.cs" Line="102" Column="13" />
-      <File FileName="TestApplication/connections.config" Line="24" Column="118" />
+      <File FileName="TestApplication/connections.config" Line="1" Column="1" />
+      <File FileName="CoinBaseSharp/FixerRates.cs" Line="56" Column="5" />
+      <File FileName="CoinBaseSharp/JilHelper.cs" Line="3" Column="6" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>

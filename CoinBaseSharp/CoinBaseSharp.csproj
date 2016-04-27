@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>CoinBaseSharp</RootNamespace>
     <AssemblyName>CoinBaseSharp</AssemblyName>
-    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -31,9 +31,6 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
-  <PropertyGroup>
-    <StartupObject />
-  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -48,6 +45,7 @@
       <HintPath>Libs\mysql.data.dll</HintPath>
     </Reference>
     <Reference Include="System.Configuration" />
+    <Reference Include="System.Net.Http" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Currencies.cs" />
@@ -59,6 +57,8 @@
     <Compile Include="Time.cs" />
     <Compile Include="JSON.cs" />
     <Compile Include="SQL.cs" />
+    <Compile Include="FixerRates.cs" />
+    <Compile Include="JilHelper.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Libs\JIL\Version.txt" />
@@ -151,5 +151,11 @@
   <ItemGroup>
     <None Include="Libs\Npgsql.dll" />
     <None Include="Libs\mysql.data.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Jil\Jil.csproj">
+      <Project>{73D243E7-DD9B-4546-9B71-4EE8BF5ED6C3}</Project>
+      <Name>Jil</Name>
+    </ProjectReference>
   </ItemGroup>
 </Project>
