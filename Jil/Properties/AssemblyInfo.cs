@@ -12,8 +12,8 @@ using System.Runtime.InteropServices;
 // The following GUID is for the ID of the typelib if this project is exposed to COM
 [assembly: Guid("a4bd090c-cd3e-4f8e-af53-a947b0a87316")]
 
-[assembly: AssemblyVersion("2016.4.21.1401")]
-[assembly: AssemblyFileVersion("2016.4.21.1401")]
+[assembly: AssemblyVersion("2016.4.27.1455")]
+[assembly: AssemblyFileVersion("2016.4.27.1455")]
 
 #if !STRONG_NAME
 [assembly: InternalsVisibleTo("JilTests")]

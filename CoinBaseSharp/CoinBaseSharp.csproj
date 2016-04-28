@@ -34,6 +34,11 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http.Formatting, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Libs\NET4\System.Net.Http.Formatting.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.Xml" />
     <Reference Include="Newtonsoft.Json">
       <HintPath>Libs\Newtonsoft.JSON\net20\Newtonsoft.Json.dll</HintPath>
@@ -120,6 +125,8 @@
     <Content Include="Libs\Microsoft.Net.Http\Xamarin.iOS10\System.Net.Http.Extensions.XML" />
     <Content Include="Libs\Microsoft.Net.Http\Xamarin.iOS10\System.Net.Http.Primitives.dll" />
     <Content Include="Libs\Microsoft.Net.Http\Xamarin.iOS10\System.Net.Http.Primitives.xml" />
+    <Content Include="Libs\NET4\System.Net.Http.Formatting.dll" />
+    <Content Include="Libs\NET4\System.Net.Http.Formatting.xml" />
     <Content Include="Libs\Newtonsoft.JSON\net20\Newtonsoft.Json.dll" />
     <Content Include="Libs\Newtonsoft.JSON\net20\Newtonsoft.Json.xml" />
     <Content Include="Libs\Newtonsoft.JSON\net35\Newtonsoft.Json.dll" />

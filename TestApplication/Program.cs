@@ -7,6 +7,14 @@ namespace TestApplication
     {
 
 
+        public class Money
+        {
+            public string waehrung = "CHF";
+            public int amount = 123;
+        }
+
+
+
         /// <summary>
         /// Der Haupteinstiegspunkt für die Anwendung.
         /// </summary>
@@ -19,6 +27,29 @@ namespace TestApplication
                 System.Windows.Forms.Application.SetCompatibleTextRenderingDefault(false);
                 System.Windows.Forms.Application.Run(new Form1());
             }
+
+            CoinBaseSharp.JilHelper.Employee emp = new CoinBaseSharp.JilHelper.Employee();
+
+            emp.FirstName = "Joe";
+            emp.LastName = "Doe";
+            emp.EmployeeId = 555;
+            emp.Designation = "Mr";
+
+            string crlf = System.Environment.NewLine;
+
+            int c1 = crlf[0]; // 13 Cr
+            int c2 = crlf[1]; // 10 LF
+            System.Console.WriteLine(c1);
+            System.Console.WriteLine(c2);
+
+            string foo = CoinBaseSharp.JilHelper.Serialize(new Money());
+            string bar = CoinBaseSharp.JilHelper.SerializeObject(new Money());
+
+            Money my = CoinBaseSharp.JilHelper.Deserialize<Money>(foo);
+
+            System.Console.WriteLine(my);
+            System.Console.WriteLine(foo);
+            System.Console.WriteLine(bar);
 
             CoinBaseSharp.API.V2.Currency.RootObject cur = EasyJSON.JsonHelper.DeserializeEmbeddedFile<CoinBaseSharp.API.V2.Currency.RootObject>("currencies.txt");
             System.Console.WriteLine(cur.data.Count);

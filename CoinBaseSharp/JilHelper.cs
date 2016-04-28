@@ -1,27 +1,13 @@
-﻿using System;
-
-
-using Jil;
-using System.Text;
-
-using System.Net.Http;
-using System.Threading.Tasks;
-
-//using System.Net.Http.Formatting;
-using System.IO;
-using System.Reflection;
-using System.Net; // TransportContext
-
-
+﻿
 namespace CoinBaseSharp
 {
 
 
     public class JilHelper
     {
+
         public JilHelper()
-        {
-        }
+        { }
 
 
         public class Employee
@@ -33,112 +19,142 @@ namespace CoinBaseSharp
         }
 
 
-        private static string SerializeEmployee(Employee employee)
+        public static string SerializeObject(object obj)
         {
-            using (var output = new StringWriter())
+            using (System.IO.StringWriter output = new System.IO.StringWriter())
             {
-                JSON.Serialize(
-                    employee,
-                    output
-                );
+                Jil.JSON.SerializeDynamic(obj, output);
                 return output.ToString();
             }
         }
 
-        private static Employee DeserializeEmployee(string employeeString)
+
+        public static string SerializeEmployee(Employee employee)
+        { 
+            return Serialize(employee);
+        }
+
+
+        public static string Serialize<T>(T obj)
         {
-            return JSON.Deserialize<Employee>(employeeString);
+            using (System.IO.StringWriter output = new System.IO.StringWriter())
+            {
+                Jil.JSON.Serialize(obj, output);
+
+                return output.ToString();
+            }
+        }
+
+
+        public static T Deserialize<T>(string json)
+        {
+            return Jil.JSON.Deserialize<T>(json);
         }
 
 
     }
 
+    /*
     public interface IFormatterLogger // System.Net.Http.Formatting
     {}
 
+    
     public class MediaTypeHeaderValue // System.Net.Http.Formatting
     {
         public MediaTypeHeaderValue(string str)
         {}
     }
 
-
+    
     // https://msdn.microsoft.com/en-us/library/system.net.http.formatting.mediatypeformatter%28v=vs.118%29.aspx
-    public class MediaTypeFormatter
+    public class MediaTypeFormatter2
     {
         public System.Type type;
         public System.Collections.Generic.List<object> SupportedMediaTypes;
         public System.Collections.Generic.List<object> SupportedEncodings;
 
-        public virtual bool CanReadType(Type type)
+        public virtual bool CanReadType(System.Type type)
         {
             return false;
         }
 
 
-        public virtual bool CanWriteType(Type type)
+        public virtual bool CanWriteType(System.Type type)
         {
             return false;
         }
 
-        public virtual Task<object> ReadFromStreamAsync(Type type, Stream readStream, System.Net.Http.HttpContent content, IFormatterLogger formatterLogger)
+        public virtual System.Threading.Tasks.Task<object> ReadFromStreamAsync(System.Type type
+            , System.IO.Stream readStream
+            , System.Net.Http.HttpContent content
+            , IFormatterLogger formatterLogger)
         {
             return null;
         }
 
-        public virtual Task WriteToStreamAsync(Type type, object value, Stream writeStream, System.Net.Http.HttpContent content, TransportContext transportContext)
+        public virtual System.Threading.Tasks.Task WriteToStreamAsync(System.Type type, object value
+            , System.IO.Stream writeStream
+            , System.Net.Http.HttpContent content
+            , System.Net.TransportContext transportContext)
         {
             return null;
         }
     }
+    */
 
 
-    public class JilFormatter : MediaTypeFormatter
+    public class JilFormatter : System.Net.Http.Formatting.MediaTypeFormatter
     {
-        private readonly Options _jilOptions;
+
+        private readonly Jil.Options _jilOptions;
 
 
         public JilFormatter()
         {
-            _jilOptions = new Options(dateFormat: DateTimeFormat.ISO8601);
-            SupportedMediaTypes.Add(new MediaTypeHeaderValue("application/json"));
+            _jilOptions = new Jil.Options(dateFormat: Jil.DateTimeFormat.ISO8601);
+            SupportedMediaTypes.Add(new System.Net.Http.Headers.MediaTypeHeaderValue("application/json"));
 
-            SupportedEncodings.Add(new UTF8Encoding(encoderShouldEmitUTF8Identifier: false, throwOnInvalidBytes: true));
-            SupportedEncodings.Add(new UnicodeEncoding(bigEndian: false, byteOrderMark: true, throwOnInvalidBytes: true));
+            SupportedEncodings.Add(new System.Text.UTF8Encoding(encoderShouldEmitUTF8Identifier: false, throwOnInvalidBytes: true));
+            SupportedEncodings.Add(new System.Text.UnicodeEncoding(bigEndian: false, byteOrderMark: true, throwOnInvalidBytes: true));
         }
 
-        public override bool CanReadType(Type type)
+        public override bool CanReadType(System.Type type)
         {
             if (type == null)
             {
-                throw new ArgumentNullException("type");
+                throw new System.ArgumentNullException("type");
             }
             return true;
         }
 
-        public override bool CanWriteType(Type type)
+        public override bool CanWriteType(System.Type type)
         {
             if (type == null)
             {
-                throw new ArgumentNullException("type");
+                throw new System.ArgumentNullException("type");
             }
             return true;
         }
 
-        public override Task<object> ReadFromStreamAsync(Type type, Stream readStream, System.Net.Http.HttpContent content, IFormatterLogger formatterLogger)
+        public override System.Threading.Tasks.Task<object> ReadFromStreamAsync(System.Type type
+            , System.IO.Stream readStream
+            , System.Net.Http.HttpContent content
+            , System.Net.Http.Formatting.IFormatterLogger formatterLogger)
         {
-            return Task.FromResult(this.DeserializeFromStream(type, readStream));           
+            return System.Threading.Tasks.Task.FromResult(this.DeserializeFromStream(type, readStream));           
         }
 
 
-        private object DeserializeFromStream(Type type, Stream readStream)
+        private object DeserializeFromStream(System.Type type, System.IO.Stream readStream)
         {
             try
             {
-                using (var reader = new StreamReader(readStream))
+                using (System.IO.StreamReader reader = new System.IO.StreamReader(readStream))
                 {
-                    MethodInfo method = typeof(JSON).GetMethod("Deserialize", new Type[] { typeof(TextReader), typeof(Options) });
-                    MethodInfo generic = method.MakeGenericMethod(type);
+                    System.Reflection.MethodInfo method = typeof(Jil.JSON).GetMethod("Deserialize"
+                        , new System.Type[] { typeof(System.IO.TextReader), typeof(Jil.Options) }
+                    );
+                    System.Reflection.MethodInfo generic = method.MakeGenericMethod(type);
                     return generic.Invoke(this, new object[]{ reader, _jilOptions });
                 }
             }
@@ -150,14 +166,19 @@ namespace CoinBaseSharp
         }
 
 
-        public override Task WriteToStreamAsync(Type type, object value, Stream writeStream, System.Net.Http.HttpContent content, TransportContext transportContext)
+        public override System.Threading.Tasks.Task WriteToStreamAsync(System.Type type, object value
+            , System.IO.Stream writeStream
+            , System.Net.Http.HttpContent content
+            , System.Net.TransportContext transportContext)
         {
-            var streamWriter = new StreamWriter(writeStream);
-            JSON.Serialize(value, streamWriter, _jilOptions);
+            System.IO.StreamWriter streamWriter = new System.IO.StreamWriter(writeStream);
+            Jil.JSON.Serialize(value, streamWriter, _jilOptions);
             streamWriter.Flush();
-            return Task.FromResult(writeStream);
+            return System.Threading.Tasks.Task.FromResult(writeStream);
         }
 
+
     }
+
 
 }
