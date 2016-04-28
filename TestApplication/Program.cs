@@ -7,13 +7,36 @@ namespace TestApplication
     {
 
 
-        public class Money
+        public class JilMoney
         {
-            public string waehrung = "CHF";
-            public int amount = 123;
+            public string Currency = "CHF";
+            public int Amount = 123;
+            public System.DateTime DateFrom = System.DateTime.Today;
         }
 
 
+
+        public class JilEmployee
+        {
+            public int EmployeeId { get; set; }
+            public string FirstName { get; set; }
+            public string LastName { get; set; }
+            public string Designation { get; set; }
+        }
+
+
+        public class ServiceStackCustomer
+        {
+            // ServiceStack does not react to fields
+            // public string Name;
+            // public int Age;
+
+
+            public string Name { get; set; }
+            public int Age { get; set; }
+            public System.DateTime DateFrom { get; set; }
+
+        }
 
         /// <summary>
         /// Der Haupteinstiegspunkt für die Anwendung.
@@ -28,7 +51,17 @@ namespace TestApplication
                 System.Windows.Forms.Application.Run(new Form1());
             }
 
-            CoinBaseSharp.JilHelper.Employee emp = new CoinBaseSharp.JilHelper.Employee();
+
+            ServiceStackCustomer customer = new ServiceStackCustomer { Name = "Joe Bloggs", Age = 31, DateFrom = System.DateTime.Now };
+
+            string json = CoinBaseSharp.ServiceStackHelper.Serialize(customer);
+            System.Console.WriteLine(json);
+            ServiceStackCustomer fromJson = CoinBaseSharp.ServiceStackHelper.Deserialize<ServiceStackCustomer>(json);
+            System.Console.WriteLine(fromJson);
+
+
+
+            JilEmployee emp = new JilEmployee();
 
             emp.FirstName = "Joe";
             emp.LastName = "Doe";
@@ -42,10 +75,10 @@ namespace TestApplication
             System.Console.WriteLine(c1);
             System.Console.WriteLine(c2);
 
-            string foo = CoinBaseSharp.JilHelper.Serialize(new Money());
-            string bar = CoinBaseSharp.JilHelper.SerializeObject(new Money());
+            string foo = CoinBaseSharp.JilHelper.Serialize(new JilMoney());
+            string bar = CoinBaseSharp.JilHelper.SerializeObject(new JilMoney());
 
-            Money my = CoinBaseSharp.JilHelper.Deserialize<Money>(foo);
+            JilMoney my = CoinBaseSharp.JilHelper.Deserialize<JilMoney>(foo);
 
             System.Console.WriteLine(my);
             System.Console.WriteLine(foo);

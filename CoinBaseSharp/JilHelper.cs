@@ -2,20 +2,49 @@
 namespace CoinBaseSharp
 {
 
+    public class ServiceStackHelper
+    {
 
+
+        static ServiceStackHelper()
+        {
+            ServiceStack.Text.JsConfig.DateHandler = ServiceStack.Text.DateHandler.ISO8601;
+        }
+
+
+
+        public static string Serialize<T>(T obj)
+        {
+            return ServiceStack.Text.JsonSerializer.SerializeToString(obj);
+        }
+
+
+        public static T Deserialize<T>(string json)
+        {
+            return ServiceStack.Text.JsonSerializer.DeserializeFromString<T>(json);
+        }
+
+
+
+    }
+
+
+
+    // https://github.com/ngs-doo/json-benchmark
+    // http://theburningmonk.com/2014/08/json-serializers-benchmarks-updated-2/
     public class JilHelper
     {
 
-        public JilHelper()
-        { }
+        private static Jil.Options defaultOptions;
 
-
-        public class Employee
+        static JilHelper()
         {
-            public int EmployeeId { get; set; }
-            public string FirstName { get; set; }
-            public string LastName { get; set; }
-            public string Designation { get; set; }
+            // https://github.com/kevin-montrose/Jil#configuration
+            defaultOptions = new Jil.Options(
+                prettyPrint: true, excludeNulls: true, dateFormat: Jil.DateTimeFormat.ISO8601
+            );
+            
+
         }
 
 
@@ -23,15 +52,9 @@ namespace CoinBaseSharp
         {
             using (System.IO.StringWriter output = new System.IO.StringWriter())
             {
-                Jil.JSON.SerializeDynamic(obj, output);
+                Jil.JSON.SerializeDynamic(obj, output, defaultOptions);
                 return output.ToString();
             }
-        }
-
-
-        public static string SerializeEmployee(Employee employee)
-        { 
-            return Serialize(employee);
         }
 
 
@@ -39,7 +62,7 @@ namespace CoinBaseSharp
         {
             using (System.IO.StringWriter output = new System.IO.StringWriter())
             {
-                Jil.JSON.Serialize(obj, output);
+                Jil.JSON.Serialize(obj, output, defaultOptions);
 
                 return output.ToString();
             }
@@ -48,7 +71,7 @@ namespace CoinBaseSharp
 
         public static T Deserialize<T>(string json)
         {
-            return Jil.JSON.Deserialize<T>(json);
+            return Jil.JSON.Deserialize<T>(json, defaultOptions);
         }
 
 
