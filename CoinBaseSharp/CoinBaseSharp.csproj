@@ -54,6 +54,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Currencies.cs" />
+    <Compile Include="EcbRates.cs" />
     <Compile Include="Helpers\HttpHelper3.cs" />
     <Compile Include="Helpers\HttpHelper.cs" />
     <Compile Include="Helpers\HttpHelper2.cs" />
@@ -64,8 +65,11 @@
     <Compile Include="SQL.cs" />
     <Compile Include="FixerRates.cs" />
     <Compile Include="JilHelper.cs" />
+    <Compile Include="XmlSerialization.cs" />
+    <Compile Include="XmlTransCoder.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="ecb_feed.xml" />
     <Content Include="Libs\JIL\Version.txt" />
     <Content Include="Libs\Microsoft.Net.Http\monoandroid\System.Net.Http.Extensions.dll" />
     <Content Include="Libs\Microsoft.Net.Http\monoandroid\System.Net.Http.Extensions.XML" />

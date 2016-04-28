@@ -3,6 +3,9 @@ namespace CoinBaseSharp
 {
 
 
+    // http://api.fixer.io/latest
+    // http://api.fixer.io/2000-01-03
+    
     public class FixerRates
     {
         public FixerRates()
