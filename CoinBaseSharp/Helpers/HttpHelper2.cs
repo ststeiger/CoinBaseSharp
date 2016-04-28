@@ -23,11 +23,58 @@ namespace CoinBaseSharp.Helpers
         }
 
 
+        public static void WriteDataToUrl(string uriString, string postData)
+        {
+            //string uriString;
+            //System.Console.Write("\nPlease enter the URI to post data to : ");
+            //uriString = System.Console.ReadLine();
+            //System.Console.WriteLine("\nPlease enter the data to be posted to the URI {0}:", uriString);
+            //string postData = System.Console.ReadLine();
+            
+            byte[] postArray = System.Text.Encoding.UTF8.GetBytes(postData);
+
+            System.Console.WriteLine("Uploading to {0} ...", uriString);
+
+            // Create a new WebClient instance.
+            using (System.Net.WebClient client = new System.Net.WebClient())
+            {
+                // client.OpenWriteCompleted
+                // client.OpenReadCompleted
+
+
+                // OpenWrite implicitly sets HTTP POST as the request method.
+                // This method uses the STOR command to upload an FTP resource. 
+                // For an HTTP resource, the POST method is used.
+                // client.OpenWrite("address", "POST");
+                using (System.IO.Stream postStream = client.OpenWrite(uriString))
+                {
+                    postStream.Write(postArray, 0, postArray.Length);
+                    // https://stackoverflow.com/questions/6779012/stream-with-openwrite-not-writing-until-it-is-closed
+                    postStream.Flush();
+
+                    // Close the stream and release resources.
+                    postStream.Close();
+                } // End Using postStream
+
+            } // End Using client
+
+
+            System.Console.WriteLine("\nSuccessfully posted the data.");
+        }
+
+
         // Sample call : DownLoadFileInBackground2 ("http://www.contoso.com/logs/January.txt");
         public static void DownLoadFileInBackground(string address)
         {
             System.Net.WebClient client = new System.Net.WebClient();
             System.Uri uri = new System.Uri(address);
+
+
+            client.UploadValuesCompleted += new System.Net.UploadValuesCompletedEventHandler(OnUploadValuesCompleted);
+            client.UploadStringCompleted += new System.Net.UploadStringCompletedEventHandler(OnUploadStringCompleted);
+            client.UploadDataCompleted += new System.Net.UploadDataCompletedEventHandler(OnUploadDataCompleted);
+            client.UploadFileCompleted += new System.Net.UploadFileCompletedEventHandler(OnUploadFileCompleted);
+
 
             // Specify that the DownloadFileCallback method gets called
             // when the download completes.
@@ -36,10 +83,11 @@ namespace CoinBaseSharp.Helpers
             client.DownloadDataCompleted += new System.Net.DownloadDataCompletedEventHandler(OnDownloadDataCompleted);
             client.DownloadStringCompleted += new System.Net.DownloadStringCompletedEventHandler(OnDownloadStringCompleted);
 
-
             // Specify a progress notification handler.
             client.DownloadProgressChanged += new System.Net.DownloadProgressChangedEventHandler(OnDownloadProgressChanged);
             client.UploadProgressChanged += new System.Net.UploadProgressChangedEventHandler(OnUploadProgressChanged);
+
+            
 
 
 
@@ -59,6 +107,96 @@ namespace CoinBaseSharp.Helpers
         }
 
 
+        public static void OnUploadValuesCompleted(object sender, System.Net.UploadValuesCompletedEventArgs e)
+        {
+            if (e.Cancelled == true)
+            {
+                // MessageBox.Show("Download has been canceled.");
+                System.Console.WriteLine("Download has been canceled.");
+                return;
+            }
+            else if (e.Error != null)
+            {
+                throw e.Error;
+            }
+
+            byte[] ba = e.Result;
+            System.Console.WriteLine(ba != null);
+            // string s = client.Encoding.GetString(ba);
+            // string s = System.Text.Encoding.UTF8.GetString(ba);
+
+            string userState = (string)e.UserState;
+            System.Console.WriteLine("UserState: \"{0}\".", userState);
+        }
+
+
+        public static void OnUploadStringCompleted(object sender, System.Net.UploadStringCompletedEventArgs e)
+        {
+            if (e.Cancelled == true)
+            {
+                // MessageBox.Show("Download has been canceled.");
+                System.Console.WriteLine("Download has been canceled.");
+                return;
+            }
+            else if (e.Error != null)
+            {
+                throw e.Error;
+            }
+
+            string res = e.Result;
+            System.Console.WriteLine(res);
+
+            string userState = (string)e.UserState;
+            System.Console.WriteLine("UserState: \"{0}\".", userState);
+        }
+
+
+        public static void OnUploadDataCompleted(object sender, System.Net.UploadDataCompletedEventArgs e)
+        {
+            if (e.Cancelled == true)
+            {
+                // MessageBox.Show("Download has been canceled.");
+                System.Console.WriteLine("Download has been canceled.");
+                return;
+            }
+            else if (e.Error != null)
+            {
+                throw e.Error;
+            }
+
+            byte[] ba = e.Result;
+            System.Console.WriteLine(ba != null);
+
+            string userState = (string)e.UserState;
+            System.Console.WriteLine("UserState: \"{0}\".", userState);
+        }
+
+
+        public static void OnUploadFileCompleted(object sender, System.Net.UploadFileCompletedEventArgs e)
+        {
+            if (e.Cancelled == true)
+            {
+                // MessageBox.Show("Download has been canceled.");
+                System.Console.WriteLine("Download has been canceled.");
+                return;
+            }
+            else if (e.Error != null)
+            {
+                throw e.Error;
+            }
+
+
+            byte[] ba = e.Result;
+            System.Console.WriteLine(ba != null);
+
+            string userState = (string)e.UserState;
+            System.Console.WriteLine("UserState: \"{0}\".", userState);
+        }
+
+
+            
+
+
         // https://stackoverflow.com/questions/13917009/web-client-downloadfilecompleted-get-file-name
         // https://stackoverflow.com/questions/22865612/passing-filename-to-downloadfilecompleted-in-async-file-download-using-webclient
         public static void OnDownloadFileCompleted(object sender, System.ComponentModel.AsyncCompletedEventArgs e)
@@ -67,6 +205,7 @@ namespace CoinBaseSharp.Helpers
             {
                 // MessageBox.Show("Download has been canceled.");
                 System.Console.WriteLine("Download has been canceled.");
+                return;
             }
             else if (e.Error != null)
             {

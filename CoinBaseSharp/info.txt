@@ -1,4 +1,14 @@
 ﻿
+
+
+https://bitcoin.stackexchange.com/questions/9637/fastest-cpu-miner
+minerd.exe -o http://[pool url]:[pool port] -u [username] -p [password] -a sha256d -R 2
+
+
+
+
+
+
 https://jsonformatter.curiousconcept.com/
 http://json2csharp.com/
 https://github.com/kevin-montrose/Jil
