@@ -25,7 +25,6 @@ namespace CoinBaseSharp
         }
 
 
-
     }
 
 
@@ -44,7 +43,6 @@ namespace CoinBaseSharp
                 prettyPrint: true, excludeNulls: true, dateFormat: Jil.DateTimeFormat.ISO8601
             );
             
-
         }
 
 
@@ -156,6 +154,7 @@ namespace CoinBaseSharp
             {
                 throw new System.ArgumentNullException("type");
             }
+
             return true;
         }
 
