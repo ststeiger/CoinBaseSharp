@@ -106,8 +106,6 @@ namespace Tools.XML
         {
             using (System.Net.WebClient client = new System.Net.WebClient())
             {
-                //client.
-
                 using (System.IO.Stream strm = client.OpenRead(uri))
                 {
                     return DeserializeXmlFromStream<T>(strm);
@@ -116,7 +114,85 @@ namespace Tools.XML
         }
 
 
-		public static T DeserializeXmlFromStream<T>(System.IO.Stream strm)
+        public static void DeserializeXmlFromUrlAsync<T>(System.Uri uri, OnOpenReadCompleted_t onOpenReadCompleted)
+        {
+            using (System.Net.WebClient client = new System.Net.WebClient())
+            {
+                // http://stackoverflow.com/questions/25051674/how-to-wait-for-webclient-openreadasync-to-complete
+                client.OpenReadCompleted += new System.Net.OpenReadCompletedEventHandler(onOpenReadCompleted);
+                client.OpenReadAsync(uri, "userToken");
+
+
+                // Lambda: 
+                //client.OpenReadCompleted += (s, e) =>
+                //{
+
+                //    using (System.IO.Stream strm = e.Result)
+                //    {
+
+                //    }
+
+                //};
+
+                
+                // Closure: 
+                //client.OpenReadCompleted += delegate (object sender, System.Net.OpenReadCompletedEventArgs e)
+                //{
+                //    if (e.Cancelled == true)
+                //    {
+                //        // MessageBox.Show("Download has been canceled.");
+                //        System.Console.WriteLine("Download has been canceled.");
+                //        return;
+                //    }
+                //    else if (e.Error != null)
+                //    {
+                //        throw e.Error;
+                //    }
+
+                //    using (System.IO.Stream strm = e.Result)
+                //    {
+
+                //        strm.Close();
+                //    }
+
+
+                //    string userState = (string)e.UserState;
+                //    System.Console.WriteLine("UserState: \"{0}\".", userState);
+                //};
+            }
+        }
+
+
+        public delegate void OnOpenReadCompleted_t(object sender, System.Net.OpenReadCompletedEventArgs e);
+
+        /*
+        public static void OnOpenReadCompleted(object sender, System.Net.OpenReadCompletedEventArgs e)
+        {
+            if (e.Cancelled == true)
+            {
+                // MessageBox.Show("Download has been canceled.");
+                System.Console.WriteLine("Download has been canceled.");
+                return;
+            }
+            else if (e.Error != null)
+            {
+                throw e.Error;
+            }
+
+            using (System.IO.Stream strm = e.Result)
+            {
+
+                strm.Close();
+            }
+
+
+            string userState = (string)e.UserState;
+            System.Console.WriteLine("UserState: \"{0}\".", userState);
+        }
+        */
+
+
+        public static T DeserializeXmlFromStream<T>(System.IO.Stream strm)
 		{
 			System.Xml.Serialization.XmlSerializer deserializer = new System.Xml.Serialization.XmlSerializer(typeof(T));
 			T ThisType = default(T);
