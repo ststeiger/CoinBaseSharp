@@ -38,6 +38,7 @@ namespace TestApplication
 
         }
 
+
         /// <summary>
         /// Der Haupteinstiegspunkt für die Anwendung.
         /// </summary>
@@ -51,6 +52,7 @@ namespace TestApplication
                 System.Windows.Forms.Application.Run(new Form1());
             }
 
+            CoinBaseSharp.Trash.TestInputSanitation();
 
             ServiceStackCustomer customer = new ServiceStackCustomer { Name = "Joe Bloggs", Age = 31, DateFrom = System.DateTime.Now };
 
