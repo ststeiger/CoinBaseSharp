@@ -52,6 +52,11 @@ namespace TestApplication
                 System.Windows.Forms.Application.Run(new Form1());
             }
 
+
+            // CoinBaseSharp.ExchangeRates.Fixer.Test();
+            CoinBaseSharp.ExchangeRates.Fixer.TestEcb();
+
+
             CoinBaseSharp.Trash.TestInputSanitation();
 
             ServiceStackCustomer customer = new ServiceStackCustomer { Name = "Joe Bloggs", Age = 31, DateFrom = System.DateTime.Now };

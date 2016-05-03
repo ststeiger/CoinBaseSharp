@@ -102,6 +102,18 @@ namespace Tools.XML
         } // End Function DeserializeXmlFromString
 
 
+        public static T DeserializeXmlFromUrl<T>(string url)
+        {
+            using (System.Net.WebClient client = new System.Net.WebClient())
+            {
+                using (System.IO.Stream strm = client.OpenRead(url))
+                {
+                    return DeserializeXmlFromStream<T>(strm);
+                }
+            }
+        }
+
+
         public static T DeserializeXmlFromUrl<T>(System.Uri uri)
         {
             using (System.Net.WebClient client = new System.Net.WebClient())

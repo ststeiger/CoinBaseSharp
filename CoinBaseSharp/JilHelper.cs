@@ -73,6 +73,40 @@ namespace CoinBaseSharp
         }
 
 
+        public static T Deserialize<T>(System.Uri uri)
+        {
+            using (System.Net.WebClient client = new System.Net.WebClient())
+            {
+                using (System.IO.Stream strm = client.OpenRead(uri))
+                {
+                    return Deserialize<T>(strm);
+                }
+            }
+        }
+
+
+        public static T DeserializeUrl<T>(string uri)
+        {
+            using (System.Net.WebClient client = new System.Net.WebClient())
+            {
+                using (System.IO.Stream strm = client.OpenRead(uri))
+                {
+                    return Deserialize<T>(strm);
+                }
+            }
+        }
+
+
+        public static T Deserialize<T>(System.IO.Stream strm)
+        {
+            
+            using (System.IO.TextReader tr = new System.IO.StreamReader(strm))
+            {
+                return Jil.JSON.Deserialize<T>(tr);
+            }
+             
+        }
+
     }
 
     /*
