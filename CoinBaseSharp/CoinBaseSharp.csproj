@@ -32,6 +32,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="MySql.Data, Version=6.9.8.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Libs\MySql.Data.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Net.Http.Formatting, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
@@ -127,6 +131,7 @@
     <Content Include="Libs\Microsoft.Net.Http\Xamarin.iOS10\System.Net.Http.Extensions.XML" />
     <Content Include="Libs\Microsoft.Net.Http\Xamarin.iOS10\System.Net.Http.Primitives.dll" />
     <Content Include="Libs\Microsoft.Net.Http\Xamarin.iOS10\System.Net.Http.Primitives.xml" />
+    <Content Include="Libs\MySql.Data.dll" />
     <Content Include="Libs\NET4\System.Net.Http.Formatting.dll" />
     <Content Include="Libs\NET4\System.Net.Http.Formatting.xml" />
     <Content Include="Libs\Newtonsoft.JSON\net20\Newtonsoft.Json.dll" />
