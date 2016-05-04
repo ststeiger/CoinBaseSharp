@@ -5,6 +5,8 @@ using System.Collections.Generic;
 
 namespace Xml2CSharp.EcbRates
 {
+
+
     [XmlRoot(ElementName="Sender", Namespace="http://www.gesmes.org/xml/2002-08-01")]
     public class Sender 
     {
@@ -61,5 +63,6 @@ namespace Xml2CSharp.EcbRates
         [XmlAttribute(AttributeName="xmlns")]
         public string Xmlns { get; set; }
     }
+
 
 }

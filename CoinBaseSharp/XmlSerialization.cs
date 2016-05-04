@@ -1,11 +1,4 @@
 ﻿
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Data;
-using System.Diagnostics;
-
-
 namespace Tools.XML
 {
 
@@ -106,6 +99,7 @@ namespace Tools.XML
         {
             using (System.Net.WebClient client = new System.Net.WebClient())
             {
+
                 using (System.IO.Stream strm = client.OpenRead(url))
                 {
                     return DeserializeXmlFromStream<T>(strm);
