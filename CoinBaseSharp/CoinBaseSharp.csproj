@@ -75,6 +75,10 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="ExchangeRates\ecb_feed.xml" />
+    <Content Include="SQL\02_Create_price_history.sql" />
+    <Content Include="SQL\01_Create_t_api_configurations.sql" />
+    <Content Include="SQL\INSERT_price_history.sql" />
+    <Content Include="SQL\SELECT_PriceHistory.sql" />
     <EmbeddedResource Include="ISO\ISO4217_History.xml" />
     <None Include="Libs\JIL\Version.txt" />
     <EmbeddedResource Include="ISO\ISO4217.xml" />

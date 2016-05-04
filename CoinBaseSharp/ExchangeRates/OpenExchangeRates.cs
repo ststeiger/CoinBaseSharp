@@ -11,13 +11,14 @@ namespace CoinBaseSharp.ExchangeRates
         public static void Test()
         {
             // https://docs.google.com/document/d/13rwJuIzL22bUILemGlZ6zf64Ej0CayPnKBcz1-zKjO0
-            string sql = @"SELECT 
-	-- api_uid
-	--,api_name
-	--,api_app_id
-	--,api_href,
+            string sql = @"
+SELECT 
+	-- api_uid 
+	--,api_name 
+	--,api_app_id 
+	--,api_href, 
 	REPLACE(api_href, '{@api_app_id}', api_app_id) AS api_url 
-	--,api_comment
+	--,api_comment 
 FROM t_api_configurations 
 ";
 
