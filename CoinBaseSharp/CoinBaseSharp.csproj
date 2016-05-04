@@ -54,29 +54,30 @@
     <Reference Include="System.Net.Http" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Currencies.cs" />
-    <Compile Include="EcbRates.cs" />
-    <Compile Include="Helpers\HttpHelper3.cs" />
-    <Compile Include="Helpers\HttpHelper.cs" />
-    <Compile Include="Helpers\HttpHelper2.cs" />
-    <Compile Include="Historic.cs" />
-    <Compile Include="ISO_4217.cs" />
-    <Compile Include="ISO_4217_History.cs" />
+    <Compile Include="ExchangeRates\Currencies.cs" />
+    <Compile Include="ExchangeRates\EcbRates.cs" />
+    <Compile Include="Tools\Helpers\HttpHelper3.cs" />
+    <Compile Include="Tools\Helpers\HttpHelper.cs" />
+    <Compile Include="Tools\Helpers\HttpHelper2.cs" />
+    <Compile Include="Exchanges\CoinBase\Historic.cs" />
+    <Compile Include="ISO\ISO_4217.cs" />
+    <Compile Include="ISO\ISO_4217_History.cs" />
+    <Compile Include="ExchangeRates\OpenExchangeRates.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Time.cs" />
-    <Compile Include="JSON.cs" />
-    <Compile Include="SQL.cs" />
-    <Compile Include="FixerRates.cs" />
-    <Compile Include="JilHelper.cs" />
+    <Compile Include="Exchanges\CoinBase\Time.cs" />
+    <Compile Include="Tools\JSON.cs" />
+    <Compile Include="Tools\SQL.cs" />
+    <Compile Include="ExchangeRates\FixerRates.cs" />
+    <Compile Include="Tools\Helpers\JilHelper.cs" />
     <Compile Include="Trash\Trash.cs" />
-    <Compile Include="XmlSerialization.cs" />
-    <Compile Include="XmlTransCoder.cs" />
+    <Compile Include="Tools\XmlSerialization.cs" />
+    <Compile Include="Tools\XmlTransCoder.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="ecb_feed.xml" />
-    <EmbeddedResource Include="ISO4217_History.xml" />
+    <Content Include="ExchangeRates\ecb_feed.xml" />
+    <EmbeddedResource Include="ISO\ISO4217_History.xml" />
     <None Include="Libs\JIL\Version.txt" />
-    <EmbeddedResource Include="ISO4217.xml" />
+    <EmbeddedResource Include="ISO\ISO4217.xml" />
     <Content Include="Libs\Microsoft.Net.Http\monoandroid\System.Net.Http.Extensions.dll" />
     <Content Include="Libs\Microsoft.Net.Http\monoandroid\System.Net.Http.Extensions.XML" />
     <Content Include="Libs\Microsoft.Net.Http\monoandroid\System.Net.Http.Primitives.dll" />
@@ -152,7 +153,7 @@
     <None Include="Libs\Newtonsoft.JSON\portable-net45%252Bwp80%252Bwin8%252Bwpa81%252Bdnxcore50\Newtonsoft.Json.xml" />
     <None Include="Libs\Newtonsoft.JSON\Version.txt" />
     <Content Include="info.txt" />
-    <None Include="Trash\ISO_3166-1.xlsx" />
+    <None Include="ISO\ISO_3166-1.xlsx" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
@@ -163,9 +164,9 @@
   </Target>
   -->
   <ItemGroup>
-    <EmbeddedResource Include="currencies.txt" />
-    <EmbeddedResource Include="historic.txt" />
-    <EmbeddedResource Include="time.txt" />
+    <EmbeddedResource Include="ExchangeRates\currencies.txt" />
+    <EmbeddedResource Include="Exchanges\CoinBase\historic.txt" />
+    <EmbeddedResource Include="Exchanges\CoinBase\time.txt" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Libs\Npgsql.dll" />

@@ -480,6 +480,181 @@ namespace CoinBaseSharp
         } // End Function RetrieveFile
 
 
+        protected static T InlineTypeAssignHelper<T>(object UTO)
+        {
+            if (UTO == null)
+            {
+                T NullSubstitute = default(T);
+                return NullSubstitute;
+            }
+            return (T)UTO;
+        } // End Template InlineTypeAssignHelper
+
+
+        public static T ExecuteScalar<T>(System.Data.IDbCommand cmd)
+        {
+            string strReturnValue = null;
+            System.Type tReturnType = null;
+            object objReturnValue = null;
+
+            lock (cmd)
+            {
+
+                using (System.Data.IDbConnection idbc = GetConnection())
+                {
+                    cmd.Connection = idbc;
+
+                    lock (cmd.Connection)
+                    {
+
+                        try
+                        {
+                            tReturnType = typeof(T);
+
+                            if (cmd.Connection.State != System.Data.ConnectionState.Open)
+                                cmd.Connection.Open();
+
+                            objReturnValue = cmd.ExecuteScalar();
+
+                            if (objReturnValue != null)
+                            {
+
+                                if (!object.ReferenceEquals(tReturnType, typeof(System.Byte[])))
+                                {
+                                    strReturnValue = objReturnValue.ToString();
+                                    objReturnValue = null;
+                                } // End if (!object.ReferenceEquals(tReturnType, typeof(System.Byte[])))
+
+                            } // End if (objReturnValue != null)
+
+                        } // End Try
+                        catch (System.Data.Common.DbException ex)
+                        {
+                            if (Log("ExecuteScalar<T>(System.Data.IDbCommand cmd) - 1", ex, cmd))
+                                throw;
+                        
+                        } // End Catch
+                        finally
+                        {
+                            if (cmd.Connection.State != System.Data.ConnectionState.Closed)
+                                cmd.Connection.Close();
+                        } // End Finally
+
+                    } // End lock (cmd.Connection)
+
+                } // End using idbc
+
+            } // End lock (cmd)
+
+
+            try
+            {
+                if (object.ReferenceEquals(tReturnType, typeof(object)))
+                {
+                    return InlineTypeAssignHelper<T>(objReturnValue);
+                }
+                else if (object.ReferenceEquals(tReturnType, typeof(string)))
+                {
+                    return InlineTypeAssignHelper<T>(strReturnValue);
+                } // End if string
+                else if (object.ReferenceEquals(tReturnType, typeof(bool)))
+                {
+                    bool bReturnValue = false;
+                    bool bSuccess = bool.TryParse(strReturnValue, out bReturnValue);
+
+                    if (bSuccess)
+                        return InlineTypeAssignHelper<T>(bReturnValue);
+
+                    if (strReturnValue == "0")
+                        return InlineTypeAssignHelper<T>(false);
+
+                    return InlineTypeAssignHelper<T>(true);
+                } // End if bool
+                else if (object.ReferenceEquals(tReturnType, typeof(int)))
+                {
+                    int iReturnValue = int.Parse(strReturnValue);
+                    return InlineTypeAssignHelper<T>(iReturnValue);
+                } // End if int
+                else if (object.ReferenceEquals(tReturnType, typeof(uint)))
+                {
+                    uint uiReturnValue = uint.Parse(strReturnValue);
+                    return InlineTypeAssignHelper<T>(uiReturnValue);
+                } // End if uint
+                else if (object.ReferenceEquals(tReturnType, typeof(long)))
+                {
+                    long lngReturnValue = long.Parse(strReturnValue);
+                    return InlineTypeAssignHelper<T>(lngReturnValue);
+                } // End if long
+                else if (object.ReferenceEquals(tReturnType, typeof(ulong)))
+                {
+                    ulong ulngReturnValue = ulong.Parse(strReturnValue);
+                    return InlineTypeAssignHelper<T>(ulngReturnValue);
+                } // End if ulong
+                else if (object.ReferenceEquals(tReturnType, typeof(float)))
+                {
+                    float fltReturnValue = float.Parse(strReturnValue);
+                    return InlineTypeAssignHelper<T>(fltReturnValue);
+                }
+                else if (object.ReferenceEquals(tReturnType, typeof(double)))
+                {
+                    double dblReturnValue = double.Parse(strReturnValue);
+                    return InlineTypeAssignHelper<T>(dblReturnValue);
+                }
+                else if (object.ReferenceEquals(tReturnType, typeof(System.Net.IPAddress)))
+                {
+                    System.Net.IPAddress ipaAddress = null;
+
+                    if (string.IsNullOrEmpty(strReturnValue))
+                        return InlineTypeAssignHelper<T>(ipaAddress);
+
+                    ipaAddress = System.Net.IPAddress.Parse(strReturnValue);
+                    return InlineTypeAssignHelper<T>(ipaAddress);
+                } // End if IPAddress
+                else if (object.ReferenceEquals(tReturnType, typeof(System.Byte[])))
+                {
+                    if (objReturnValue == System.DBNull.Value)
+                        return InlineTypeAssignHelper<T>(null);
+
+                    return InlineTypeAssignHelper<T>(objReturnValue);
+                }
+                else if (object.ReferenceEquals(tReturnType, typeof(System.Guid)))
+                {
+                    if (string.IsNullOrEmpty(strReturnValue))
+                        return InlineTypeAssignHelper<T>(null);
+
+                    return InlineTypeAssignHelper<T>(new System.Guid(strReturnValue));
+                } // End if System.Guid
+                else // No datatype matches
+                {
+                    throw new System.NotImplementedException("ExecuteScalar<T>: This type is not yet defined.");
+                } // End else of if tReturnType = datatype
+
+            } // End Try
+            catch (System.Exception ex)
+            {
+                if (Log("ExecuteScalar<T>(System.Data.IDbCommand cmd) - 2", ex, cmd))
+                    throw;
+            } // End Catch
+
+            return InlineTypeAssignHelper<T>(null);
+        } // End Function ExecuteScalar(cmd)
+
+
+        public static T ExecuteScalar<T>(string strSQL)
+        {
+            T tReturnValue = default(T);
+
+            // pfff, mono C# compiler problem...
+            //sqlCMD = new System.Data.SqlClient.SqlCommand(strSQL, m_SqlConnection);
+            using (System.Data.IDbCommand cmd = CreateCommand(strSQL))
+            {
+                tReturnValue = ExecuteScalar<T>(cmd);
+            } // End Using cmd
+
+            return tReturnValue;
+        } // End Function ExecuteScalar(strSQL)
+
+
         public static int ExecuteNonQuery(string SQL)
         {
             int iAffected = 0;

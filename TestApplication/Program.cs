@@ -53,6 +53,8 @@ namespace TestApplication
             }
 
 
+            CoinBaseSharp.ExchangeRates.OpenExchangeRates.Test();
+
             CoinBaseSharp.ISO.ISO4217.Test();
 
             // CoinBaseSharp.ExchangeRates.Fixer.Test();

@@ -6,6 +6,19 @@ minerd.exe -o http://[pool url]:[pool port] -u [username] -p [password] -a sha25
 
 
 
+https://openexchangerates.org/account
+
+
+
+https://stackoverflow.com/questions/6000919/how-to-check-the-differences-between-local-and-github-before-the-pull 
+git pull is really equivalent to running git fetch and then git merge.
+
+
+git fetch origin
+... and then do:
+git diff master origin/master
+
+you can merge them in with git merge origin/master, assuming master is your current branch.
 
 
 
