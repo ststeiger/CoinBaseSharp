@@ -11,7 +11,6 @@ namespace EasyJSON
     {
 
 
-
         private static System.IO.Stream GetEmbeddedFileAsStream(string name)
         {
             System.Reflection.Assembly ass = typeof(JsonHelper).Assembly;
@@ -66,12 +65,45 @@ namespace EasyJSON
         }
 
 
+        public static T DeserializeFromFile<T>(string fileName)
+        {
+            T tReturnValue = default(T);
+
+            using (System.IO.FileStream fstrm = new System.IO.FileStream(fileName, System.IO.FileMode.Open
+                , System.IO.FileAccess.Read, System.IO.FileShare.Read))
+            {
+                tReturnValue = Deserialize<T>(fstrm);
+                fstrm.Close();
+            } // End Using fstrm
+
+            return tReturnValue;
+        } // End Function DeserializeXmlFromFile
+
+
+        public static T Deserialize<T>(System.IO.Stream stream)
+        {
+            T ret;
+
+            Newtonsoft.Json.JsonSerializer serializer = new Newtonsoft.Json.JsonSerializer();
+
+            using (System.IO.StreamReader sr = new System.IO.StreamReader(stream))
+            {
+                using (Newtonsoft.Json.JsonTextReader jsonTextReader = new Newtonsoft.Json.JsonTextReader(sr))
+                {
+                    ret = serializer.Deserialize<T>(jsonTextReader);
+                }
+            }
+
+            serializer = null;
+            return ret;
+        }
+
+
         public static T DeserializeEmbeddedFile<T>(string fileName)
         {
             string json = GetEmbeddedFileText(fileName);
             return Newtonsoft.Json.JsonConvert.DeserializeObject<T>(json);
         }
-
 
 
         public static System.Collections.Generic.List<System.Collections.Generic.Dictionary<string, string>> Deserialize(string strValue)

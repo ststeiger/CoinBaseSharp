@@ -176,7 +176,7 @@ namespace CoinBaseSharp.ExchangeRates
         public decimal ZMK { get; set; }
         public decimal ZMW { get; set; }
         public decimal ZWL { get; set; }
-    }
+    } // End Class OpenExchangeRates 
 
 
     public class OpenExchangeRatesResponse
@@ -186,7 +186,7 @@ namespace CoinBaseSharp.ExchangeRates
         public int status { get; set; }
         public string message { get; set; }
         public string description { get; set; }
-    }
+    } // End Class OpenExchangeRatesResponse 
 
 
     public class OpenExchangeRatesData : OpenExchangeRatesResponse
@@ -199,7 +199,7 @@ namespace CoinBaseSharp.ExchangeRates
 
         private System.DateTime? m_SnapshotTime;
 
-        [Newtonsoft.Json.JsonIgnore]
+        // [Newtonsoft.Json.JsonIgnore]
         public System.DateTime SnapshotTime
         {
             get
@@ -209,16 +209,18 @@ namespace CoinBaseSharp.ExchangeRates
 
                 this.m_SnapshotTime = (new System.DateTime(1970, 1, 1,0,0,0, 0, System.DateTimeKind.Utc)).AddSeconds(this.timestamp);
                 return this.m_SnapshotTime.Value;
-            }
-        }
+            } // Get 
+
+        } // End Property SnapshotTime 
+
+
 
         public OpenExchangeRates rates { get; set; }
         // public System.Collections.Generic.Dictionary<string, decimal> rates { get; set; }
-
         private System.Collections.Generic.Dictionary<string, decimal> m_rates;
 
 
-        [Newtonsoft.Json.JsonIgnore]
+        // [Newtonsoft.Json.JsonIgnore]
         public System.Collections.Generic.Dictionary<string, decimal> RatesList
         {
             get
@@ -242,18 +244,17 @@ namespace CoinBaseSharp.ExchangeRates
                     {
                         decimal dec = (decimal)objVal;
                         this.m_rates.Add(propertyList[i].Name, dec);
-                    }
-                }
+                    } // End if (objVal != null) 
+
+                } // Next i 
 
                 return this.m_rates;
-            }
-        }
+            } // End Get 
+
+        } // End Property RatesList 
         
 
-
-    } // End Class OpenExchangeRates
-
-
+    } // End Class OpenExchangeRates 
 
 
 } // End Namespace CoinBaseSharp.ExchangeRates 

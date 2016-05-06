@@ -7,6 +7,23 @@ namespace CoinBaseSharp.ExchangeRates
     {
 
 
+        public static string MapProjectPath(string str)
+        {
+            string dir = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
+            dir = System.IO.Path.Combine(dir, "../../..");
+            dir = System.IO.Path.GetFullPath(dir);
+
+            if (str.StartsWith("~"))
+            {
+                str = str.Substring(1);
+                return System.IO.Path.Combine(dir, str);
+            } // End if (str.StartsWith("~")) 
+
+            return str;
+        } // End Function MapProjectPath 
+
+
+
         // http://api.fixer.io/latest
         // http://api.fixer.io/2000-01-03
         public class Fixer
@@ -17,7 +34,7 @@ namespace CoinBaseSharp.ExchangeRates
             {
                 FixerData fxd = JilHelper.DeserializeUrl<FixerData>("http://api.fixer.io/latest");
                 System.Console.WriteLine(fxd);
-            }
+            } // End Sub Test 
 
             
         } // End Class Fixer 
@@ -28,13 +45,15 @@ namespace CoinBaseSharp.ExchangeRates
             public static void Test()
             {
                 string url = "http://www.ecb.europa.eu/stats/eurofxref/eurofxref-daily.xml";
-                // string fileName = "/root/sources/CoinBaseSharp/CoinBaseSharp/ecb_feed.xml";
+                string fileName = MapProjectPath(@"~CoinBaseSharp\ExchangeRates\ecb_feed.xml");
+                System.Console.WriteLine(fileName);
+
 
                 CoinBaseSharp.ExchangeRates.ECB.Envelope env =
                     Tools.XML.Serialization.DeserializeXmlFromUrl<CoinBaseSharp.ExchangeRates.ECB.Envelope>(url);
                     // Tools.XML.Serialization.DeserializeXmlFromFile<CoinBaseSharp.ExchangeRates.ECB.Envelope>(fileName);
                 System.Console.WriteLine(env);
-            }
+            } // End Sub Test 
 
         } // End Class ECB 
 
@@ -62,17 +81,20 @@ FROM t_api_configurations
                 string url = SQL.ExecuteScalar<string>(sql);
                 System.Console.WriteLine(url);
 
-                //string fileName = @"d:\username\documents\visual studio 2013\Projects\CoinBaseSharp\CoinBaseSharp\ExchangeRates\OpenExchangeRates_Data.txt";
-                string fileName = @"d:\username\documents\visual studio 2013\Projects\CoinBaseSharp\CoinBaseSharp\ExchangeRates\OpenExchangeRates_Error.txt";
+                string fileName = MapProjectPath(@"~CoinBaseSharp\ExchangeRates\OpenExchangeRates_Data.txt");
+                //string fileName = MapProjectPath(@"~CoinBaseSharp\ExchangeRates\OpenExchangeRates_Error.txt");
+                System.Console.WriteLine(fileName);
 
 
                 // OpenExchangeRatesData oed = JilHelper.DeserializeUrl<OpenExchangeRatesData>(url);
-                OpenExchangeRatesData oed = JilHelper.DeserializeFromFile<OpenExchangeRatesData>(fileName);
+                // OpenExchangeRatesData oed = JilHelper.DeserializeFromFile<OpenExchangeRatesData>(fileName);
+                OpenExchangeRatesData oed = EasyJSON.JsonHelper.DeserializeFromFile<OpenExchangeRatesData>(fileName);
+
                 System.Console.WriteLine(oed);
 
                 if (oed.error)
                 {
-                    System.Console.WriteLine("OMG errorz {0}: {1}", oed.status, oed.message);
+                    System.Console.WriteLine("Error {0}: {1}", oed.status, oed.message);
                     System.Console.WriteLine(oed.description);
                     return;
                 } // End if (oed.error)
@@ -116,7 +138,7 @@ VALUES
         } // End Class OpenExchangeRates 
 
 
-    } // End Class Tests
+    } // End Class Tests 
 
 
-} // End Namespace CoinBaseSharp.ExchangeRates
+} // End Namespace CoinBaseSharp.ExchangeRates 

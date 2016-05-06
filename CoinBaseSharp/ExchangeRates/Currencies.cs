@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
+﻿
 namespace CoinBaseSharp.API.V2.Currency
 {
+
 
     // https://api.coinbase.com/v2/currencies
     class Currencies
@@ -18,9 +16,11 @@ namespace CoinBaseSharp.API.V2.Currency
         public string min_size { get; set; }
     }
 
+
     public class RootObject
     {
-        public List<Datum> data { get; set; }
+        public System.Collections.Generic.List<Datum> data { get; set; }
     }
 
-}
+
+} // End Namespace CoinBaseSharp.API.V2.Currency 

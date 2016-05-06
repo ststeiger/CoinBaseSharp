@@ -36,7 +36,7 @@ namespace CoinBaseSharp.ExchangeRates
         public decimal TRY { get; set; }
         public decimal USD { get; set; }
         public decimal ZAR { get; set; }
-    }
+    } // End Class FixerRates
 
 
     public class FixerData
@@ -45,7 +45,7 @@ namespace CoinBaseSharp.ExchangeRates
         public string date { get; set; }
         public FixerRates rates { get; set; }
         // public System.Collections.Generic.Dictionary<string, decimal> rates { get; set; }
-    }
+    } // End Class FixerData 
 
 
-}
+} // End Namespace CoinBaseSharp.ExchangeRates 

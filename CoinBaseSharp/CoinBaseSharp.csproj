@@ -76,7 +76,11 @@
     <Content Include="ExchangeRates\ecb_feed.xml" />
     <EmbeddedResource Include="ExchangeRates\OpenExchangeRates_Data.txt" />
     <Content Include="SQL\02_Create_price_history.sql" />
+    <Content Include="SQL\CurrenciesByDate.sql" />
     <Content Include="SQL\INSERT_price_history.sql" />
+    <Content Include="SQL\SELECT_Pivot.sql" />
+    <Content Include="SQL\INSERT_t_map_currency_rate.sql" />
+    <Content Include="SQL\SELECT_Unpivot.sql" />
     <Content Include="SQL\SELECT_t_map_currency_rate.sql" />
     <Content Include="SQL\SELECT_PriceHistory.sql" />
     <EmbeddedResource Include="ISO\ISO4217_History.xml" />

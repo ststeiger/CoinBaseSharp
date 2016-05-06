@@ -39,6 +39,27 @@ namespace TestApplication
         }
 
 
+        public static void InsertLogo()
+        {
+            byte[] coop = System.IO.File.ReadAllBytes(@"D:\username\Documents\Visual Studio 2013\TFS\COR-Basic\COR-Basic\Basic\Basic\images\Logo\bank_coop.png");
+            byte[] bkb = System.IO.File.ReadAllBytes(@"D:\username\Documents\Visual Studio 2013\TFS\COR-Basic\COR-Basic\Basic\Basic\images\Logo\logo_bkb.png");
+
+            using (System.Data.IDbCommand cmd = CoinBaseSharp.SQL.CreateCommand("INSERT INTO t_binary(uid,binary) VALUES(NEWID(),@binary)"))
+            {
+                CoinBaseSharp.SQL.AddParameter(cmd, "binary", coop);
+
+                CoinBaseSharp.SQL.ExecuteNonQuery(cmd);
+            }
+
+            using (System.Data.IDbCommand cmd = CoinBaseSharp.SQL.CreateCommand("INSERT INTO t_binary(uid,binary) VALUES(NEWID(),@binary)"))
+            {
+                CoinBaseSharp.SQL.AddParameter(cmd, "binary", bkb);
+                CoinBaseSharp.SQL.ExecuteNonQuery(cmd);
+            }
+
+        }
+
+
         /// <summary>
         /// Der Haupteinstiegspunkt für die Anwendung.
         /// </summary>
@@ -162,7 +183,6 @@ CREATE TABLE IF NOT EXISTS price_history
 
                 sb.AppendLine(");");
             });
-
 
 
             CoinBaseSharp.API.V2.ServerTime.RootObject time = EasyJSON.JsonHelper.DeserializeEmbeddedFile<CoinBaseSharp.API.V2.ServerTime.RootObject>("time.txt");
