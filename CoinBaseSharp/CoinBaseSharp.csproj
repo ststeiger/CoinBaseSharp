@@ -32,17 +32,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="MySql.Data, Version=6.9.8.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>Libs\MySql.Data.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
-    <Reference Include="System.Net.Http.Formatting, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>Libs\NET4\System.Net.Http.Formatting.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="System.Xml" />
     <Reference Include="Newtonsoft.Json">
       <HintPath>Libs\Newtonsoft.JSON\net20\Newtonsoft.Json.dll</HintPath>
@@ -52,6 +43,12 @@
     </Reference>
     <Reference Include="System.Configuration" />
     <Reference Include="System.Net.Http" />
+    <Reference Include="MySql.Data">
+      <HintPath>Libs\MySql.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http.Formatting">
+      <HintPath>Libs\NET4\System.Net.Http.Formatting.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ExchangeRates\Currencies.cs" />
@@ -76,7 +73,6 @@
   <ItemGroup>
     <Content Include="ExchangeRates\ecb_feed.xml" />
     <Content Include="SQL\02_Create_price_history.sql" />
-    <Content Include="SQL\01_Create_t_api_configurations.sql" />
     <Content Include="SQL\INSERT_price_history.sql" />
     <Content Include="SQL\SELECT_PriceHistory.sql" />
     <EmbeddedResource Include="ISO\ISO4217_History.xml" />
@@ -158,6 +154,9 @@
     <None Include="Libs\Newtonsoft.JSON\Version.txt" />
     <Content Include="info.txt" />
     <None Include="ISO\ISO_3166-1.xlsx" />
+    <None Include="SQL\01_Create_t_api_configurations_PG.sql" />
+    <Content Include="SQL\01_Create_t_api_configurations_MS.sql" />
+    <None Include="SQL\01_Create_t_api_configurations_My.sql" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
@@ -174,16 +173,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Libs\Npgsql.dll" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Jil\Jil.csproj">
-      <Project>{73D243E7-DD9B-4546-9B71-4EE8BF5ED6C3}</Project>
-      <Name>Jil</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\ServiceStack.Text\ServiceStack.Text.csproj">
-      <Project>{579b3fdb-cdad-44e1-8417-885c38e49a0e}</Project>
-      <Name>ServiceStack.Text</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup />
 </Project>

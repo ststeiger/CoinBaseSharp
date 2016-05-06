@@ -5,10 +5,10 @@ EXECUTE('
 CREATE TABLE dbo.t_api_configurations
 (
 	 api_uid uniqueidentifier NOT NULL 
-	,api_name nvarchar(300) NULL 
-	,api_app_id nvarchar(300) NULL 
-	,api_href nvarchar(4000) NULL 
-	,api_comment nvarchar(4000) NULL 
+	,api_name national character varying(300) NULL 
+	,api_app_id national character varying(300) NULL 
+	,api_href national character varying(4000) NULL 
+	,api_comment national character varying(4000) NULL 
 	,CONSTRAINT PK_t_api_configurations PRIMARY KEY(api_uid) 
 );
 ')
