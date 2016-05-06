@@ -53,6 +53,7 @@
   <ItemGroup>
     <Compile Include="ExchangeRates\Currencies.cs" />
     <Compile Include="ExchangeRates\EcbRates.cs" />
+    <Compile Include="ExchangeRates\Tests.cs" />
     <Compile Include="Tools\Helpers\HttpHelper3.cs" />
     <Compile Include="Tools\Helpers\HttpHelper.cs" />
     <Compile Include="Tools\Helpers\HttpHelper2.cs" />
@@ -71,9 +72,12 @@
     <Compile Include="Tools\XmlTransCoder.cs" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="ExchangeRates\OpenExchangeRates_Error.txt" />
     <Content Include="ExchangeRates\ecb_feed.xml" />
+    <EmbeddedResource Include="ExchangeRates\OpenExchangeRates_Data.txt" />
     <Content Include="SQL\02_Create_price_history.sql" />
     <Content Include="SQL\INSERT_price_history.sql" />
+    <Content Include="SQL\SELECT_t_map_currency_rate.sql" />
     <Content Include="SQL\SELECT_PriceHistory.sql" />
     <EmbeddedResource Include="ISO\ISO4217_History.xml" />
     <None Include="Libs\JIL\Version.txt" />
@@ -174,5 +178,14 @@
   <ItemGroup>
     <None Include="Libs\Npgsql.dll" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\Jil\Jil.csproj">
+      <Project>{73d243e7-dd9b-4546-9b71-4ee8bf5ed6c3}</Project>
+      <Name>Jil</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ServiceStack.Text\ServiceStack.Text.csproj">
+      <Project>{579b3fdb-cdad-44e1-8417-885c38e49a0e}</Project>
+      <Name>ServiceStack.Text</Name>
+    </ProjectReference>
+  </ItemGroup>
 </Project>

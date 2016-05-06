@@ -3,33 +3,7 @@ namespace CoinBaseSharp.ExchangeRates
 {
 
 
-    // http://api.fixer.io/latest
-    // http://api.fixer.io/2000-01-03
-    
-    public class Fixer
-    {
-        public Fixer()
-        {
-        }
-
-        public static void Test()
-        {
-            
-            FixerRates fsx = JilHelper.DeserializeUrl<FixerRates>("http://api.fixer.io/latest");
-            System.Console.WriteLine(fsx);
-        }
-
-        public static void TestEcb()
-        {
-            Xml2CSharp.EcbRates.Envelope env = 
-            Tools.XML.Serialization.DeserializeXmlFromUrl<Xml2CSharp.EcbRates.Envelope>("http://www.ecb.europa.eu/stats/eurofxref/eurofxref-daily.xml");
-            // Tools.XML.Serialization.DeserializeXmlFromFile<Xml2CSharp.EcbRates.Envelope>("/root/sources/CoinBaseSharp/CoinBaseSharp/ecb_feed.xml");
-            System.Console.WriteLine(env);
-        }
-    }
-
-
-    public class Rates
+    public class FixerRates
     {
         public decimal AUD { get; set; }
         public decimal BGN { get; set; }
@@ -65,12 +39,12 @@ namespace CoinBaseSharp.ExchangeRates
     }
 
 
-    public class FixerRates
+    public class FixerData
     {
         public string @base { get; set; }
         public string date { get; set; }
-        // public Rates rates { get; set; }
-        public System.Collections.Generic.Dictionary<string, decimal> rates { get; set; }
+        public FixerRates rates { get; set; }
+        // public System.Collections.Generic.Dictionary<string, decimal> rates { get; set; }
     }
 
 

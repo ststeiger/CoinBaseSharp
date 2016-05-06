@@ -43,11 +43,12 @@ namespace Tools.XML
 		} // End Sub SerializeToXml
 
 
-		public static T DeserializeXmlFromFile<T>(string strFileNameAndPath)
+		public static T DeserializeXmlFromFile<T>(string fileName)
 		{
 			T tReturnValue = default(T);
 
-			using (System.IO.FileStream fstrm = new System.IO.FileStream(strFileNameAndPath, System.IO.FileMode.Open, System.IO.FileAccess.Read)) 
+            using (System.IO.FileStream fstrm = new System.IO.FileStream(fileName, System.IO.FileMode.Open
+                , System.IO.FileAccess.Read, System.IO.FileShare.Read)) 
             {
 				tReturnValue = DeserializeXmlFromStream<T>(fstrm);
 				fstrm.Close();

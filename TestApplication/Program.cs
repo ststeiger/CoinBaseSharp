@@ -53,12 +53,13 @@ namespace TestApplication
             }
 
 
-            CoinBaseSharp.ExchangeRates.OpenExchangeRates.Test();
+            CoinBaseSharp.ExchangeRates.Tests.OpenExchangeRates.Test();
 
             CoinBaseSharp.ISO.ISO4217.Test();
 
-            // CoinBaseSharp.ExchangeRates.Fixer.Test();
-            CoinBaseSharp.ExchangeRates.Fixer.TestEcb();
+
+            // CoinBaseSharp.ExchangeRates.Tests.Fixer.Test();
+            CoinBaseSharp.ExchangeRates.Tests.ECB.Test();
 
 
             CoinBaseSharp.Trash.TestInputSanitation();

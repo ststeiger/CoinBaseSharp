@@ -3,7 +3,7 @@ using System.Xml.Serialization;
 using System.Collections.Generic;
 
 
-namespace Xml2CSharp.EcbRates
+namespace CoinBaseSharp.ExchangeRates.ECB
 {
 
 

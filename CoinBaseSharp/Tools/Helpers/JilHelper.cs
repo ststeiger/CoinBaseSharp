@@ -97,6 +97,20 @@ namespace CoinBaseSharp
         }
 
 
+        public static T DeserializeFromFile<T>(string fileName)
+        {
+            T tReturnValue = default(T);
+
+            using (System.IO.FileStream fstrm = new System.IO.FileStream(fileName, System.IO.FileMode.Open
+                , System.IO.FileAccess.Read, System.IO.FileShare.Read))
+            {
+                tReturnValue = Deserialize<T>(fstrm);
+                fstrm.Close();
+            } // End Using fstrm
+
+            return tReturnValue;
+        } // End Function DeserializeXmlFromFile
+
         public static T Deserialize<T>(System.IO.Stream strm)
         {
             
