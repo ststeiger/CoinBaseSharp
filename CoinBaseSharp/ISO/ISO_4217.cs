@@ -25,12 +25,11 @@ namespace CoinBaseSharp.ISO
             foreach (cCurrencyEntry currencyEntry in ISO.CurrencyTable.CurrencyEntries)
             {
                 System.Console.WriteLine(currencyEntry.CurrencyAbbreviation);
-            }
+            } // Next currencyEntry 
 
+        } // End Sub Test 
 
-        }
-
-    }
+    } // End Class ISO4217 
 
 
     [XmlRoot(ElementName = "CcyNtry")]
@@ -50,7 +49,7 @@ namespace CoinBaseSharp.ISO
 
         [XmlElement(ElementName = "CcyMnrUnts")]
         public string CurrencyMinorUnits { get; set; }
-    }
+    } // End Class cCurrencyEntry 
 
 
     [XmlRoot(ElementName = "CcyTbl")]
@@ -58,7 +57,7 @@ namespace CoinBaseSharp.ISO
     {
         [XmlElement(ElementName = "CcyNtry")]
         public List<cCurrencyEntry> CurrencyEntries { get; set; }
-    }
+    } // End Class cCurrencyTable
 
 
     [XmlRoot(ElementName = "ISO_4217")]
@@ -69,7 +68,7 @@ namespace CoinBaseSharp.ISO
 
         [XmlAttribute(AttributeName = "Pblshd")]
         public string Published { get; set; }
-    }
+    } // End Class ISO_4217 
 
 
-}
+} // End Namespace CoinBaseSharp.ISO 
