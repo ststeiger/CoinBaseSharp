@@ -15,12 +15,14 @@ namespace TestApplication
         }
 
 
-
         public class JilEmployee
         {
             public int EmployeeId { get; set; }
+
             public string FirstName { get; set; }
+
             public string LastName { get; set; }
+
             public string Designation { get; set; }
         }
 
@@ -33,7 +35,9 @@ namespace TestApplication
 
 
             public string Name { get; set; }
+
             public int Age { get; set; }
+
             public System.DateTime DateFrom { get; set; }
 
         }
@@ -74,7 +78,7 @@ namespace TestApplication
             }
 
 
-            CoinBaseSharp.ExchangeRates.Tests.OpenExchangeRates.Test();
+            // CoinBaseSharp.ExchangeRates.Tests.OpenExchangeRates.Test();
 
             CoinBaseSharp.ISO.ISO4217.Test();
 
@@ -153,36 +157,37 @@ CREATE TABLE IF NOT EXISTS price_history
             CoinBaseSharp.SQL.ExecuteNonQuery(createTable);
 
             // CoinBaseSharp.SQL.BatchedInsert(hist.data.prices, SqlInsertItem);
-            CoinBaseSharp.SQL.BatchedInsert(hist.data.prices, delegate(System.Text.StringBuilder sb, CoinBaseSharp.API.V2.History.Price thisPrice) {
-                sb.Append("INSERT INTO price_history(uid, time, price) VALUES (");
-                sb.Append("'");
-                sb.Append(System.Guid.NewGuid().ToString());
-                sb.Append("'");
-                sb.Append(", ");
-
-                if (thisPrice.time == null)
-                    sb.Append("NULL");
-                else
+            CoinBaseSharp.SQL.BatchedInsert(hist.data.prices, delegate(System.Text.StringBuilder sb, CoinBaseSharp.API.V2.History.Price thisPrice)
                 {
+                    sb.Append("INSERT INTO price_history(uid, time, price) VALUES (");
                     sb.Append("'");
-                    sb.Append(thisPrice.time.Replace("'", "''"));
+                    sb.Append(System.Guid.NewGuid().ToString());
                     sb.Append("'");
-                }
+                    sb.Append(", ");
+
+                    if (thisPrice.time == null)
+                        sb.Append("NULL");
+                    else
+                    {
+                        sb.Append("'");
+                        sb.Append(thisPrice.time.Replace("'", "''"));
+                        sb.Append("'");
+                    }
 
 
-                sb.Append(", ");
+                    sb.Append(", ");
 
-                if (thisPrice.price == null)
-                    sb.Append("NULL");
-                else
-                {
-                    sb.Append("'");
-                    sb.Append(thisPrice.price.Replace("'", "''"));
-                    sb.Append("'");
-                }
+                    if (thisPrice.price == null)
+                        sb.Append("NULL");
+                    else
+                    {
+                        sb.Append("'");
+                        sb.Append(thisPrice.price.Replace("'", "''"));
+                        sb.Append("'");
+                    }
 
-                sb.AppendLine(");");
-            });
+                    sb.AppendLine(");");
+                });
 
 
             CoinBaseSharp.API.V2.ServerTime.RootObject time = EasyJSON.JsonHelper.DeserializeEmbeddedFile<CoinBaseSharp.API.V2.ServerTime.RootObject>("time.txt");
@@ -195,8 +200,8 @@ CREATE TABLE IF NOT EXISTS price_history
             System.Console.WriteLine(System.Environment.NewLine);
             System.Console.WriteLine(" --- Press any key to continue --- ");
             System.Console.ReadKey();
-
-        } // End Sub Main 
+        }
+        // End Sub Main
 
 
         // public delegate void sqlGenerator_t<T>(System.Text.StringBuilder sb, T thisItem);
@@ -225,15 +230,17 @@ CREATE TABLE IF NOT EXISTS price_history
             else
             {
                 sb.Append("'");
-                sb.Append(thisPrice.price.Replace("'","''"));
+                sb.Append(thisPrice.price.Replace("'", "''"));
                 sb.Append("'");
             }
             
             sb.AppendLine(");");
-        } // End Sub SqlInsertItem 
+        }
+        // End Sub SqlInsertItem
 
 
-    } // End Class Program 
+    }
+    // End Class Program
 
 
 } // End Namespace TestApplication

@@ -15,52 +15,60 @@ namespace CoinBaseSharp.ISO
 
         public static void Test()
         {
-            ISO_4217 ISO =
-                Tools.XML.Serialization.DeserializeXmlFromUrl<ISO_4217>("http://www.currency-iso.org/dam/downloads/lists/list_one.xml");
-            // Tools.XML.Serialization.DeserializeXmlFromFile<ISO_4217>(@"d:\username\documents\visual studio 2013\Projects\CoinBaseSharp\CoinBaseSharp\ISO4217.xml");
-            System.Console.WriteLine(ISO);
-        }
+            string fileName = CoinBaseSharp.ExchangeRates.Tests.MapProjectPath("~CoinBaseSharp/ISO/ISO4217.xml");
 
-    }
+            ISO_4217 ISO =
+                // Tools.XML.Serialization.DeserializeXmlFromUrl<ISO_4217>("http://www.currency-iso.org/dam/downloads/lists/list_one.xml");
+                Tools.XML.Serialization.DeserializeXmlFromFile<ISO_4217>(fileName);
+            System.Console.WriteLine(ISO);
+
+            foreach (cCurrencyEntry currencyEntry in ISO.CurrencyTable.CurrencyEntries)
+            {
+                System.Console.WriteLine(currencyEntry.CurrencyAbbreviation);
+            } // Next currencyEntry 
+
+        } // End Sub Test 
+
+    } // End Class ISO4217 
 
 
     [XmlRoot(ElementName = "CcyNtry")]
-    public class CcyNtry
+    public class cCurrencyEntry
     {
         [XmlElement(ElementName = "CtryNm")]
-        public string CtryNm { get; set; }
+        public string CountryName { get; set; }
 
         [XmlElement(ElementName = "CcyNm")]
-        public string CcyNm { get; set; }
+        public string CurrencyName { get; set; }
 
         [XmlElement(ElementName = "Ccy")]
-        public string Ccy { get; set; }
+        public string CurrencyAbbreviation { get; set; }
 
         [XmlElement(ElementName = "CcyNbr")]
-        public string CcyNbr { get; set; }
+        public string CurrencyNumber { get; set; }
 
         [XmlElement(ElementName = "CcyMnrUnts")]
-        public string CcyMnrUnts { get; set; }
-    }
+        public string CurrencyMinorUnits { get; set; }
+    } // End Class cCurrencyEntry 
 
 
     [XmlRoot(ElementName = "CcyTbl")]
-    public class CcyTbl
+    public class cCurrencyTable
     {
         [XmlElement(ElementName = "CcyNtry")]
-        public List<CcyNtry> CcyNtry { get; set; }
-    }
+        public List<cCurrencyEntry> CurrencyEntries { get; set; }
+    } // End Class cCurrencyTable
 
 
     [XmlRoot(ElementName = "ISO_4217")]
     public class ISO_4217
     {
         [XmlElement(ElementName = "CcyTbl")]
-        public CcyTbl CcyTbl { get; set; }
+        public cCurrencyTable CurrencyTable { get; set; }
 
         [XmlAttribute(AttributeName = "Pblshd")]
-        public string Pblshd { get; set; }
-    }
+        public string Published { get; set; }
+    } // End Class ISO_4217 
 
 
-}
+} // End Namespace CoinBaseSharp.ISO 

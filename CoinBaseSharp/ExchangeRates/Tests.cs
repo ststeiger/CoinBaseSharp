@@ -13,6 +13,8 @@ namespace CoinBaseSharp.ExchangeRates
             dir = System.IO.Path.Combine(dir, "../../..");
             dir = System.IO.Path.GetFullPath(dir);
 
+            str = str.Replace('\\', System.IO.Path.DirectorySeparatorChar);
+
             if (str.StartsWith("~"))
             {
                 str = str.Substring(1);
@@ -45,7 +47,7 @@ namespace CoinBaseSharp.ExchangeRates
             public static void Test()
             {
                 string url = "http://www.ecb.europa.eu/stats/eurofxref/eurofxref-daily.xml";
-                string fileName = MapProjectPath(@"~CoinBaseSharp\ExchangeRates\ecb_feed.xml");
+                string fileName = MapProjectPath(@"~CoinBaseSharp/ExchangeRates/ecb_feed.xml");
                 System.Console.WriteLine(fileName);
 
 

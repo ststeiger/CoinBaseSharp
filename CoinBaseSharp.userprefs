@@ -1,8 +1,16 @@
 ﻿<Properties StartupItem="TestApplication/TestApplication.csproj" GitUserInfo="UsingMD">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench />
+  <MonoDevelop.Ide.Workbench ActiveDocument="TestApplication/Program.cs">
+    <Files>
+      <File FileName="TestApplication/Program.cs" Line="62" Column="9" />
+      <File FileName="CoinBaseSharp/SQL/SELECT_t_map_currency_rate.sql" Line="20" Column="18" />
+      <File FileName="CoinBaseSharp/ISO/ISO_4217.cs" Line="76" Column="1" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
-    <BreakpointStore />
+    <BreakpointStore>
+      <Breakpoint file="/root/sources/CoinBaseSharp/CoinBaseSharp/ISO/ISO_4217.cs" line="27" column="49" />
+    </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
 </Properties>
