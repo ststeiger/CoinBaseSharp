@@ -32,8 +32,6 @@ namespace CoinBaseSharp
         }
 
 
-
-
         public static T DeserializeFromFile<T>(string fileName)
         {
             T tReturnValue = default(T);
@@ -47,6 +45,7 @@ namespace CoinBaseSharp
 
             return tReturnValue;
         } // End Function DeserializeFromFile
+
 
     }
 

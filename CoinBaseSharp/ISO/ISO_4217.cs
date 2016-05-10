@@ -22,11 +22,39 @@ namespace CoinBaseSharp.ISO
                 Tools.XML.Serialization.DeserializeXmlFromFile<ISO_4217>(fileName);
             System.Console.WriteLine(ISO);
 
+
+            string strSQL = @"
+INSERT INTO t_currency( ccy_uid, ccy_number, ccy_name,ccy_abbreviation, ccy_country_name, ccy_minor_units )
+VALUES
+(
+	 @__uid -- ccy_uid uniqueidentifier
+	,@__ccy_number -- ccy_number int
+	,@__ccy_name -- ccy_name nvarchar(255)
+	,@__ccy_abbreviation -- ccy_abbreviation nvarchar(20)
+	,@__ccy_country_name -- ccy_country_name nvarchar(255)
+	,@__ccy_minor_units -- ccy_minor_units nvarchar(20)
+);
+";
+
             foreach (cCurrencyEntry currencyEntry in ISO.CurrencyTable.CurrencyEntries)
             {
                 System.Console.WriteLine(currencyEntry.CurrencyAbbreviation);
+
+                using (System.Data.IDbCommand cmd = SQL.CreateCommand(strSQL))
+                {
+                    SQL.AddParameter(cmd, "__uid", System.Guid.NewGuid());
+                    SQL.AddParameter(cmd, "__ccy_number", currencyEntry.CurrencyNumber);
+                    SQL.AddParameter(cmd, "__ccy_name", currencyEntry.CurrencyName);
+                    SQL.AddParameter(cmd, "__ccy_abbreviation", currencyEntry.CurrencyAbbreviation);
+                    SQL.AddParameter(cmd, "__ccy_country_name", currencyEntry.CountryName);
+                    SQL.AddParameter(cmd, "__ccy_minor_units", currencyEntry.CurrencyMinorUnits);
+
+                    SQL.ExecuteNonQuery(cmd);
+                } // End Using cmd 
+
             } // Next currencyEntry 
 
+            System.Console.WriteLine("Finished");
         } // End Sub Test 
 
     } // End Class ISO4217 

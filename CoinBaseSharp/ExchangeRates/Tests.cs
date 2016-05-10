@@ -88,13 +88,56 @@ FROM t_api_configurations
                 System.Console.WriteLine(fileName);
 
 
-                // OpenExchangeRatesData oed = JilHelper.DeserializeUrl<OpenExchangeRatesData>(url);
-                // OpenExchangeRatesData oed = JilHelper.DeserializeFromFile<OpenExchangeRatesData>(fileName);
+                System.Diagnostics.Stopwatch sw = new System.Diagnostics.Stopwatch();
+                sw.Start();
                 OpenExchangeRatesData oed = EasyJSON.JsonHelper.DeserializeFromFile<OpenExchangeRatesData>(fileName);
-                ServiceStackHelper.Deserialize<OpenExchangeRatesData>("");
+                sw.Stop();
+                System.Console.WriteLine(sw.Elapsed);
+                System.Console.WriteLine(oed);  
 
 
-                System.Console.WriteLine(oed);
+#if BENCHMARK || false
+                // OpenExchangeRatesData oed = JilHelper.DeserializeUrl<OpenExchangeRatesData>(url);
+                System.Diagnostics.Stopwatch swJil1 = new System.Diagnostics.Stopwatch();
+                swJil1.Start();
+                OpenExchangeRatesData oedJil = JilHelper.DeserializeFromFile<OpenExchangeRatesData>(fileName);
+                swJil1.Stop();
+                System.Console.WriteLine(swJil1.Elapsed);
+                System.Console.WriteLine(oedJil);
+
+
+                System.Diagnostics.Stopwatch swJil = new System.Diagnostics.Stopwatch();
+                swJil.Start();
+                OpenExchangeRatesData oedJil2 = JilHelper.DeserializeFromFile<OpenExchangeRatesData>(fileName);
+                swJil.Stop();
+                System.Console.WriteLine(swJil.Elapsed);
+                System.Console.WriteLine(oedJil2); 
+
+
+                    System.Diagnostics.Stopwatch sw2 = new System.Diagnostics.Stopwatch();
+                    sw2.Start();
+                    OpenExchangeRatesData oed2 = ServiceStackHelper.DeserializeFromFile<OpenExchangeRatesData>(fileName);
+                    sw2.Stop();
+                    System.Console.WriteLine(sw2.Elapsed);
+                    System.Console.WriteLine(oed2);
+
+                    System.Diagnostics.Stopwatch sw3 = new System.Diagnostics.Stopwatch();
+                    sw3.Start();
+                    OpenExchangeRatesData oed3 = EasyJSON.JsonHelper.DeserializeFromFile<OpenExchangeRatesData>(fileName);
+                    sw3.Stop();
+                    System.Console.WriteLine(sw3.Elapsed);
+                    System.Console.WriteLine(oed3);
+
+
+
+                    System.Diagnostics.Stopwatch sw4 = new System.Diagnostics.Stopwatch();
+                    sw4.Start();
+                    OpenExchangeRatesData oed4 = ServiceStackHelper.DeserializeFromFile<OpenExchangeRatesData>(fileName);
+                    sw4.Stop();
+                    System.Console.WriteLine(sw4.Elapsed);
+                    System.Console.WriteLine(oed4);
+#endif
+
 
                 if (oed.error)
                 {
@@ -119,7 +162,7 @@ VALUES
                 System.Console.WriteLine(localShapshotTime);
 
 
-                foreach (System.Collections.Generic.KeyValuePair<string,decimal> kvp in oed.RatesList)
+                foreach (System.Collections.Generic.KeyValuePair<string, decimal> kvp in oed.RatesList)
                 {
                     System.Console.WriteLine(kvp.Key);
                     System.Console.WriteLine(kvp.Value);

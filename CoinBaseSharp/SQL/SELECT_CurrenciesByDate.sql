@@ -9,7 +9,7 @@ SELECT
 	 cur_time 
 	,MAX(CASE cur_name WHEN 'AED' THEN cur_rate ELSE null END) AS AED
 	,MAX(CASE cur_name WHEN 'AFN' THEN cur_rate ELSE null END) AS AFN
-	,MAX(CASE cur_name WHEN 'ALL' THEN cur_rate ELSE null END) AS ALL
+	,MAX(CASE cur_name WHEN 'ALL' THEN cur_rate ELSE null END) AS "ALL" 
 	,MAX(CASE cur_name WHEN 'AMD' THEN cur_rate ELSE null END) AS AMD
 	,MAX(CASE cur_name WHEN 'ANG' THEN cur_rate ELSE null END) AS ANG
 	,MAX(CASE cur_name WHEN 'AOA' THEN cur_rate ELSE null END) AS AOA
@@ -150,8 +150,8 @@ SELECT
 	,MAX(CASE cur_name WHEN 'TJS' THEN cur_rate ELSE null END) AS TJS
 	,MAX(CASE cur_name WHEN 'TMT' THEN cur_rate ELSE null END) AS TMT
 	,MAX(CASE cur_name WHEN 'TND' THEN cur_rate ELSE null END) AS TND
-	,MAX(CASE cur_name WHEN 'TOP' THEN cur_rate ELSE null END) AS TOP
-	,MAX(CASE cur_name WHEN 'TRY' THEN cur_rate ELSE null END) AS TRY
+	,MAX(CASE cur_name WHEN 'TOP' THEN cur_rate ELSE null END) AS "TOP" 
+	,MAX(CASE cur_name WHEN 'TRY' THEN cur_rate ELSE null END) AS "TRY" 
 	,MAX(CASE cur_name WHEN 'TTD' THEN cur_rate ELSE null END) AS TTD
 	,MAX(CASE cur_name WHEN 'TWD' THEN cur_rate ELSE null END) AS TWD
 	,MAX(CASE cur_name WHEN 'TZS' THEN cur_rate ELSE null END) AS TZS
@@ -179,5 +179,8 @@ SELECT
 	,MAX(CASE cur_name WHEN 'ZMW' THEN cur_rate ELSE null END) AS ZMW
 	,MAX(CASE cur_name WHEN 'ZWL' THEN cur_rate ELSE null END) AS ZWL
 
-FROM t_map_currency_rate
+FROM t_map_currency_rate 
+
+GROUP BY t_map_currency_rate.cur_time 
+
 ORDER BY cur_time 

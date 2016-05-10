@@ -75,13 +75,22 @@
     <EmbeddedResource Include="ExchangeRates\OpenExchangeRates_Error.txt" />
     <Content Include="ExchangeRates\ecb_feed.xml" />
     <EmbeddedResource Include="ExchangeRates\OpenExchangeRates_Data.txt" />
-    <Content Include="SQL\02_Create_price_history.sql" />
-    <Content Include="SQL\CurrenciesByDate.sql" />
+    <Content Include="SQL\00b_CREATE_udf_TitleCase.sql" />
+    <Content Include="SQL\02_CREATE_price_history.sql" />
+    <Content Include="SQL\03_CREATE_t_currency_MS.sql" />
+    <Content Include="SQL\04_CREATE_t_map_currency_rate_PG.sql" />
+    <Content Include="SQL\00a_CREATE_fnNUID.sql" />
+    <Content Include="SQL\INSERT_Missing_Currencies.sql" />
     <Content Include="SQL\INSERT_price_history.sql" />
+    <Content Include="SQL\03a_Normalize_Currency.sql" />
+    <Content Include="SQL\INSERT_t_currency.sql" />
+    <Content Include="SQL\SELECT_ExchangeRates.sql" />
     <Content Include="SQL\SELECT_Pivot.sql" />
     <Content Include="SQL\INSERT_t_map_currency_rate.sql" />
-    <Content Include="SQL\SELECT_Unpivot.sql" />
+    <Content Include="SQL\SELECT_t_currency.sql" />
     <Content Include="SQL\SELECT_t_map_currency_rate.sql" />
+    <Content Include="SQL\SELECT_Unpivot.sql" />
+    <Content Include="SQL\04_CREATE_t_map_currency_rate_MS.sql" />
     <Content Include="SQL\SELECT_PriceHistory.sql" />
     <EmbeddedResource Include="ISO\ISO4217_History.xml" />
     <None Include="Libs\JIL\Version.txt" />
@@ -162,10 +171,10 @@
     <None Include="Libs\Newtonsoft.JSON\Version.txt" />
     <Content Include="info.txt" />
     <None Include="ISO\ISO_3166-1.xlsx" />
-    <None Include="SQL\01_Create_t_api_configurations_PG.sql" />
-    <Content Include="SQL\01_Create_t_api_configurations_MS.sql" />
-    <None Include="SQL\01_Create_t_api_configurations_My.sql" />
-    <Content Include="SQL\CrossTab_PG.sql" />
+    <None Include="SQL\01_CREATE_t_api_configurations_PG.sql" />
+    <Content Include="SQL\01_CREATE_t_api_configurations_MS.sql" />
+    <None Include="SQL\01_CREATE_t_api_configurations_My.sql" />
+    <Content Include="SQL\SELECT_CurrenciesByDate.sql" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
