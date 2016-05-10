@@ -89,6 +89,8 @@ FROM t_api_configurations
                 // OpenExchangeRatesData oed = JilHelper.DeserializeUrl<OpenExchangeRatesData>(url);
                 // OpenExchangeRatesData oed = JilHelper.DeserializeFromFile<OpenExchangeRatesData>(fileName);
                 OpenExchangeRatesData oed = EasyJSON.JsonHelper.DeserializeFromFile<OpenExchangeRatesData>(fileName);
+                ServiceStackHelper.Deserialize<OpenExchangeRatesData>("");
+
 
                 System.Console.WriteLine(oed);
 
