@@ -54,6 +54,7 @@
     <Compile Include="ExchangeRates\Currencies.cs" />
     <Compile Include="ExchangeRates\EcbRates.cs" />
     <Compile Include="ExchangeRates\Tests.cs" />
+    <Compile Include="Exchanges\Bitfinex\Bitfinex.cs" />
     <Compile Include="Tools\Helpers\HttpHelper3.cs" />
     <Compile Include="Tools\Helpers\HttpHelper.cs" />
     <Compile Include="Tools\Helpers\HttpHelper2.cs" />
@@ -201,5 +202,8 @@
       <Project>{579B3FDB-CDAD-44E1-8417-885C38E49A0E}</Project>
       <Name>ServiceStack.Text</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Exchanges\Bitstamp\" />
   </ItemGroup>
 </Project>
