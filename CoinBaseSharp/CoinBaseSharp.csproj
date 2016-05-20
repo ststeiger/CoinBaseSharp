@@ -72,6 +72,7 @@
     <Compile Include="Tools\XmlSerialization.cs" />
     <Compile Include="Tools\XmlTransCoder.cs" />
     <Compile Include="Exchanges\Bitstamp\Bitstamp.cs" />
+    <Compile Include="Exchanges\Bitstamp\MyMail.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="ExchangeRates\OpenExchangeRates_Error.txt" />
