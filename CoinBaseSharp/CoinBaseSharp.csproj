@@ -72,7 +72,7 @@
     <Compile Include="Tools\XmlSerialization.cs" />
     <Compile Include="Tools\XmlTransCoder.cs" />
     <Compile Include="Exchanges\Bitstamp\Bitstamp.cs" />
-    <Compile Include="Exchanges\Bitstamp\MyMail.cs" />
+    <Compile Include="Mail\MyMail.cs" />
     <Compile Include="rdotnet.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -206,7 +206,5 @@
       <Name>ServiceStack.Text</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Exchanges\Bitstamp\" />
-  </ItemGroup>
+  <ItemGroup />
 </Project>

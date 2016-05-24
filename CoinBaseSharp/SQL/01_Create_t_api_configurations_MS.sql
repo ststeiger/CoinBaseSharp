@@ -1,4 +1,10 @@
 
+IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[t_api_configurations]') AND type in (N'U'))
+	--DROP TABLE IF EXISTS [dbo].[t_api_configurations]
+	DROP TABLE [dbo].[t_api_configurations]
+GO
+
+
 
 IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'dbo.t_api_configurations') AND type in (N'U'))
 EXECUTE('
