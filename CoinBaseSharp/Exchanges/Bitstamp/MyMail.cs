@@ -1,7 +1,8 @@
-﻿using System;
-
+﻿
 namespace CoinBaseSharp
 {
+
+
     public class MyMail
     {
         
@@ -13,6 +14,7 @@ namespace CoinBaseSharp
             public string senderPassword;
 
             public string senderAddress;
+            public string receiverAddress;
         }
 
 
@@ -20,17 +22,33 @@ namespace CoinBaseSharp
         {
             public string id
             {
-                get{ 
+                get
+                { 
                     return null;
                 }
             }
 
+            public System.DateTime entryTime;
+            public System.DateTime exitTime;
+            public string exchNameLong;
+            public string exchNameShort;
+            public decimal exposure;
+            public decimal usdTotBalanceAfter;
+            public decimal usdTotBalanceBefore;
 
-            public string actualPerf()
+
+            public decimal actualPerf()
             {
-                return null;
+                return 0.0m;
             }
         }
+
+
+        public static string printDateTime(System.DateTime obj)
+        {
+            return obj.ToString("dddd, dd.MM.yyyy HH:mm:ss.fff", System.Globalization.CultureInfo.InvariantCulture);
+        }
+
 
         public static void lol()
         {
@@ -38,9 +56,9 @@ namespace CoinBaseSharp
             cRes res = new cRes();
 
             //void sendEmail(Result& res, Parameters& params) {
-            string tdStyle =         "font-family:Georgia;font-size:11px;border-color:#A1A1A1;border-width:1px;border-style:solid;padding:2px;";
-                string captionStyle =    "font-family:Georgia;font-size:13px;font-weight:normal;color:#0021BF;padding-bottom:6px;text-align:left;";
-                string tableTitleStyle = "font-family:Georgia;font-variant:small-caps;font-size:13px;text-align:center;border-color:#A1A1A1;border-width:1px;border-style:solid;background-color:#EAEAEA;";
+            string tdStyle = "font-family:Georgia;font-size:11px;border-color:#A1A1A1;border-width:1px;border-style:solid;padding:2px;";
+            string captionStyle = "font-family:Georgia;font-size:13px;font-weight:normal;color:#0021BF;padding-bottom:6px;text-align:left;";
+            string tableTitleStyle = "font-family:Georgia;font-variant:small-caps;font-size:13px;text-align:center;border-color:#A1A1A1;border-width:1px;border-style:solid;background-color:#EAEAEA;";
                 
 
             System.Text.StringBuilder oss = new System.Text.StringBuilder();
@@ -58,67 +76,125 @@ namespace CoinBaseSharp
           
 
 
-                if (res.actualPerf() >= 0) {
+            if (res.actualPerf() >= 0)
+            {
                 oss.Append("+");
                 oss.Append("res.actualPerf() * 100.0");
-                } else {
+            }
+            else
+            {
                 oss.Append("res.actualPerf() * 100.0");
-                }
+            }
                 
 
-            oss.Append("");
-            oss.Append("");
-            oss.Append("");
-            oss.Append("");
-            oss.Append("");
-            oss.Append("");
-            oss.Append("");
-            oss.Append("");
-            oss.Append("");
             oss.Append(@"
 <html>
   <div>
     <br/><br/>
-    <table style=""border-width:0px;border-collapse:collapse;text-align:center;"">";
-                oss << "      <caption style=\\\"" << captionStyle << "\\\">Blackbird Bitcoin Arbitrage - Trade " << res.id << "</caption>";
-                oss << "      <tr style=\\\"" << tableTitleStyle << "\\\">";
-                oss << "        <td style=\\\"" << tdStyle << "width:120px;\\\">Entry Date</td>";
-                oss << "        <td style=\\\"" << tdStyle << "width:120px;\\\">Exit Date</td>";
-                oss << "        <td style=\\\"" << tdStyle << "width:70px;\\\">Long</td>";
-                oss << "        <td style=\\\"" << tdStyle << "width:70px;\\\">Short</td>";
-                oss << "        <td style=\\\"" << tdStyle << "width:70px;\\\">Exposure</td>";
-                oss << "        <td style=\\\"" << tdStyle << "width:70px;\\\">Profit</td>";
-                oss << "        <td style=\\\"" << tdStyle << "width:70px;\\\">Return</td>";
-                oss << "      </tr>";
-                oss << "      <tr>";
-                oss << "        <td style=\\\"" << tdStyle << "\\\">" << printDateTime(res.entryTime) << "</td>";
-                oss << "        <td style=\\\"" << tdStyle << "\\\">" << printDateTime(res.exitTime) << "</td>";
-                oss << "        <td style=\\\"" << tdStyle << "\\\">" << res.exchNameLong << "</td>";
-                oss << "        <td style=\\\"" << tdStyle << "\\\">" << res.exchNameShort << "</td>";
-                oss << "        <td style=\\\"" << tdStyle << "\\\">\\$" << res.exposure * 2.0 << "</td>";
-                oss << "        <td style=\\\"" << tdStyle << "\\\">\\$" << res.usdTotBalanceAfter - res.usdTotBalanceBefore << "</td>";
+    <table style=""border-width:0px;border-collapse:collapse;text-align:center;"">
+        <caption style=""");
+            oss.Append(captionStyle);
+            oss.Append(@""">Blackbird Bitcoin Arbitrage - Trade ");
+            oss.Append(res.id);
+            oss.Append(@"</caption>
+        <tr style=""");
+            oss.Append(tableTitleStyle);
+            oss.Append( @""">");
 
-                if (res.actualPerf() >= 0) 
-                {
-                    oss << "<td style=\\\"" << tdStyle << "color:#000092;\\\">+";
-                } 
-                else 
-                {
-                    oss << "<td style=\\\"" << tdStyle << "color:#920000;\\\">";
-                }
-                oss  << res.actualPerf() * 100.0 << "%</td></tr>";
-                oss << "    </table>";
-                oss << "  </div>";
-                oss << "</html>\" -s " << pars.smtpServerAddress << " -xu " << pars.senderUsername << " -xp " << pars.senderPassword << " -o tls=yes -o message-content-type=html >/dev/null" << std::endl;
+            oss.Append(@"
+            <td style=""");
+            oss.Append(tdStyle);
+            oss.Append(@"width:120px;"">Entry Date</td>
+            <td style=""");
+            oss.Append(tdStyle);
+            oss.Append(@"width:120px;"">Exit Date</td>
+            <td style=""");
+            oss.Append(tdStyle);
+            oss.Append(@"width:70px;"">Long</td>
+            <td style=""");
+            oss.Append(tdStyle);
+            oss.Append(@"width:70px;"">Short</td>
+            <td style=""");
+            oss.Append(tdStyle);
+            oss.Append(@"width:70px;"">Exposure</td>
+            <td style=""");
+            oss.Append(tdStyle);
+            oss.Append(@"width:70px;"">Profit</td>
+            <td style=""");
+            oss.Append(tdStyle);
+            oss.Append(@"width:70px;"">Return</td>
+        </tr>
+        <tr>
+            <td style=""");
+            oss.Append(tdStyle);
+            oss.Append(@""">");
+            oss.Append(printDateTime(res.entryTime));
+            oss.Append(@"</td>
+            <td style=""");
+            oss.Append(tdStyle);
+            oss.Append( @""">");
+            oss.Append(printDateTime(res.exitTime));
+            oss.Append(@"</td>
+            <td style=""");
+            oss.Append(tdStyle);
+            oss.Append(@""">");
+            oss.Append(res.exchNameLong);
+            oss.Append( @"</td>
+            <td style=""");
+            oss.Append(tdStyle);
+            oss.Append(@""">");
+            oss.Append(res.exchNameShort);
+            oss.Append(@"</td>
+            <td style=""");
+            oss.Append(tdStyle);
+            oss.Append(@""">\\$");
+            oss.Append(res.exposure * 2.0m);
+            oss.Append(@"</td>
+            <td style="""); 
+            oss.Append(tdStyle);
+            oss.Append(@""">\\$");
+            oss.Append(res.usdTotBalanceAfter - res.usdTotBalanceBefore);
+            oss.Append(@"</td>");
+
+
+
+            if (res.actualPerf() >= 0)
+            {
+                oss.Append("<td style=\"");
+                oss.Append(tdStyle);
+                oss.Append("color:#000092;\">+");
+            }
+            else
+            {
+                oss.Append("<td style=\"");
+                oss.Append(tdStyle);
+                oss.Append("color:#920000;\">");
 
             }
 
 
+            oss.Append(res.actualPerf() * 100.0m);
+            oss.Append("%</td></tr>");
+
+            oss.Append("    </table>");
+            oss.Append("  </div>");
+            oss.Append("</html>");
+            oss.Append("\"  -s ");
+            oss.Append(pars.smtpServerAddress);
+            oss.Append(" -xu ");
+            oss.Append(pars.senderUsername);
+            oss.Append(" -xp ");
+            oss.Append(pars.senderPassword);
+            oss.Append(" -o tls=yes -o message-content-type=html >/dev/null");
+            oss.Append("\r\n");
 
         }
 
 
 
     }
+
+
+
 }
 

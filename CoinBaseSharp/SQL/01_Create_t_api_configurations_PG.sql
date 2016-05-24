@@ -1,4 +1,7 @@
 ﻿
+
+DROP TABLE IF EXISTS t_api_configurations;
+
 CREATE TABLE IF NOT EXISTS t_api_configurations
 (
 	 api_uid uuid NOT NULL 

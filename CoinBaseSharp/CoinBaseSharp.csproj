@@ -73,6 +73,7 @@
     <Compile Include="Tools\XmlTransCoder.cs" />
     <Compile Include="Exchanges\Bitstamp\Bitstamp.cs" />
     <Compile Include="Exchanges\Bitstamp\MyMail.cs" />
+    <Compile Include="rdotnet.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="ExchangeRates\OpenExchangeRates_Error.txt" />
