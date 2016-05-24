@@ -179,6 +179,8 @@
     <None Include="SQL\01_Create_t_api_configurations_PG.sql" />
     <Content Include="SQL\01_Create_t_api_configurations_MS.sql" />
     <None Include="SQL\01_Create_t_api_configurations_My.sql" />
+    <None Include="Exchanges\Bitfinex\btcusd.txt" />
+    <None Include="Exchanges\Bitfinex\symbols.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
