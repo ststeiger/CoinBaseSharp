@@ -79,6 +79,16 @@ namespace EasyJSON
             return tReturnValue;
         } // End Function DeserializeXmlFromFile
 
+        public static T Deserialize<T>(System.IO.StreamReader sr)
+        {
+            T ret;
+            Newtonsoft.Json.JsonSerializer serializer = new Newtonsoft.Json.JsonSerializer();
+            ret = (T)serializer.Deserialize(sr, typeof(T));
+
+            serializer = null;
+            return ret;
+        }
+
 
         public static T Deserialize<T>(System.IO.Stream stream)
         {
@@ -88,10 +98,14 @@ namespace EasyJSON
 
             using (System.IO.StreamReader sr = new System.IO.StreamReader(stream))
             {
+
                 using (Newtonsoft.Json.JsonTextReader jsonTextReader = new Newtonsoft.Json.JsonTextReader(sr))
                 {
                     ret = serializer.Deserialize<T>(jsonTextReader);
                 }
+
+                // OR:
+                // ret = (T)serializer.Deserialize(sr, typeof(T));
             }
 
             serializer = null;

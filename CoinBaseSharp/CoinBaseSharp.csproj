@@ -69,6 +69,7 @@
     <Compile Include="Tools\SQL.cs" />
     <Compile Include="ExchangeRates\FixerRates.cs" />
     <Compile Include="Tools\Helpers\JilHelper.cs" />
+    <Compile Include="Tools\StringHelper.cs" />
     <Compile Include="Trash\Trash.cs" />
     <Compile Include="Tools\XmlSerialization.cs" />
     <Compile Include="Tools\XmlTransCoder.cs" />

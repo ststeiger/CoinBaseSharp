@@ -10,7 +10,8 @@ namespace CoinBaseSharp
         {
             public string ColumnName;
             public System.Type FieldType;
-        }
+        } // End Class ColumnInfo
+
 
         public class Table
         {
@@ -23,9 +24,9 @@ namespace CoinBaseSharp
             {
                 this.Columns = new System.Collections.Generic.List<ColumnInfo>();
                 this.Rows = new System.Collections.Generic.List<object[]>();
-            }
+            } // End Constructor 
 
-        }
+        } // End Class Table
 
 
         public class DataSetSerialization
@@ -36,26 +37,35 @@ namespace CoinBaseSharp
             public DataSetSerialization()
             {
                 this.Tables = new System.Collections.Generic.List<Table>();
-            }
+            } // End Constructor 
 
+        } // End Class DataSetSerialization
+
+        public static string GetMultipleDataSetsSQL()
+        {
+            string strSQL = @"
+SELECT TOP 10 * FROM price_history; 
+SELECT TOP 10 * FROM t_currency; 
+
+-- SELECT * FROM price_history LIMIT 10; 
+-- SELECT * FROM t_currency LIMIT 10; 
+
+-- SELECT * FROM price_history OFFSET 0 FETCH NEXT 10 ROWS ONLY;
+-- SELECT * FROM t_currency OFFSET 0 FETCH NEXT 10 ROWS ONLY; 
+";
+
+            return strSQL;
         }
 
 
         public static void MultipleDataSets()
         {
-            string strSQL = @"
--- SELECT TOP 10 * FROM price_history; 
--- SELECT TOP 10 * FROM t_currency; 
+            MultipleDataSets(GetMultipleDataSetsSQL());
+        }
 
--- SELECT * FROM price_history LIMIT 10; 
--- SELECT * FROM t_currency LIMIT 10; 
-
-SELECT * FROM price_history OFFSET 0 FETCH NEXT 10 ROWS ONLY;
-SELECT * FROM t_currency OFFSET 0 FETCH NEXT 10 ROWS ONLY; 
-";
-
+        public static void MultipleDataSets(string strSQL)
+        {
             DataSetSerialization ser = new DataSetSerialization();
-
 
             using (System.Data.Common.DbDataReader dr = SQL.ExecuteReader(strSQL
                 , System.Data.CommandBehavior.CloseConnection 
@@ -118,28 +128,43 @@ SELECT * FROM t_currency OFFSET 0 FETCH NEXT 10 ROWS ONLY;
 
             using (System.IO.Stream strm = new System.IO.FileStream(fn, System.IO.FileMode.Create, System.IO.FileAccess.Write, System.IO.FileShare.None))
             {
-                MultipleLargeDataSets(strm);
+                MultipleLargeDataSets(strm, GetMultipleDataSetsSQL());
             }
+
+            string endpointUrl = "http://localhost:53417/ajax/dataReceiver.ashx";
+
+            using (System.Net.WebClient client = new System.Net.WebClient())
+            {
+                using (System.IO.Stream postStream = client.OpenWrite(endpointUrl))
+                {
+                    // postStream.Write(fileContent, 0, fileContent.Length);
+                    MultipleLargeDataSets(postStream, GetMultipleDataSetsSQL());
+                }
+            }
+
+
+            using (System.Net.WebClient client = new System.Net.WebClient())
+            {
+                using (System.IO.Stream postStream = client.OpenRead(endpointUrl))
+                {
+
+                    using (System.IO.StreamReader sr = new System.IO.StreamReader(postStream))
+                    {
+                        string output = sr.ReadToEnd();
+                        System.Console.WriteLine(output);
+                    }
+
+                }
+            }
+
 
             DataSetSerialization thisDataSet = EasyJSON.JsonHelper.DeserializeFromFile<DataSetSerialization>(fn);
             System.Console.WriteLine(thisDataSet);
         } // End Sub MultipleLargeDataSets 
 
 
-        public static void MultipleLargeDataSets(System.IO.Stream strm)
+        public static void MultipleLargeDataSets(System.IO.Stream strm, string strSQL)
         {
-            string strSQL = @"
--- SELECT TOP 10 * FROM price_history; 
--- SELECT TOP 10 * FROM t_currency; 
-
--- SELECT * FROM price_history LIMIT 10; 
--- SELECT * FROM t_currency LIMIT 10; 
-
-SELECT * FROM price_history OFFSET 0 FETCH NEXT 10 ROWS ONLY;
-SELECT * FROM t_currency OFFSET 0 FETCH NEXT 10 ROWS ONLY; 
-";
-
-
             Newtonsoft.Json.JsonSerializer serializer = new Newtonsoft.Json.JsonSerializer();
 
             using (System.IO.StreamWriter output = new System.IO.StreamWriter(strm))
@@ -150,8 +175,6 @@ SELECT * FROM t_currency OFFSET 0 FETCH NEXT 10 ROWS ONLY;
                     jsonWriter.Formatting = Newtonsoft.Json.Formatting.Indented;
 
                     jsonWriter.WriteStartObject();
-
-
 
                     jsonWriter.WritePropertyName("Tables");
                     jsonWriter.WriteStartArray();
@@ -219,16 +242,18 @@ SELECT * FROM t_currency OFFSET 0 FETCH NEXT 10 ROWS ONLY;
 
                     jsonWriter.Flush();
                     output.Flush();
+                    output.BaseStream.Flush();
+
                     output.Close();
 
                     // context.Response.Output.Flush();
+                    // context.Reponse.OutputStream.Flush();
                     // context.Response.Flush();
                 } // End Using jsonWriter 
 
             } // End using output
 
         } // End Sub MultipleLargeDataSets 
-
 
 
         public static System.Data.Common.DbProviderFactory GetFactory(System.Type type)
