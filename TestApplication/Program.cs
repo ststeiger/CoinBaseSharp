@@ -18,11 +18,8 @@ namespace TestApplication
         public class JilEmployee
         {
             public int EmployeeId { get; set; }
-
             public string FirstName { get; set; }
-
             public string LastName { get; set; }
-
             public string Designation { get; set; }
         }
 
@@ -33,13 +30,9 @@ namespace TestApplication
             // public string Name;
             // public int Age;
 
-
             public string Name { get; set; }
-
             public int Age { get; set; }
-
             public System.DateTime DateFrom { get; set; }
-
         }
 
 

@@ -6,6 +6,29 @@ namespace CoinBaseSharp
     public class SQL
     {
 
+
+        public static void MultipleDataSets()
+        {
+
+            using (System.Data.Common.DbDataReader dr = SQL.ExecuteReader("SQL"))
+            {
+                do
+                {
+                    if (dr.HasRows)
+                    {
+
+                        while (dr.Read())
+                        {
+
+                        }
+
+                    }
+
+                } while (dr.NextResult());
+            }
+        }
+
+
         public static System.Data.Common.DbProviderFactory GetFactory(System.Type type)
         {
             if (type != null && type.IsSubclassOf(typeof(System.Data.Common.DbProviderFactory)))
