@@ -122,41 +122,89 @@ SELECT TOP 10 * FROM t_currency;
         } // End Sub MultipleDataSets 
 
 
+
+        public static void PostJSON(string url, System.Net.Http.HttpMethod method, object obj)
+        {
+            if(obj == null || obj == System.DBNull.Value)
+                throw new System.ArgumentNullException("obj");
+            // url = "http://localhost:53417/ajax/dataReceiver.ashx";
+
+            Newtonsoft.Json.JsonSerializer sr = new Newtonsoft.Json.JsonSerializer();
+
+            using (System.Net.WebClient client = new System.Net.WebClient())
+            {
+                client.Headers.Add("Content-Type","application/json");
+
+                using (System.IO.Stream postStream = client.OpenWrite(url, method.Method))
+                {
+                    sr.Formatting = Newtonsoft.Json.Formatting.Indented;
+                    sr.DateFormatHandling = Newtonsoft.Json.DateFormatHandling.MicrosoftDateFormat;
+                    // sr.DateTimeZoneHandling = Newtonsoft.Json.DateTimeZoneHandling.Unspecified;
+
+                    using (System.IO.TextWriter tw = new System.IO.StreamWriter(postStream, System.Text.Encoding.UTF8))
+                    {
+                        sr.Serialize(tw, obj);
+                    } // End Using tw 
+
+                } // End Using postStream 
+
+            } // End Using client 
+
+        } // End Sub PostJSON 
+            
+
+        // https://github.com/mono/mono/blob/master/mcs/class/System.Web.Mvc3/Mvc/HttpVerbs.cs
+        // http://www.ietf.org/rfc/rfc2616.txt
+        [System.Flags]
+        public enum HttpVerbs : int
+        {
+            GET = 1 << 0, // Section 9.3
+            POST = 1 << 1, // Section 9.5
+            PUT = 1 << 2, // Section 9.6
+            DELETE = 1 << 3, // Section 9.7
+            HEAD = 1 << 4, // Section 9.4
+            OPTIONS = 1 << 5, // Section 9.2
+            PATCH = 1 << 6,
+            TRACE = 1 << 7, // Section 9.8
+            CONNECT = 1 << 8 // Section 9.9
+        }
+
+
         public static void MultipleLargeDataSets()
         {
+            System.Net.Http.HttpMethod meth = System.Net.Http.HttpMethod.Post;
+
             string fn = "lobster.json.txt";
+
 
             using (System.IO.Stream strm = new System.IO.FileStream(fn, System.IO.FileMode.Create, System.IO.FileAccess.Write, System.IO.FileShare.None))
             {
                 MultipleLargeDataSets(strm, GetMultipleDataSetsSQL());
-            }
+            } // End Using strm
 
             string endpointUrl = "http://localhost:53417/ajax/dataReceiver.ashx";
 
             using (System.Net.WebClient client = new System.Net.WebClient())
             {
-                using (System.IO.Stream postStream = client.OpenWrite(endpointUrl))
+                client.Headers.Add("Content-Type","application/json");
+
+                using (System.IO.Stream postStream = client.OpenWrite(endpointUrl, meth.Method))
                 {
                     // postStream.Write(fileContent, 0, fileContent.Length);
                     MultipleLargeDataSets(postStream, GetMultipleDataSetsSQL());
-                }
-            }
+                } // End Using postStream 
 
-
-            using (System.Net.WebClient client = new System.Net.WebClient())
-            {
                 using (System.IO.Stream postStream = client.OpenRead(endpointUrl))
                 {
-
                     using (System.IO.StreamReader sr = new System.IO.StreamReader(postStream))
                     {
                         string output = sr.ReadToEnd();
                         System.Console.WriteLine(output);
-                    }
+                    } // End Using sr 
 
-                }
-            }
+                } // End Using postStream 
 
+            } // End Using client 
 
             DataSetSerialization thisDataSet = EasyJSON.JsonHelper.DeserializeFromFile<DataSetSerialization>(fn);
             System.Console.WriteLine(thisDataSet);
