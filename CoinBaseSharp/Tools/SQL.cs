@@ -102,6 +102,9 @@ SELECT TOP 10 * FROM t_currency;
 
             string str = EasyJSON.JsonHelper.SerializePretty(ser);
             System.Console.WriteLine(str);
+
+            DataSetSerialization ser2 = EasyJSON.JsonHelper.Deserialize<DataSetSerialization>(str);
+            System.Console.WriteLine(ser2);
         } // End Sub MultipleDataSets 
 
 
