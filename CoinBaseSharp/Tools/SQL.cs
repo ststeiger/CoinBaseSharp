@@ -44,8 +44,14 @@ namespace CoinBaseSharp
         public static void MultipleDataSets()
         {
             string strSQL = @"
-SELECT TOP 10 * FROM price_history; 
-SELECT TOP 10 * FROM t_currency; 
+-- SELECT TOP 10 * FROM price_history; 
+-- SELECT TOP 10 * FROM t_currency; 
+
+-- SELECT * FROM price_history LIMIT 10; 
+-- SELECT * FROM t_currency LIMIT 10; 
+
+SELECT * FROM price_history OFFSET 0 FETCH NEXT 10 ROWS ONLY;
+SELECT * FROM t_currency OFFSET 0 FETCH NEXT 10 ROWS ONLY; 
 ";
 
             DataSetSerialization ser = new DataSetSerialization();
@@ -57,8 +63,6 @@ SELECT TOP 10 * FROM t_currency;
                 )
             )
             {
-                //ser.Tables.Add();
-
                 Table tbl = null;
 
                 do
@@ -106,6 +110,125 @@ SELECT TOP 10 * FROM t_currency;
             DataSetSerialization ser2 = EasyJSON.JsonHelper.Deserialize<DataSetSerialization>(str);
             System.Console.WriteLine(ser2);
         } // End Sub MultipleDataSets 
+
+
+        public static void MultipleLargeDataSets()
+        {
+            string fn = "lobster.json.txt";
+
+            using (System.IO.Stream strm = new System.IO.FileStream(fn, System.IO.FileMode.Create, System.IO.FileAccess.Write, System.IO.FileShare.None))
+            {
+                MultipleLargeDataSets(strm);
+            }
+
+            DataSetSerialization thisDataSet = EasyJSON.JsonHelper.DeserializeFromFile<DataSetSerialization>(fn);
+            System.Console.WriteLine(thisDataSet);
+        } // End Sub MultipleLargeDataSets 
+
+
+        public static void MultipleLargeDataSets(System.IO.Stream strm)
+        {
+            string strSQL = @"
+-- SELECT TOP 10 * FROM price_history; 
+-- SELECT TOP 10 * FROM t_currency; 
+
+-- SELECT * FROM price_history LIMIT 10; 
+-- SELECT * FROM t_currency LIMIT 10; 
+
+SELECT * FROM price_history OFFSET 0 FETCH NEXT 10 ROWS ONLY;
+SELECT * FROM t_currency OFFSET 0 FETCH NEXT 10 ROWS ONLY; 
+";
+
+
+            Newtonsoft.Json.JsonSerializer serializer = new Newtonsoft.Json.JsonSerializer();
+
+            using (System.IO.StreamWriter output = new System.IO.StreamWriter(strm))
+            {
+                
+                using (Newtonsoft.Json.JsonTextWriter jsonWriter = new Newtonsoft.Json.JsonTextWriter(output))
+                {
+                    jsonWriter.Formatting = Newtonsoft.Json.Formatting.Indented;
+
+                    jsonWriter.WriteStartObject();
+
+
+
+                    jsonWriter.WritePropertyName("Tables");
+                    jsonWriter.WriteStartArray();
+
+
+                    using (System.Data.Common.DbDataReader dr = SQL.ExecuteReader(strSQL
+                , System.Data.CommandBehavior.CloseConnection
+                                                                | System.Data.CommandBehavior.SequentialAccess
+                                                            ))
+                    {
+                    
+                        do
+                        {
+                            jsonWriter.WriteStartObject(); // tbl = new Table();
+
+                            jsonWriter.WritePropertyName("Columns");
+                            jsonWriter.WriteStartArray();
+
+
+                            for (int i = 0; i < dr.FieldCount; ++i)
+                            {
+                                jsonWriter.WriteStartObject();
+
+                                jsonWriter.WritePropertyName("ColumnName");
+                                jsonWriter.WriteValue(dr.GetName(i));
+
+                                jsonWriter.WritePropertyName("FieldType");
+                                jsonWriter.WriteValue(dr.GetFieldType(i).AssemblyQualifiedName);
+
+
+                                jsonWriter.WriteEndObject();
+                            } // Next i 
+                            jsonWriter.WriteEndArray();
+                      
+                            jsonWriter.WritePropertyName("Rows");
+                            jsonWriter.WriteStartArray();
+
+                            if (dr.HasRows)
+                            {
+
+                                while (dr.Read())
+                                {
+                                    object[] thisRow = new object[dr.FieldCount];
+
+                                    jsonWriter.WriteStartArray(); // object[] thisRow = new object[dr.FieldCount];
+                                    for (int i = 0; i < dr.FieldCount; ++i)
+                                    {
+                                        jsonWriter.WriteValue(dr.GetValue(i));
+                                    } // Next i
+                                    jsonWriter.WriteEndArray(); // tbl.Rows.Add(thisRow);
+                                } // Whend 
+
+                            } // End if (dr.HasRows) 
+
+                            jsonWriter.WriteEndArray();
+
+                            jsonWriter.WriteEndObject(); // ser.Tables.Add(tbl);
+                        } while (dr.NextResult()); 
+
+                    } // End Using dr 
+
+                    jsonWriter.WriteEndArray();
+
+                    jsonWriter.WriteEndObject();
+
+                    jsonWriter.Flush();
+                    output.Flush();
+                    output.Close();
+
+                    // context.Response.Output.Flush();
+                    // context.Response.Flush();
+                } // End Using jsonWriter 
+
+            } // End using output
+
+        } // End Sub MultipleLargeDataSets 
+
 
 
         public static System.Data.Common.DbProviderFactory GetFactory(System.Type type)
