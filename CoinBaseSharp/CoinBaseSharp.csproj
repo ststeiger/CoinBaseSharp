@@ -81,6 +81,7 @@
     <Content Include="ExchangeRates\ecb_feed.xml" />
     <EmbeddedResource Include="ExchangeRates\OpenExchangeRates_Data.txt" />
     <Content Include="SQL\00b_CREATE_udf_TitleCase.sql" />
+    <Content Include="SQL\03_CREATE_t_currency_PG.sql" />
     <Content Include="SQL\03_CREATE_t_currency_MS.sql" />
     <Content Include="SQL\04_CREATE_t_map_currency_rate_PG.sql" />
     <Content Include="SQL\00a_CREATE_fnNUID.sql" />

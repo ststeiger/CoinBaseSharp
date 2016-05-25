@@ -30,7 +30,7 @@ namespace CoinBaseSharp.Exchanges
         }
 
 
-        public virtual void updateData(double b, double a);
+        public virtual void updateData(double b, double a) { }
         public virtual decimal getAsk() { return 0; }
         public virtual decimal getBid() { return 0; }
         public virtual decimal getMidPrice() { return 0; }

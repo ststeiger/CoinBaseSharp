@@ -6,27 +6,103 @@ namespace CoinBaseSharp
     public class SQL
     {
 
+        public class ColumnInfo
+        {
+            public string ColumnName;
+            public System.Type FieldType;
+        }
+
+        public class Table
+        {
+            public string Name;
+            public System.Collections.Generic.List<ColumnInfo> Columns;
+            public System.Collections.Generic.List<object[]> Rows;
+
+
+            public Table()
+            {
+                this.Columns = new System.Collections.Generic.List<ColumnInfo>();
+                this.Rows = new System.Collections.Generic.List<object[]>();
+            }
+
+        }
+
+
+        public class DataSetSerialization
+        {
+            public System.Collections.Generic.List<Table> Tables;
+                
+
+            public DataSetSerialization()
+            {
+                this.Tables = new System.Collections.Generic.List<Table>();
+            }
+
+        }
+
 
         public static void MultipleDataSets()
         {
+            string strSQL = @"
+SELECT TOP 10 * FROM price_history; 
+SELECT TOP 10 * FROM t_currency; 
+";
 
-            using (System.Data.Common.DbDataReader dr = SQL.ExecuteReader("SQL"))
+            DataSetSerialization ser = new DataSetSerialization();
+
+
+            using (System.Data.Common.DbDataReader dr = SQL.ExecuteReader(strSQL
+                , System.Data.CommandBehavior.CloseConnection 
+                | System.Data.CommandBehavior.SequentialAccess
+                )
+            )
             {
+                //ser.Tables.Add();
+
+                Table tbl = null;
+
                 do
                 {
+                    tbl = new Table();
+
+                    for (int i = 0; i < dr.FieldCount; ++i)
+                    {
+
+                        tbl.Columns.Add(
+                            new ColumnInfo()
+                            {
+                                ColumnName = dr.GetName(i),
+                                FieldType = dr.GetFieldType(i)
+                            }
+                        );
+
+                    } // Next i 
+                    
                     if (dr.HasRows)
                     {
 
                         while (dr.Read())
                         {
+                            object[] thisRow = new object[dr.FieldCount];
 
-                        }
+                            for (int i = 0; i < dr.FieldCount; ++i)
+                            {
+                                thisRow[i] = dr.GetValue(i);
+                            } // Next i
+                            
+                            tbl.Rows.Add(thisRow);
+                        } // Whend 
 
-                    }
+                    } // End if (dr.HasRows) 
 
-                } while (dr.NextResult());
-            }
-        }
+                    ser.Tables.Add(tbl);
+                } while (dr.NextResult()); 
+
+            } // End Using dr 
+
+            string str = EasyJSON.JsonHelper.SerializePretty(ser);
+            System.Console.WriteLine(str);
+        } // End Sub MultipleDataSets 
 
 
         public static System.Data.Common.DbProviderFactory GetFactory(System.Type type)

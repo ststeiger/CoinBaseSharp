@@ -71,6 +71,7 @@ namespace TestApplication
             }
 
 
+            CoinBaseSharp.SQL.MultipleDataSets();
             // CoinBaseSharp.ExchangeRates.Tests.OpenExchangeRates.Test();
 
             CoinBaseSharp.ISO.ISO4217.Test();
