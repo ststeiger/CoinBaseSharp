@@ -15,40 +15,46 @@ namespace CoinBaseSharp
 
         static void Main1(string[] args)
         {
-            HttpClient client = new HttpClient();
-            client.BaseAddress = new System.Uri("http://localhost:11129/");
-            // Add an Accept header for JSON format.  
-            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-            // List all Names.  
-            HttpResponseMessage response = client.GetAsync("api/Values").Result;  // Blocking call!  
-            if (response.IsSuccessStatusCode)
+            using (HttpClient client = new HttpClient())
             {
-                var products = response.Content.ReadAsStringAsync().Result;
+                client.BaseAddress = new System.Uri("http://localhost:11129/");
+                // Add an Accept header for JSON format.  
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                // List all Names.  
+                HttpResponseMessage response = client.GetAsync("api/Values").Result;  // Blocking call!  
+
+                if (response.IsSuccessStatusCode)
+                {
+                    string products = response.Content.ReadAsStringAsync().Result;
+                }
+                else
+                {
+                    System.Console.WriteLine("{0} ({1})", (int)response.StatusCode, response.ReasonPhrase);
+                }
             }
-            else
-            {
-                System.Console.WriteLine("{0} ({1})", (int)response.StatusCode, response.ReasonPhrase);
-            }
+                
         }
 
         static void Main2(string[] args)
         {
-            HttpClient client = new HttpClient();
-            client.BaseAddress = new System.Uri("http://localhost:11129/");
-            // Add an Accept header for JSON format.  
-            client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-            // List all Names.  
-            HttpResponseMessage response = client.GetAsync("api/Values").Result;  // Blocking call!  
-            if (response.IsSuccessStatusCode)
+            using (HttpClient client = new HttpClient())
             {
-                System.Console.WriteLine("Request Message Information:- \n\n" + response.RequestMessage + "\n");
-                System.Console.WriteLine("Response Message Header \n\n" + response.Content.Headers + "\n");
+                client.BaseAddress = new System.Uri("http://localhost:11129/");
+                // Add an Accept header for JSON format.  
+                client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                // List all Names.  
+                HttpResponseMessage response = client.GetAsync("api/Values").Result;  // Blocking call!  
+                if (response.IsSuccessStatusCode)
+                {
+                    System.Console.WriteLine("Request Message Information:- \n\n" + response.RequestMessage + "\n");
+                    System.Console.WriteLine("Response Message Header \n\n" + response.Content.Headers + "\n");
+                }
+                else
+                {
+                    System.Console.WriteLine("{0} ({1})", (int)response.StatusCode, response.ReasonPhrase);
+                }
+                System.Console.ReadLine();
             }
-            else
-            {
-                System.Console.WriteLine("{0} ({1})", (int)response.StatusCode, response.ReasonPhrase);
-            }
-            System.Console.ReadLine();
         }
 
 
@@ -58,13 +64,14 @@ namespace CoinBaseSharp
             public string surname { get; set; }
         }
 
+
         static void Main3(string[] args)
         {
-            using (var client = new HttpClient())
+            using (HttpClient client = new HttpClient())
             {
                 person p = new person { name = "Sourav", surname = "Kayal" };
                 client.BaseAddress = new System.Uri("http://localhost:1565/");
-                var response = client.PostAsJsonAsync("api/person", p).Result;
+                System.Net.Http.HttpResponseMessage response = client.PostAsJsonAsync("api/person", p).Result;
                 if (response.IsSuccessStatusCode)
                 {
                     System.Console.Write("Success");
@@ -76,11 +83,11 @@ namespace CoinBaseSharp
 
         static void Main4(string[] args)
         {
-            using (var client = new HttpClient())
+            using (HttpClient client = new HttpClient())
             {
                 person p = new person { name = "Sourav", surname = "Kayal" };
                 client.BaseAddress = new System.Uri("http://localhost:1565/");
-                var response = client.PutAsJsonAsync("api/person", p).Result;
+                System.Net.Http.HttpResponseMessage response = client.PutAsJsonAsync("api/person", p).Result;
                 if (response.IsSuccessStatusCode)
                 {
                     System.Console.Write("Success");
@@ -90,7 +97,7 @@ namespace CoinBaseSharp
             }
         }
 
-        public static void lala()
+        public static void Main5()
         {
             using (HttpClient httpClient = new HttpClient())
             {
@@ -100,7 +107,6 @@ namespace CoinBaseSharp
 
                 using (System.IO.StreamReader reader = new System.IO.StreamReader(stream))
                 {
-
                     while (!reader.EndOfStream)
                     {
                         //We are ready to read the stream
@@ -111,13 +117,14 @@ namespace CoinBaseSharp
         }
 
 
-        public static void lalala()
+        public static void Main6()
         {
+            string requestUri = "http://localhost:6797";
+
             using (HttpClient httpClient = new HttpClient())
             {
                 httpClient.Timeout = System.TimeSpan.FromMilliseconds(System.Threading.Timeout.Infinite);
-                string requestUri = "http://localhost:6797";
-
+                
                 FormUrlEncodedContent formUrlEncodedContent = new FormUrlEncodedContent(
                     new System.Collections.Generic.List<System.Collections.Generic.KeyValuePair<string, string>>()
                     {
@@ -138,7 +145,6 @@ namespace CoinBaseSharp
 
                 using (System.IO.StreamReader reader = new System.IO.StreamReader(stream))
                 {
-
                     while (!reader.EndOfStream)
                     {
                         //We are ready to read the stream
@@ -151,6 +157,7 @@ namespace CoinBaseSharp
 
         public static async void PostSomeData()
         {
+            System.Uri uri = new System.Uri("http://localhost");
             string comment = "hello world";
             string questionId = 1.ToString();
 
@@ -161,7 +168,6 @@ namespace CoinBaseSharp
                 new System.Collections.Generic.KeyValuePair<string, string>("questionId", questionId)
             });
 
-            System.Uri uri = new System.Uri("http://localhost");
 
             using (HttpClient myHttpClient = new HttpClient())
             {
@@ -197,6 +203,7 @@ namespace CoinBaseSharp
             private Newtonsoft.Json.JsonSerializerSettings _jsonSerializerSettings;
             private System.Text.Encoding m_encoding;
 
+
             public JsonNetFormatter(Newtonsoft.Json.JsonSerializerSettings jsonSerializerSettings)
             {
                 _jsonSerializerSettings = jsonSerializerSettings ?? new Newtonsoft.Json.JsonSerializerSettings();
@@ -205,6 +212,7 @@ namespace CoinBaseSharp
                 SupportedMediaTypes.Add(new MediaTypeHeaderValue("application/json"));
                 m_encoding = new System.Text.UTF8Encoding(false, true);
             }
+
 
             public override bool CanReadType(System.Type type)
             {
@@ -215,6 +223,7 @@ namespace CoinBaseSharp
 
                 return true;
             }
+
 
             public override bool CanWriteType(System.Type type)
             {
@@ -268,6 +277,8 @@ namespace CoinBaseSharp
                     }
                 });
             }
+
+
         }
 
 
@@ -296,8 +307,6 @@ namespace CoinBaseSharp
                 // var result = httpClient.PutAsync("_endpoint", requestMessage.Content).Result;
                 // return result.Content.ReadAsStringAsync().Result;
                 */
-
-                return null;
             }
         }
 
@@ -323,30 +332,36 @@ namespace CoinBaseSharp
         // http://www.thomaslevesque.com/2013/11/30/uploading-data-with-httpclient-using-a-push-model/
         async Task UploadJsonObject0Async<T>(System.Uri uri, T data)
         {
-            HttpClient client = new HttpClient();
-            string json = Newtonsoft.Json.JsonConvert.SerializeObject(data);
-            System.Net.Http.HttpResponseMessage response =
-                await client.PostAsync(uri, new StringContent(json));
+            using (HttpClient client = new HttpClient())
+            {
+                string json = Newtonsoft.Json.JsonConvert.SerializeObject(data);
+                System.Net.Http.HttpResponseMessage response =
+                    await client.PostAsync(uri, new StringContent(json));
 
-            response.EnsureSuccessStatusCode();
+                response.EnsureSuccessStatusCode();
+            }
         }
 
 
         async Task UploadJsonObject1Async<T>(System.Uri uri, T data)
         {
-            HttpClient client = new HttpClient();
-            PushStreamContent content = new PushStreamContent((stream, httpContent, transportContext) =>
-                {
-
-                    Newtonsoft.Json.JsonSerializer serializer = new Newtonsoft.Json.JsonSerializer();
-                    using (System.IO.TextWriter writer = new System.IO.StreamWriter(stream))
+            using (HttpClient client = new HttpClient())
+            { 
+                PushStreamContent content = new PushStreamContent((stream, httpContent, transportContext) =>
                     {
-                        serializer.Serialize(writer, data);
-                    }
 
-                });
-            System.Net.Http.HttpResponseMessage response = await client.PostAsync(uri, content);
-            response.EnsureSuccessStatusCode();
+                        Newtonsoft.Json.JsonSerializer serializer = new Newtonsoft.Json.JsonSerializer();
+                        using (System.IO.TextWriter writer = new System.IO.StreamWriter(stream))
+                        {
+                            serializer.Serialize(writer, data);
+                        }
+
+                    });
+
+                System.Net.Http.HttpResponseMessage response = await client.PostAsync(uri, content);
+                response.EnsureSuccessStatusCode();
+            }
+            
         }
 
 
@@ -361,6 +376,7 @@ namespace CoinBaseSharp
                 response.EnsureSuccessStatusCode();
             }
         }
+
 
         public async void SimpleAsyncPost()
         {
@@ -388,6 +404,7 @@ namespace CoinBaseSharp
                 }
             }
         }
+
 
         // https://www.jayway.com/2012/01/18/webclientwebrequest-threading-untangled/
         // https://www.jayway.com/2012/03/13/httpclient-makes-get-and-post-very-simple/
@@ -423,9 +440,11 @@ namespace CoinBaseSharp
         // https://forums.asp.net/t/1773007.aspx?How+to+correctly+use+PostAsync+and+PutAsync+
         public string Put<T>(T data)
         {
-            var mediaType = new MediaTypeHeaderValue("application/json");
-            var jsonSerializerSettings = new Newtonsoft.Json.JsonSerializerSettings();
-            var jsonFormatter = new JsonNetFormatter(jsonSerializerSettings);
+            MediaTypeHeaderValue mediaType = new MediaTypeHeaderValue("application/json");
+            Newtonsoft.Json.JsonSerializerSettings jsonSerializerSettings = 
+                new Newtonsoft.Json.JsonSerializerSettings();
+
+            // JsonNetFormatter jsonFormatter = new JsonNetFormatter(jsonSerializerSettings);
             // var requestMessage = new
             // System.Net.Http.HttpRequestMessage<T>(data, mediaType
             // , new System.Net.Http.Formatting.MediaTypeFormatter[] { jsonFormatter });
