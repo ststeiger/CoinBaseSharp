@@ -116,10 +116,10 @@ namespace CoinBaseSharp
             }
         }
 
-
+        // CoinBaseSharp.HttpClientHelper.Main6();
         public static void Main6()
         {
-            string requestUri = "http://localhost:6797";
+            string requestUri = "http://localhost:53417/ajax/dataReceiver.ashx";
 
             using (HttpClient httpClient = new HttpClient())
             {
@@ -157,7 +157,9 @@ namespace CoinBaseSharp
 
         public static async void PostSomeData()
         {
-            System.Uri uri = new System.Uri("http://localhost");
+            string requestUri = "http://localhost:53417/ajax/dataReceiver.ashx";
+
+            System.Uri uri = new System.Uri(requestUri);
             string comment = "hello world";
             string questionId = 1.ToString();
 

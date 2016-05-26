@@ -106,7 +106,8 @@ namespace TestApplication
                 System.Windows.Forms.Application.Run(new Form1());
             }
 
-
+            // CoinBaseSharp.HttpClientHelper.Main6();
+            CoinBaseSharp.HttpClientHelper.PostSomeData();
             CoinBaseSharp.SQL.MultipleLargeDataSets();
             // CoinBaseSharp.ExchangeRates.Tests.OpenExchangeRates.Test();
 
