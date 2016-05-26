@@ -188,6 +188,28 @@ SELECT TOP 10 * FROM t_currency;
             {
                 client.Headers.Add("Content-Type","application/json");
 
+
+                // client.OpenWriteCompleted += (sender, e) =>
+                client.OpenWriteCompleted += delegate (object sender, System.Net.OpenWriteCompletedEventArgs e)
+                {
+                    // System.Net.WebClient that = (System.Net.WebClient) sender;
+
+                    if (e.Error != null)
+                        throw e.Error;
+
+                    using (System.IO.Stream postStream = e.Result)
+                    {
+                        MultipleLargeDataSets(postStream, GetMultipleDataSetsSQL());
+                        postStream.Flush();
+                        postStream.Close();
+                    }
+
+                    
+                };
+
+                client.OpenWriteAsync(new System.Uri( endpointUrl));
+                
+                
                 using (System.IO.Stream postStream = client.OpenWrite(endpointUrl, meth.Method))
                 {
                     // postStream.Write(fileContent, 0, fileContent.Length);
@@ -203,6 +225,9 @@ SELECT TOP 10 * FROM t_currency;
                     } // End Using sr 
 
                 } // End Using postStream 
+
+
+                // client.ResponseHeaders
 
             } // End Using client 
 

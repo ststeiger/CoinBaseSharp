@@ -56,6 +56,7 @@
     <Compile Include="ExchangeRates\Tests.cs" />
     <Compile Include="Exchanges\BitcoinExchange.cs" />
     <Compile Include="Exchanges\Bitfinex\Bitfinex.cs" />
+    <Compile Include="HttpClientHelper.cs" />
     <Compile Include="Tools\Helpers\HttpHelper3.cs" />
     <Compile Include="Tools\Helpers\HttpHelper.cs" />
     <Compile Include="Tools\Helpers\HttpHelper2.cs" />
