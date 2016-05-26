@@ -57,6 +57,42 @@ namespace TestApplication
         }
 
 
+
+        // https://msdn.microsoft.com/en-us/library/aa691323(v=vs.71).aspx
+        // https://msdn.microsoft.com/en-us/library/2bxt6kc4.aspx
+        [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.AggressiveInlining)]
+        public static int InlineTest()
+        {
+            return 2 * 2;
+        }
+
+
+
+
+        // https://msdn.microsoft.com/en-us/library/hh873175.aspx
+        // http://blogs.msdn.com/b/pfxteam/archive/2012/04/12/10293335.aspx
+        // http://blog.stephencleary.com/2012/02/async-and-await.html 
+        // https://stackoverflow.com/questions/14455293/how-and-when-to-use-async-and-await
+        // https://msdn.microsoft.com/en-us/library/mt674902.aspx
+        // https://msdn.microsoft.com/en-us/library/xh29swte(v=vs.90).aspx
+        public async static System.Threading.Tasks.Task<int> GetAnswerToLife()
+        {
+            await System.Threading.Tasks.Task.Delay(5000);
+            int answer = 21 * 2;
+            return answer;
+        }
+
+        // https://stackoverflow.com/questions/13002507/how-can-i-call-async-go-method-in-for-example-main
+        public static void TestAsyncMethod()
+        {
+
+            GetAnswerToLife().Wait();
+            int x = GetAnswerToLife().Result;
+
+            System.Console.WriteLine(x);    
+        }
+
+
         /// <summary>
         /// Der Haupteinstiegspunkt für die Anwendung.
         /// </summary>
