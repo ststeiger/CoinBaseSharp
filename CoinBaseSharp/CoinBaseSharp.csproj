@@ -187,6 +187,8 @@
     <None Include="Exchanges\Bitfinex\symbols.txt" />
     <Content Include="SQL\00a_CREATE_fnNUID_PG.sql" />
     <Content Include="SQL\00b_CREATE_udf_TitleCase_PG.sql" />
+    <None Include="Exchanges\Bitfinex\pubticker_btcusd.txt" />
+    <None Include="Exchanges\Bitfinex\stats_btcusd.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
