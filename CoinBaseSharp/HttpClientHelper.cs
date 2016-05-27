@@ -32,7 +32,7 @@ namespace CoinBaseSharp
                     System.Console.WriteLine("{0} ({1})", (int)response.StatusCode, response.ReasonPhrase);
                 }
             }
-                
+
         }
 
         static void Main2(string[] args)
@@ -124,7 +124,7 @@ namespace CoinBaseSharp
             using (HttpClient httpClient = new HttpClient())
             {
                 httpClient.Timeout = System.TimeSpan.FromMilliseconds(System.Threading.Timeout.Infinite);
-                
+
                 FormUrlEncodedContent formUrlEncodedContent = new FormUrlEncodedContent(
                     new System.Collections.Generic.List<System.Collections.Generic.KeyValuePair<string, string>>()
                     {
@@ -348,7 +348,7 @@ namespace CoinBaseSharp
         async Task UploadJsonObject1Async<T>(System.Uri uri, T data)
         {
             using (HttpClient client = new HttpClient())
-            { 
+            {
                 PushStreamContent content = new PushStreamContent((stream, httpContent, transportContext) =>
                     {
 
@@ -363,7 +363,7 @@ namespace CoinBaseSharp
                 System.Net.Http.HttpResponseMessage response = await client.PostAsync(uri, content);
                 response.EnsureSuccessStatusCode();
             }
-            
+
         }
 
 
@@ -382,7 +382,7 @@ namespace CoinBaseSharp
 
         public async void SimpleAsyncPost()
         {
-            System.Collections.Generic.Dictionary<string, string> values = 
+            System.Collections.Generic.Dictionary<string, string> values =
                 new System.Collections.Generic.Dictionary<string, string>();
 
             values.Add("ThisIs", "Annoying");
@@ -392,7 +392,7 @@ namespace CoinBaseSharp
             {
                 try
                 {
-                    System.Net.Http.HttpResponseMessage httpResponseMessage = 
+                    System.Net.Http.HttpResponseMessage httpResponseMessage =
                         await client.PostAsync("http://SomeUrl.somewhere", content);
 
                     if (httpResponseMessage.StatusCode == System.Net.HttpStatusCode.OK)
@@ -425,11 +425,11 @@ namespace CoinBaseSharp
 
         }
 
-      
+
         public async Task<Newtonsoft.Json.Linq.JObject> PostAsync(string uri, string data)
         {
             var httpClient = new HttpClient();
-            System.Net.Http.HttpResponseMessage response = 
+            System.Net.Http.HttpResponseMessage response =
                 await httpClient.PostAsync(uri, new StringContent(data));
 
             response.EnsureSuccessStatusCode();
@@ -443,7 +443,7 @@ namespace CoinBaseSharp
         public string Put<T>(T data)
         {
             MediaTypeHeaderValue mediaType = new MediaTypeHeaderValue("application/json");
-            Newtonsoft.Json.JsonSerializerSettings jsonSerializerSettings = 
+            Newtonsoft.Json.JsonSerializerSettings jsonSerializerSettings =
                 new Newtonsoft.Json.JsonSerializerSettings();
 
             // JsonNetFormatter jsonFormatter = new JsonNetFormatter(jsonSerializerSettings);
@@ -461,8 +461,8 @@ namespace CoinBaseSharp
                 httpClient.PutAsync(_endpoint, content).ContinueWith(httpResponseMessage =>
                 {
                     return httpResponseMessage.Result.Content.ReadAsStringAsync();
-                  // return await Task.Run(() => httpResponseMessage.Result.Content.ReadAsStringAsync());
-              });
+                    // return await Task.Run(() => httpResponseMessage.Result.Content.ReadAsStringAsync());
+                });
             }
 
             return null;

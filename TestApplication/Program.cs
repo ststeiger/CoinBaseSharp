@@ -89,7 +89,7 @@ namespace TestApplication
             GetAnswerToLife().Wait();
             int x = GetAnswerToLife().Result;
 
-            System.Console.WriteLine(x);    
+            System.Console.WriteLine(x);
         }
 
 
@@ -252,7 +252,7 @@ CREATE TABLE IF NOT EXISTS price_history
                 sb.Append(thisPrice.time.Replace("'", "''"));
                 sb.Append("'");
             }
-                
+
 
             sb.Append(", ");
 
@@ -264,7 +264,7 @@ CREATE TABLE IF NOT EXISTS price_history
                 sb.Append(thisPrice.price.Replace("'", "''"));
                 sb.Append("'");
             }
-            
+
             sb.AppendLine(");");
         }
         // End Sub SqlInsertItem
