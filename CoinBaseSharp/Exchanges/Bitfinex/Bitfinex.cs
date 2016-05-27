@@ -55,7 +55,7 @@ namespace CoinBaseSharp.Exchanges.Bitfinex
 
             public static long GetCurrentUnixTimestampMillis()
             {
-                return (long) (System.DateTime.UtcNow - UnixEpoch).TotalMilliseconds;
+                return (long)(System.DateTime.UtcNow - UnixEpoch).TotalMilliseconds;
             }
 
             public static System.DateTime DateTimeFromUnixTimestampMillis(long millis)
@@ -65,7 +65,7 @@ namespace CoinBaseSharp.Exchanges.Bitfinex
 
             public static long GetCurrentUnixTimestampSeconds()
             {
-                return (long) (System.DateTime.UtcNow - UnixEpoch).TotalSeconds;
+                return (long)(System.DateTime.UtcNow - UnixEpoch).TotalSeconds;
             }
 
             public static System.DateTime DateTimeFromUnixTimestampSeconds(long seconds)
@@ -96,7 +96,7 @@ namespace CoinBaseSharp.Exchanges.Bitfinex
 
                 //API Sign
                 string hexHash = null;
-                using (System.Security.Cryptography.HMACSHA384 hmac = 
+                using (System.Security.Cryptography.HMACSHA384 hmac =
                            new System.Security.Cryptography.HMACSHA384(System.Text.Encoding.UTF8.GetBytes(APISECRET)))
                 {
                     byte[] hash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(payload));
@@ -116,7 +116,7 @@ namespace CoinBaseSharp.Exchanges.Bitfinex
                     System.Net.HttpWebRequest request = (System.Net.HttpWebRequest)System.Net.HttpWebRequest.Create(path);
                     request.KeepAlive = true;
                     request.Method = System.Net.Http.HttpMethod.Post.Method;
-                   
+
 
                     //add headers
                     request.Headers.Add(headers);
