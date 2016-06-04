@@ -46,15 +46,15 @@ namespace TestApplication
                 CoinBaseSharp.SQL.AddParameter(cmd, "binary", coop);
 
                 CoinBaseSharp.SQL.ExecuteNonQuery(cmd);
-            }
+            } // End Using cmd 
 
             using (System.Data.IDbCommand cmd = CoinBaseSharp.SQL.CreateCommand("INSERT INTO t_binary(uid,binary) VALUES(NEWID(),@binary)"))
             {
                 CoinBaseSharp.SQL.AddParameter(cmd, "binary", bkb);
                 CoinBaseSharp.SQL.ExecuteNonQuery(cmd);
-            }
+            } // End Using cmd 
 
-        }
+        } // End Sub InsertLogo 
 
 
 
@@ -64,9 +64,7 @@ namespace TestApplication
         public static int InlineTest()
         {
             return 2 * 2;
-        }
-
-
+        } // End Function InlineTest 
 
 
         // https://msdn.microsoft.com/en-us/library/hh873175.aspx
@@ -82,14 +80,47 @@ namespace TestApplication
             return answer;
         }
 
+
         // https://stackoverflow.com/questions/13002507/how-can-i-call-async-go-method-in-for-example-main
         public static void TestAsyncMethod()
         {
-
             GetAnswerToLife().Wait();
             int x = GetAnswerToLife().Result;
 
             System.Console.WriteLine(x);
+        }
+
+
+        public static string Sha256_2(string bla)
+        {
+            byte[] ba = System.Text.Encoding.UTF8.GetBytes(bla);
+
+            using (System.Security.Cryptography.SHA256CryptoServiceProvider cp = new System.Security.Cryptography.SHA256CryptoServiceProvider())
+            {
+                ba = cp.ComputeHash(ba);
+                ba = cp.ComputeHash(ba);
+            }
+
+            return System.BitConverter.ToString(ba).Replace("-", "").ToLowerInvariant();
+        }
+
+        public static string BitcoinAddressHash(string bla)
+        {
+            byte[] ba = System.Text.Encoding.UTF8.GetBytes(bla);
+
+
+            using (System.Security.Cryptography.SHA256CryptoServiceProvider sha256 = new System.Security.Cryptography.SHA256CryptoServiceProvider())
+            {
+
+                using (System.Security.Cryptography.RIPEMD160 md160 = new System.Security.Cryptography.RIPEMD160Managed())
+                {
+                    ba = sha256.ComputeHash(ba);
+                    ba = md160.ComputeHash(ba);
+                }
+
+            }
+
+            return System.BitConverter.ToString(ba).Replace("-", "").ToLowerInvariant();
         }
 
 
@@ -99,6 +130,13 @@ namespace TestApplication
         [System.STAThread]
         static void Main()
         {
+            string bla = Sha256_2("hello");
+            System.Console.WriteLine(bla);
+
+            bla = BitcoinAddressHash("hello");
+            System.Console.WriteLine(bla);
+
+
             if (false)
             {
                 System.Windows.Forms.Application.EnableVisualStyles();
@@ -266,12 +304,10 @@ CREATE TABLE IF NOT EXISTS price_history
             }
 
             sb.AppendLine(");");
-        }
-        // End Sub SqlInsertItem
+        } // End Sub SqlInsertItem
 
 
-    }
-    // End Class Program
+    } // End Class Program
 
 
 } // End Namespace TestApplication

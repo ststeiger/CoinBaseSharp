@@ -1,5 +1,4 @@
 ﻿
-
 #if false 
 
 using System;
@@ -9,12 +8,12 @@ using RDotNet;
 
 namespace Sample1
 {
-
-
+    
+    
     class Program
     {
-
-
+        
+        
         static void RMain(string[] args)
         {
             REngine.SetEnvironmentVariables();
@@ -38,13 +37,14 @@ namespace Sample1
                 // you should always dispose of the REngine properly.
                 // After disposing of the engine, you cannot reinitialize nor reuse it
                 // engine.Dispose();
-            }
+            } // End Using engine 
+            
         } // End Sub RMain
-
-
+        
+        
     } // End Class
-
-
+    
+    
 } // End Namespace 
 
 #endif
