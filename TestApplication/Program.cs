@@ -95,19 +95,19 @@ namespace TestApplication
         {
             byte[] ba = System.Text.Encoding.UTF8.GetBytes(bla);
 
-            using (System.Security.Cryptography.SHA256CryptoServiceProvider cp = new System.Security.Cryptography.SHA256CryptoServiceProvider())
+            using (System.Security.Cryptography.SHA256CryptoServiceProvider sha256 = new System.Security.Cryptography.SHA256CryptoServiceProvider())
             {
-                ba = cp.ComputeHash(ba);
-                ba = cp.ComputeHash(ba);
-            }
+                ba = sha256.ComputeHash(ba);
+                ba = sha256.ComputeHash(ba);
+            } // End Using sha256 
 
             return System.BitConverter.ToString(ba).Replace("-", "").ToLowerInvariant();
-        }
+        } // End Function Sha256_2 
+
 
         public static string BitcoinAddressHash(string bla)
         {
             byte[] ba = System.Text.Encoding.UTF8.GetBytes(bla);
-
 
             using (System.Security.Cryptography.SHA256CryptoServiceProvider sha256 = new System.Security.Cryptography.SHA256CryptoServiceProvider())
             {
@@ -116,12 +116,22 @@ namespace TestApplication
                 {
                     ba = sha256.ComputeHash(ba);
                     ba = md160.ComputeHash(ba);
-                }
+                } // End Using md160 
 
-            }
+            } // End Using sha256 
 
             return System.BitConverter.ToString(ba).Replace("-", "").ToLowerInvariant();
-        }
+        } // End Function BitcoinAddressHash 
+
+
+        public static void HashTest()
+        {
+            string bla = Sha256_2("hello");
+            System.Console.WriteLine(bla);
+
+            bla = BitcoinAddressHash("hello");
+            System.Console.WriteLine(bla);
+        } // End Sub HashTest 
 
 
         /// <summary>
@@ -130,13 +140,6 @@ namespace TestApplication
         [System.STAThread]
         static void Main()
         {
-            string bla = Sha256_2("hello");
-            System.Console.WriteLine(bla);
-
-            bla = BitcoinAddressHash("hello");
-            System.Console.WriteLine(bla);
-
-
             if (false)
             {
                 System.Windows.Forms.Application.EnableVisualStyles();
@@ -265,12 +268,10 @@ CREATE TABLE IF NOT EXISTS price_history
             System.Console.WriteLine(time.warnings.Count);
 
 
-
             System.Console.WriteLine(System.Environment.NewLine);
             System.Console.WriteLine(" --- Press any key to continue --- ");
             System.Console.ReadKey();
-        }
-        // End Sub Main
+        } // End Sub Main
 
 
         // public delegate void sqlGenerator_t<T>(System.Text.StringBuilder sb, T thisItem);
@@ -307,7 +308,7 @@ CREATE TABLE IF NOT EXISTS price_history
         } // End Sub SqlInsertItem
 
 
-    } // End Class Program
+    } // End Class Program 
 
 
 } // End Namespace TestApplication
