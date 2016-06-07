@@ -19,9 +19,9 @@ namespace CoinBaseSharp
             using (System.Net.Http.HttpClient client = new System.Net.Http.HttpClient())
             {
                 client.BaseAddress = new System.Uri("http://localhost:11129/");
-                // Add an Accept header for JSON format.  
+                // Add an Accept header for JSON format.
                 client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
-                // List all Names.  
+                // List all Names.
                 System.Net.Http.HttpResponseMessage response = client.GetAsync("api/Values").Result;  // Blocking call!  
 
                 if (response.IsSuccessStatusCode)
@@ -73,8 +73,6 @@ namespace CoinBaseSharp
             {
                 person p = new person { name = "Sourav", surname = "Kayal" };
                 client.BaseAddress = new System.Uri("http://localhost:1565/");
-
-
 
                 // System.Net.Http.HttpResponseMessage response = System.Net.Http.HttpClientExtensions.PostAsJsonAsync(client, "api/person", p).Result;
                 System.Net.Http.HttpResponseMessage response = client.PostAsJsonAsync("api/person", p).Result;
