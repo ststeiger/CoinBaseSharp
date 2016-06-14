@@ -41,6 +41,19 @@ namespace TestApplication
         }
 
 
+
+        public class DrawingInfo{
+            // http://stackoverflow.com/questions/1528525/alternatives-to-system-drawing-for-use-with-asp-net
+            // http://stackoverflow.com/questions/390532/system-drawing-in-windows-or-asp-net-services
+            // https://github.com/StackExchange/dapper-dot-net/issues/241
+            // https://github.com/mono/mono/blob/master/mcs/class/referencesource/System.Data/System/Data/Odbc/Odbc32.cs
+            // https://github.com/mono/mono/tree/master/mcs/class/referencesource/System.Data/System/Data/Odbc
+            // https://github.com/mono/mono/blob/master/mcs/class/System.Data/Test/OdbcTest.cs
+
+        }
+
+
+
         public class DataRow
         {
             public DataTable Table;
@@ -157,8 +170,6 @@ namespace TestApplication
 
 
         }
-
-
 
 
         public class DataRowCollection : System.Collections.Generic.IEnumerable<DataRow>
@@ -668,6 +679,50 @@ namespace TestApplication
         static void Main()
         {
             // DataTable dt = CoinBaseSharp.HttpClientHelper.Deserialize<DataTable>().Result;
+
+            string SQL = @"SELECT * FROM T_Benutzer";
+            using (System.Data.Common.DbDataReader rdr = CoinBaseSharp.SQL.ExecuteReader(SQL))
+            {
+                if (rdr.HasRows)
+                {
+                    int fieldCount = rdr.FieldCount;
+                    System.Type[] ts = new System.Type[fieldCount];
+                    string[] fieldNames = new string[fieldCount];
+
+                    for (int i = 0; i < fieldCount; ++i)
+                    {
+                        ts[i] = rdr.GetFieldType(i);
+                        fieldNames[i] = rdr.GetName(i);
+                        System.Console.WriteLine(ts[i]);
+                    }
+
+
+                    var p = System.Linq.Expressions.Expression.Parameter(typeof(string));
+                    var prop = System.Linq.Expressions.Expression.Property(p, "Length");
+                    var con = System.Linq.Expressions.Expression.Convert(prop, typeof(object));
+                    var exp = System.Linq.Expressions.Expression.Lambda(con, p);
+                    var func = (System.Func<string, object>)exp.Compile();
+
+                    var obj = "ABC";
+                    int len = (int)func(obj);
+
+
+                    while (rdr.Read())
+                    {
+                        for (int i = 0; i < fieldCount; ++i)
+                        {
+                            object objValue = rdr.GetValue(i);
+
+                            System.Console.WriteLine(objValue);
+                        }
+
+                    }
+                        
+
+
+                }
+            }
+
 
             // https://blogs.msdn.microsoft.com/dotnet/2016/02/10/porting-to-net-core/
             // http://www.symbolsource.org/Public/Metadata/NuGet/Project/CSLA-Core/4.5.700/Release/.NETCore,Version%3Dv4.5/Csla/Csla/Csla.WinRT/Reflection/TypeExtensions.cs?ImageName=Csla
