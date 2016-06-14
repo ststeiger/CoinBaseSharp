@@ -1,17 +1,225 @@
 ﻿
+// using System.Threading;
 // using System.Threading.Tasks;
 
 using System.Net.Http;
 // using System.Net.Http.Headers;
 
 
+
 // http://www.c-sharpcorner.com/UploadFile/dacca2/http-request-methods-get-post-put-and-delete/
+// https://github.com/mono/mono/blob/master/mcs/class/System.Net.Http/System.Net.Http/HttpClient.cs
 namespace CoinBaseSharp
 {
 
-
+    // http://codereview.stackexchange.com/questions/18519/real-world-async-and-await-code-example
     public class HttpClientHelper
     {
+
+        // https://canbilgin.wordpress.com/2012/06/17/download-send-request-asyncwithprogress-with-httpclient/
+
+        /*
+        public static async System.Threading.Tasks.Task<int> GetStringAsyncWithProgress(this HttpClient client, HttpRequestMessage request, CancellationToken cancelToken)
+        {
+            int read = 0;
+            int offset = 0;
+            string result = string.Empty;
+
+            byte[] responseBuffer = new byte[500];
+
+            var operation = client.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, cancelToken);
+
+
+            return await 
+                System.Threading.Tasks.Task.Run<string>(async(token, progress) =>
+                {
+                    if (cancelToken != CancellationToken.None) token = cancelToken;
+
+                    using (var responseStream = await operation.Result.Content.ReadAsStreamAsync())
+                    {
+                        do
+                        {
+                            if (token.IsCancellationRequested)
+                            {
+                                token.ThrowIfCancellationRequested();
+                            }
+
+                            // read = await responseStream.ReadAsync(responseBuffer, 0, responseBuffer.Length);
+                            result += System.Text.Encoding.UTF8.GetString(responseBuffer, 0, read);
+                            offset += read;
+
+                            System.Diagnostics.Debug.WriteLine(string.Format("\t{0:o}\tExtension Read Bytes: {1}", System.DateTime.Now, offset));
+
+                            progress.Report(offset);
+                        } while (read != 0);
+                    }
+
+                    return result;
+                }
+            );
+
+        }
+        */
+
+
+        public T Deserialize<T>()
+        {
+            return AsyncDeserialize<T>().Result;
+        }
+
+
+        // http://stackoverflow.com/questions/30163316/httpclient-getstreamasync-and-http-status-codes
+        public async static System.Threading.Tasks.Task<T> AsyncDeserialize<T>()
+        {
+            using (HttpClient client = new HttpClient())
+            {
+                HttpResponseMessage response = await client.GetAsync("http://httpbin.org/get", HttpCompletionOption.ResponseHeadersRead);
+                if (!response.IsSuccessStatusCode)
+                {
+                    // http://stackoverflow.com/questions/21097730/usage-of-ensuresuccessstatuscode-and-handling-of-httprequestexception-it-throws
+                    string content = await response.Content.ReadAsStringAsync();
+
+                    if (response.Content != null)
+                        response.Content.Dispose();
+
+                    throw new SimpleHttpResponseException(response.StatusCode, content);
+                }
+
+                response.EnsureSuccessStatusCode(); // Throws Exception if no success
+
+                System.IO.Stream stream = await response.Content.ReadAsStreamAsync();
+
+                using (System.IO.TextReader streamReader = new System.IO.StreamReader(stream))
+                {
+
+                    using (Newtonsoft.Json.JsonTextReader jsonReader = new Newtonsoft.Json.JsonTextReader(streamReader))
+                    {
+                        Newtonsoft.Json.JsonSerializer serializer = new Newtonsoft.Json.JsonSerializer();
+
+                        //do some deserializing http://www.newtonsoft.com/json/help/html/Performance.htm
+                        return serializer.Deserialize<T>(jsonReader);
+                    } // End Using jsonReader 
+
+                } // streamReader
+
+            } // End Using client
+
+        } // End Function asyncDeserialize 
+
+
+        // https://github.com/enkafan/Swagger.WebApiProxy/blob/master/demo/Swagger.WebApiProxy.Demo.Client/BaseProxy.cs
+        public class SimpleHttpResponseException : System.Exception
+        {
+            public System.Net.HttpStatusCode StatusCode { get; private set; }
+
+            public SimpleHttpResponseException(System.Net.HttpStatusCode statusCode, string content)
+                : base(content)
+            {
+                StatusCode = statusCode;
+            }
+        }
+
+        static async void DownloadPageAsync()
+        {
+            // ... Target page.
+            string page = "http://en.wikipedia.org/";
+
+            // ... Use HttpClient.
+            using (HttpClient client = new HttpClient())
+            using (HttpResponseMessage response = await client.GetAsync(page))
+            using (HttpContent content = response.Content)
+            {
+                // ... Read the string.
+                string result = await content.ReadAsStringAsync();
+
+                // ... Display the result.
+                if (result != null &&
+                result.Length >= 50)
+                {
+                    System.Console.WriteLine(result.Substring(0, 50) + "...");
+                }
+            }
+        }
+
+
+        // http://www.tugberkugurlu.com/archive/streaming-with-newnet-httpclient-and-httpcompletionoption-responseheadersread
+        public static void ReadHttpStream()
+        {
+            using (HttpClient httpClient = new HttpClient())
+            {
+                httpClient.Timeout = System.TimeSpan.FromMilliseconds(System.Threading.Timeout.Infinite);
+                string requestUri = "http://localhost:6797";
+
+                using (System.IO.Stream stream = httpClient.GetStreamAsync(requestUri).Result)
+                {
+                    using (System.IO.StreamReader reader = new System.IO.StreamReader(stream))
+                    {
+                        while (!reader.EndOfStream)
+                        {
+                            //We are ready to read the stream
+                            string currentLine = reader.ReadLine();
+                        }
+                    }
+                }
+
+                
+            }
+        }
+
+
+        // http://www.tugberkugurlu.com/archive/streaming-with-newnet-httpclient-and-httpcompletionoption-responseheadersread
+        public static void ReadHttpStreamWithParameters()
+        {
+            using (HttpClient httpClient = new HttpClient())
+            {
+
+                httpClient.Timeout = System.TimeSpan.FromMilliseconds(System.Threading.Timeout.Infinite);
+                string requestUri = "http://localhost:6797";
+
+                FormUrlEncodedContent formUrlEncodedContent = new FormUrlEncodedContent(
+                    new System.Collections.Generic.List<System.Collections.Generic.KeyValuePair<string, string>>() 
+                    { 
+                        new System.Collections.Generic.KeyValuePair<string, string>("userId", "1000") 
+                    }
+                );
+
+                formUrlEncodedContent.Headers.ContentType =
+                    new System.Net.Http.Headers.MediaTypeHeaderValue("application/x-www-form-urlencoded");
+
+                HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Post, requestUri);
+                request.Content = formUrlEncodedContent;
+
+                // HttpResponseMessage aresponse = httpClient.PostAsync(requestUri, formUrlEncodedContent).Result;
+
+                HttpResponseMessage response = httpClient.SendAsync(request, HttpCompletionOption.ResponseHeadersRead).Result;
+
+                using (System.IO.Stream stream = response.Content.ReadAsStreamAsync().Result)
+                {
+                    /*
+                    // response.Content.Headers.ContentEncoding
+                    var enc = response.Content.Headers.ContentEncoding;
+                    foreach (var x in enc)
+                    { 
+                    
+                    }
+                    */
+                    
+                    using (System.IO.StreamReader reader = new System.IO.StreamReader(stream))
+                    {
+
+                        while (!reader.EndOfStream)
+                        {
+                            //We are ready to read the stream
+                            string currentLine = reader.ReadLine();
+                        } // Whend 
+
+                    } // End Using reader 
+
+                } // End Using stream 
+
+            } // End Using httpClient 
+
+        } // End Sub ReadHttpStreamWithParameters 
 
 
         static void Main1()

@@ -7,6 +7,9 @@ namespace CoinBaseSharp.Helpers
     {
 
 
+
+
+
         // https://stackoverflow.com/questions/4015324/http-request-with-post
         // https://stackoverflow.com/questions/4088625/net-simplest-way-to-send-post-with-data-and-read-response
         public static class Http
@@ -16,6 +19,7 @@ namespace CoinBaseSharp.Helpers
                 byte[] response = null;
                 using (System.Net.WebClient client = new System.Net.WebClient())
                 {
+                    client.Encoding = System.Text.Encoding.UTF8;
                     response = client.UploadValues(uri, pairs);
                 }
                 return response;
