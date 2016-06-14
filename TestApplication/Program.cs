@@ -18,8 +18,11 @@ namespace TestApplication
         public class JilEmployee
         {
             public int EmployeeId { get; set; }
+
             public string FirstName { get; set; }
+
             public string LastName { get; set; }
+
             public string Designation { get; set; }
         }
 
@@ -31,13 +34,236 @@ namespace TestApplication
             // public int Age;
 
             public string Name { get; set; }
+
             public int Age { get; set; }
+
             public System.DateTime DateFrom { get; set; }
         }
 
 
+        public class DataRow
+        {
+            protected DataTable m_Table;
+
+            internal DataRow()
+            {
+            }
+
+            internal DataRow(DataTable table)
+            {
+                this.m_Table = table;
+            }
+
+
+            public DataTable Table
+            {
+                get
+                {
+                    return this.m_Table;
+                }
+            }
+        }
+
+
+        public class DataColumn
+        {
+            protected DataTable m_Table;
+
+            public string Caption
+            {
+                get
+                { 
+                    return "";
+                }
+            }
+
+
+            // dt.Columns[i].Ordinal
+            // dt.Columns[i].SetOrdinal(123);
+
+            public int Ordinal
+            {
+                get
+                { 
+                    return 0;
+                }
+
+                set
+                { 
+                    SetOrdinal(value);
+                }
+            }
+
+            public void SetOrdinal(int a)
+            {
+                
+            }
+
+            public bool AllowDBNull
+            {
+                get{ return true; }
+                set
+                {
+                    throw new System.NotImplementedException();
+                }
+
+            }
+
+            public DataTable Table
+            {
+                get
+                {
+                    return this.m_Table;
+                }
+            }
+
+        }
+
+
+
+
+        public class DataRowCollection : System.Collections.Generic.IEnumerable<DataRow>
+        {
+            public System.Collections.Generic.List<DataRow> Rows;
+            // Count
+
+            public System.Collections.Generic.IEnumerator<DataRow> GetEnumerator()
+            {
+                return this.Rows.GetEnumerator();
+            }
+
+            System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
+            {
+                return this.GetEnumerator();
+            }
+
+
+            public DataRow this [string index]
+            {
+                get
+                {
+
+                    return null;
+                }
+            }
+
+
+            public DataRow this [int index]
+            {
+                get
+                {
+
+                    return null;
+                }
+            }
+        }
+
+        public class DataColumnCollection : System.Collections.Generic.IEnumerable<DataColumn>
+        {
+
+            public System.Collections.Generic.List<DataColumn> Columns; // Count
+
+
+            public System.Collections.Generic.IEnumerator<DataColumn> GetEnumerator()
+            {
+                return this.Columns.GetEnumerator();
+            }
+
+
+            System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
+            {
+                return this.GetEnumerator();
+            }
+
+
+            // public System.Collections.Generic.Dictionary<string, System.Type> Columns1; // Count
+
+
+            // dt.Columns.Add(string columnName);
+            // dt.Columns.Add(string columnName, System.typeof typeof);
+
+            public DataColumn this [string index]
+            {
+                get
+                {
+
+                    return null;
+                }
+            }
+
+            public DataColumn this [int index]
+            {
+                get
+                {
+
+                    return null;
+                }
+            }
+        }
+
+
+        public class DataTable
+        {
+
+            public string NameSpace;
+            public string TableName;
+
+            public bool CaseSensitive
+            {
+                get{ return false; }
+                set
+                {
+                    throw new System.NotImplementedException();
+                }
+
+            }
+
+            public System.Globalization.CultureInfo Culture;
+
+            public DataTable()
+                : this(null, null)
+            {
+            }
+
+            public DataTable(string tableName)
+                : this(tableName, null)
+            {
+            }
+
+            public DataTable(string tableName, string tableNamespace)
+            {
+                this.TableName = tableName;
+                this.NameSpace = tableNamespace;
+                this.Culture = System.Globalization.CultureInfo.InvariantCulture;
+            }
+
+
+            public DataColumnCollection Columns;
+            // Count
+            public DataRowCollection Rows;
+            // Count
+
+
+            public DataRow NewRow()
+            {
+                return new DataRow(this);
+            }
+
+
+            public void WriteXml(System.IO.Stream stream)
+            {
+                throw new System.NotImplementedException();
+            }
+
+        }
+
+
+
         public static void InsertLogo()
         {
+            System.Data.DataTable dt = new System.Data.DataTable();
+
+
             byte[] coop = System.IO.File.ReadAllBytes(@"D:\username\Documents\Visual Studio 2013\TFS\COR-Basic\COR-Basic\Basic\Basic\images\Logo\bank_coop.png");
             byte[] bkb = System.IO.File.ReadAllBytes(@"D:\username\Documents\Visual Studio 2013\TFS\COR-Basic\COR-Basic\Basic\Basic\images\Logo\logo_bkb.png");
 
@@ -54,7 +280,8 @@ namespace TestApplication
                 CoinBaseSharp.SQL.ExecuteNonQuery(cmd);
             } // End Using cmd 
 
-        } // End Sub InsertLogo 
+        }
+        // End Sub InsertLogo
 
 
 
@@ -64,12 +291,13 @@ namespace TestApplication
         public static int InlineTest()
         {
             return 2 * 2;
-        } // End Function InlineTest 
+        }
+        // End Function InlineTest
 
 
         // https://msdn.microsoft.com/en-us/library/hh873175.aspx
         // http://blogs.msdn.com/b/pfxteam/archive/2012/04/12/10293335.aspx
-        // http://blog.stephencleary.com/2012/02/async-and-await.html 
+        // http://blog.stephencleary.com/2012/02/async-and-await.html
         // https://stackoverflow.com/questions/14455293/how-and-when-to-use-async-and-await
         // https://msdn.microsoft.com/en-us/library/mt674902.aspx
         // https://msdn.microsoft.com/en-us/library/xh29swte(v=vs.90).aspx
@@ -102,7 +330,8 @@ namespace TestApplication
             } // End Using sha256 
 
             return System.BitConverter.ToString(ba).Replace("-", "").ToLowerInvariant();
-        } // End Function Sha256_2 
+        }
+        // End Function Sha256_2
 
 
         public static string BitcoinAddressHash(string bla)
@@ -121,7 +350,8 @@ namespace TestApplication
             } // End Using sha256 
 
             return System.BitConverter.ToString(ba).Replace("-", "").ToLowerInvariant();
-        } // End Function BitcoinAddressHash 
+        }
+        // End Function BitcoinAddressHash
 
 
         public static void HashTest()
@@ -131,7 +361,8 @@ namespace TestApplication
 
             bla = BitcoinAddressHash("hello");
             System.Console.WriteLine(bla);
-        } // End Sub HashTest 
+        }
+        // End Sub HashTest
 
 
         /// <summary>
@@ -271,7 +502,8 @@ CREATE TABLE IF NOT EXISTS price_history
             System.Console.WriteLine(System.Environment.NewLine);
             System.Console.WriteLine(" --- Press any key to continue --- ");
             System.Console.ReadKey();
-        } // End Sub Main
+        }
+        // End Sub Main
 
 
         // public delegate void sqlGenerator_t<T>(System.Text.StringBuilder sb, T thisItem);
@@ -305,10 +537,12 @@ CREATE TABLE IF NOT EXISTS price_history
             }
 
             sb.AppendLine(");");
-        } // End Sub SqlInsertItem
+        }
+        // End Sub SqlInsertItem
 
 
-    } // End Class Program 
+    }
+    // End Class Program
 
 
 } // End Namespace TestApplication
