@@ -302,6 +302,7 @@ namespace System.Data2
     } // End Class DataColumnCollection
 
 
+
     public class DataTable
     {
 
@@ -310,6 +311,7 @@ namespace System.Data2
         public System.Globalization.CultureInfo Culture;
         public bool CaseSensitive;
 
+        public DataSet @DataSet; 
 
         public DataTable()
             : this(null, null)
@@ -452,6 +454,151 @@ namespace System.Data2
     } // End Class DataTable 
 
 
+
+
+    public class DataTableCollection : System.Collections.Generic.IEnumerable<DataTable>
+    {
+        protected DataSet m_DataSet;
+        protected System.Collections.Generic.List<DataTable> m_Tables;
+
+
+        public DataTableCollection()
+            : this(null)
+        { }
+
+        public DataTableCollection(DataSet dataSet)
+        {
+            this.m_DataSet = dataSet;
+            this.m_Tables = new System.Collections.Generic.List<DataTable>();
+        }
+
+        public int Count
+        {
+            get
+            {
+                return this.m_Tables.Count;
+            }
+        }
+
+
+        public void Clear()
+        {
+            this.m_Tables.Clear();
+        }
+
+        public DataTable Add()
+        {
+            DataTable dt = new DataTable();
+            dt.DataSet = this.m_DataSet;
+            this.m_Tables.Add(dt);
+
+            return dt;
+        }
+
+
+        public void AddRange(DataTable[] dts)
+        {
+            for(int i = 0; i < dts.Length; ++i)
+            {
+                dts[i].DataSet = this.m_DataSet;
+                this.m_Tables.Add(dts[i]);
+
+            }
+
+        }
+
+
+        public System.Collections.Generic.IEnumerator<DataTable> GetEnumerator()
+        {
+            return this.m_Tables.GetEnumerator();
+        }
+
+
+        System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
+        {
+            return this.GetEnumerator();
+        }
+
+        public DataTable this[int index]
+        {
+            get
+            {
+                return this.m_Tables[index];
+            }
+        }
+
+
+        public int GetOrdinal(string tableName)
+        {
+            int ord = this.m_Tables.FindIndex(delegate(DataTable that)
+                {
+                    if (this.m_DataSet.CaseSensitive)
+                        return string.Equals(that.TableName, tableName, System.StringComparison.Ordinal);
+
+                    return string.Equals(that.TableName, tableName, System.StringComparison.OrdinalIgnoreCase);
+                }
+            );
+
+            return ord;
+        }
+
+
+
+        public DataTable this[string tableName]
+        {
+            get
+            {
+                int ord = this.GetOrdinal(tableName);
+                return this[ord];
+            }
+        }
+
+
+    } // End Class DataTableCollection
+
+
+    public class DataSet
+    {
+        public bool CaseSensitive;
+        public DataTableCollection Tables;
+        public string Namespace;
+        public string DataSetName;
+
+        public System.Globalization.CultureInfo Locale;
+
+
+
+        public DataSet()
+            : this(null, null)
+        { }
+
+
+        public DataSet(string dataSetName)
+            : this(dataSetName, null)
+        {
+        }
+
+
+        public DataSet(string dataSetName, string dataSetNamespace)
+        {
+            this.DataSetName = dataSetName;
+            this.Namespace = dataSetNamespace;
+        }
+
+        public void WriteXml(System.IO.Stream stream)
+        {
+            throw new System.NotImplementedException();
+        }
+
+
+        public void Clear()
+        {
+            this.Tables.Clear();
+        }
+
+    } // End Class DataSet 
+
+
     public class Tests
     {
         
@@ -465,6 +612,35 @@ namespace System.Data2
         // order to get access to the additional type information you have to invoke an extension method called GetTypeInfo() 
         // that lives in System.Reflection. 
         // typeof(DataTable).Assembly.Location
+
+
+        public static void DataSetTest()
+        {
+            System.Data.DataSet ds = new System.Data.DataSet();
+            // ds.Tables.Count
+            var dt1 = ds.Tables["foo"];
+            var dt2 = ds.Tables[0];
+
+
+            // DataTable[]
+
+            //ds.Tables.AddRange();
+            //ds.Tables.Add();
+
+            // ds.HasErrors
+
+            // ds.WriteXml
+            // ds.WriteXmlSchema
+            // ds.Load
+
+            foreach (System.Data.DataTable dt in ds.Tables)
+            {
+                System.Console.WriteLine(dt);
+                // dt.Locale
+            }
+
+        } // End Sub DataSetTest 
+
 
         public void Fill(DataTable dt)
         {

@@ -342,18 +342,20 @@ namespace TestApplication
             ls.Add("foo");
             ls.Add("bar");
             ls.Add("foobar");
+
             int oobj = 123;
             Person someOne = new Person() { Name = "foo", Email = "foo@bar.com", SnailMail="Snail" };
             // SetProperty(someOne, "Anumber", oobj);
             // SetProperty(someOne, "SnailMail", "Turtle Mail");
             // SetProperty(someOne, "Email", "SpamMail");
             T_Benutzer ben = new T_Benutzer();
+
             GetProperty(ls, "Count");
 
             string SQL = @"SELECT TOP 1 BE_ID, BE_Name FROM T_Benutzer";
             using (System.Data.Common.DbDataReader rdr = CoinBaseSharp.SQL.ExecuteReader(SQL))
             {
-                if (rdr.HasRows)
+                do
                 {
                     int fieldCount = rdr.FieldCount;
                     System.Type[] ts = new System.Type[fieldCount];
@@ -362,26 +364,32 @@ namespace TestApplication
                     {
                         ts[i] = rdr.GetFieldType(i);
                         fieldNames[i] = rdr.GetName(i);
+                    } // Next i 
 
 
-                    }
-
-                    while (rdr.Read())
+                    if (rdr.HasRows)
                     {
-                        for (int i = 0; i < fieldCount; ++i)
+                        while (rdr.Read())
                         {
-                            object objValue = rdr.GetValue(i);
+                            for (int i = 0; i < fieldCount; ++i)
+                            {
+                                object objValue = rdr.GetValue(i);
 
-                            System.Console.WriteLine(ts[i]);
-                            int abc = 123;
-                            SetProperty(ben, fieldNames[i], abc);
-                            System.Console.WriteLine(objValue);
-                        }
-                    }
+                                System.Console.WriteLine(ts[i]);
+                                int abc = 123;
+                                SetProperty(ben, fieldNames[i], abc);
+                                System.Console.WriteLine(objValue);
+                            } // Next i 
 
-                }
-            }
-        }
+                        } // Whend 
+
+                    } // End if (rdr.HasRows)
+
+                } while (rdr.NextResult( ));
+
+            } // End Using rdr 
+
+        } // End Sub LinqTest 
 
 
         /// <summary>
