@@ -454,9 +454,7 @@ namespace System.Data2
 
     public class Tests
     {
-
-        // DataTable dt = CoinBaseSharp.HttpClientHelper.Deserialize<DataTable>().Result;
-
+        
         // https://blogs.msdn.microsoft.com/dotnet/2016/02/10/porting-to-net-core/
         // http://www.symbolsource.org/Public/Metadata/NuGet/Project/CSLA-Core/4.5.700/Release/.NETCore,Version%3Dv4.5/Csla/Csla/Csla.WinRT/Reflection/TypeExtensions.cs?ImageName=Csla
         // https://blogs.msdn.microsoft.com/dotnet/2016/02/10/porting-to-net-core/
@@ -551,6 +549,18 @@ namespace System.Data2
             // System.Console.WriteLine(dt.Rows.Count);
             return dt;
         } // End Function Sql2DataTableTest 
+
+
+        public class DrawingInfo{
+            // http://stackoverflow.com/questions/1528525/alternatives-to-system-drawing-for-use-with-asp-net
+            // http://stackoverflow.com/questions/390532/system-drawing-in-windows-or-asp-net-services
+            // https://github.com/StackExchange/dapper-dot-net/issues/241
+            // https://github.com/mono/mono/blob/master/mcs/class/referencesource/System.Data/System/Data/Odbc/Odbc32.cs
+            // https://github.com/mono/mono/tree/master/mcs/class/referencesource/System.Data/System/Data/Odbc
+            // https://github.com/mono/mono/blob/master/mcs/class/System.Data/Test/OdbcTest.cs
+
+        }
+
 
 
         public static void DataTableTest()
