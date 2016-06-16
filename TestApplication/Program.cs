@@ -182,216 +182,6 @@ namespace TestApplication
         } // End Sub HashTest
 
 
-        public static class LambdaExtensions
-        {
-            // public static void SetPropertyValue<T>(this T target,
-            public static void SetPropertyValue<T>(T target,
-                System.Linq.Expressions.Expression<System.Func<T, object>> memberLamda, object value)
-            {
-                var memberSelectorExpression = memberLamda.Body as System.Linq.Expressions.MemberExpression;
-                if (memberSelectorExpression != null)
-                {
-                    var property = memberSelectorExpression.Member as System.Reflection.PropertyInfo;
-                    if (property != null)
-                    {
-                        property.SetValue(target, value, null);
-                    }
-                }
-            }
-        }
-        // https://stackoverflow.com/questions/8107134/how-set-value-a-property-selector-expressionfunct-tresult
-        /// <summary>
-        /// Convert a lambda expression for a getter into a setter
-        /// </summary>
-        public static System.Action<T, TProperty> GetSetter<T, TProperty>(
-            System.Linq.Expressions.Expression<System.Func<T, TProperty>> expression)
-        {
-            var memberExpression = (System.Linq.Expressions.MemberExpression)expression.Body;
-            var property = (System.Reflection.PropertyInfo)memberExpression.Member;
-            var setMethod = property.GetSetMethod();
-
-            var parameterT = System.Linq.Expressions.Expression.Parameter(typeof(T), "x");
-            var parameterTProperty = System.Linq.Expressions.Expression.Parameter(typeof(TProperty), "y");
-
-            var newExpression =
-                System.Linq.Expressions.Expression.Lambda<System.Action<T, TProperty>>(
-                    System.Linq.Expressions.Expression.Call(parameterT, setMethod, parameterTProperty),
-                    parameterT,
-                    parameterTProperty
-                );
-
-            return newExpression.Compile();
-        }
-
-
-        public static object GetProperty<T>(T ls, string fieldName)
-        {
-            System.Linq.Expressions.ParameterExpression p = System.Linq.Expressions.Expression.Parameter(typeof(T));
-
-            var prop = System.Linq.Expressions.Expression.PropertyOrField(p, fieldName);
-            var con = System.Linq.Expressions.Expression.Convert(prop, typeof(object));
-            var exp = System.Linq.Expressions.Expression.Lambda(con, p);
-
-            var getValue = (System.Func<T, object>)exp.Compile();
-            return getValue(ls);
-        }
-
-
-        // https://stackoverflow.com/questions/321650/how-do-i-set-a-field-value-in-an-c-sharp-expression-tree
-        public static void SetProperty<TTarget, TValue>(TTarget target, string fieldName, TValue newValue)
-        {
-            System.Type tt = newValue.GetType();
-            System.Type ttt = typeof(TValue);
-
-            System.Linq.Expressions.ParameterExpression targetExp = System.Linq.Expressions.Expression.Parameter(typeof(TTarget), "target");
-            System.Linq.Expressions.ParameterExpression valueExp = System.Linq.Expressions.Expression.Parameter(typeof(TValue), "value");
-            
-
-            System.Linq.Expressions.ParameterExpression p = System.Linq.Expressions.Expression.Parameter(typeof(TTarget));
-            // System.Linq.Expressions.MemberExpression fieldExp = System.Linq.Expressions.Expression.PropertyOrField(p, fieldName);
-
-            // Expression.Property can be used here as well
-            System.Linq.Expressions.MemberExpression fieldExp =
-                // System.Linq.Expressions.Expression.Field(targetExp, fieldName);
-                // System.Linq.Expressions.Expression.Property(targetExp, fieldName);
-                System.Linq.Expressions.Expression.PropertyOrField(targetExp, fieldName);
-
-            System.Linq.Expressions.BinaryExpression assignExp = 
-                System.Linq.Expressions.Expression.Assign(fieldExp, valueExp);
-
-            System.Action<TTarget, TValue> setter = System.Linq.Expressions.Expression
-                .Lambda<System.Action<TTarget, TValue>>(assignExp, targetExp, valueExp).Compile();
-                
-
-            setter(target, newValue);
-        }
-
-
-        /*
-        public static TP CleanProperty<T, TP>(T obj, System.Linq.Expressions.Expression<System.Func<T, TP>> propertySelector) where TP : class
-        {
-            var valueParam = System.Linq.Expressions.Expression.Parameter(typeof(TP), "value");
-            var getValue = propertySelector.Compile();
-
-            // Use the propertySelector body as the left sign of an assign and all the complexity of getting to the property is handled.
-            var setValue = System.Linq.Expressions.Expression.Lambda<System.Action<T, TP>>(
-                                System.Linq.Expressions.Expression.Assign(propertySelector.Body, valueParam),
-                                propertySelector.Parameters[0], valueParam).Compile();
-
-            var value = getValue(obj);
-            // if (value != null && IsJunk(value))
-            //     setValue(obj, null);
-            return value;
-        }
-        */
-
-
-
-        public class Person
-        {
-            public string Name { get; set; }
-            public Person Brother { get; set; }
-            public string Email { get; set; }
-
-            public string SnailMail;
-            public int Anumber;
-        }
-
-
-        public class T_Benutzer
-        {
-            public int BE_ID { get; set; }
-            public string BE_Name { get; set; }
-
-            public string SnailMail;
-            public int Anumber;
-        }
-
-
-        public static void oldGet(System.Collections.Generic.List<string> ls)
-        {
-            System.Type targetType = ls.GetType();
-
-            //System.Linq.Expressions.ParameterExpression p = System.Linq.Expressions.Expression.Parameter(typeof(string));
-            System.Linq.Expressions.ParameterExpression p = System.Linq.Expressions.Expression.Parameter(targetType);
-            //var prop = System.Linq.Expressions.Expression.Property(p, "Length");
-
-            //System.Linq.Expressions.Expression.Field(p, "fieldName");
-            var prop = System.Linq.Expressions.Expression.PropertyOrField(p, "Count");
-
-            // var prop = System.Linq.Expressions.Expression.Property(p, "Count");
-            var con = System.Linq.Expressions.Expression.Convert(prop, typeof(object));
-            var exp = System.Linq.Expressions.Expression.Lambda(con, p);
-            //var func = (System.Func<string, object>)exp.Compile();
-
-            //var func = (System.Func<System.Collections.Generic.List<string>, object>)exp.Compile();
-
-            var func = (System.Func<System.Collections.Generic.List<string>, object>)exp.Compile();
-
-
-
-            var obj = ls;
-            int len = (int)func(obj);
-
-        }
-
-
-        public static void LinqTest()
-        {
-            System.Collections.Generic.List<string> ls = new System.Collections.Generic.List<string>();
-            ls.Add("foo");
-            ls.Add("bar");
-            ls.Add("foobar");
-
-            int oobj = 123;
-            Person someOne = new Person() { Name = "foo", Email = "foo@bar.com", SnailMail="Snail" };
-            // SetProperty(someOne, "Anumber", oobj);
-            // SetProperty(someOne, "SnailMail", "Turtle Mail");
-            // SetProperty(someOne, "Email", "SpamMail");
-            T_Benutzer ben = new T_Benutzer();
-
-            GetProperty(ls, "Count");
-
-            string SQL = @"SELECT TOP 1 BE_ID, BE_Name FROM T_Benutzer";
-            using (System.Data.Common.DbDataReader rdr = CoinBaseSharp.SQL.ExecuteReader(SQL))
-            {
-                do
-                {
-                    int fieldCount = rdr.FieldCount;
-                    System.Type[] ts = new System.Type[fieldCount];
-                    string[] fieldNames = new string[fieldCount];
-                    for (int i = 0; i < fieldCount; ++i)
-                    {
-                        ts[i] = rdr.GetFieldType(i);
-                        fieldNames[i] = rdr.GetName(i);
-                    } // Next i 
-
-
-                    if (rdr.HasRows)
-                    {
-                        while (rdr.Read())
-                        {
-                            for (int i = 0; i < fieldCount; ++i)
-                            {
-                                object objValue = rdr.GetValue(i);
-
-                                System.Console.WriteLine(ts[i]);
-                                int abc = 123;
-                                SetProperty(ben, fieldNames[i], abc);
-                                System.Console.WriteLine(objValue);
-                            } // Next i 
-
-                        } // Whend 
-
-                    } // End if (rdr.HasRows)
-
-                } while (rdr.NextResult( ));
-
-            } // End Using rdr 
-
-        } // End Sub LinqTest 
-
-
         /// <summary>
         /// Der Haupteinstiegspunkt für die Anwendung.
         /// </summary>
@@ -399,6 +189,7 @@ namespace TestApplication
         static void Main()
         {
             
+
             if (false)
             {
                 System.Windows.Forms.Application.EnableVisualStyles();
@@ -407,6 +198,8 @@ namespace TestApplication
             }
             // DataTable dt = CoinBaseSharp.HttpClientHelper.Deserialize<DataTable>().Result;
 
+
+            // LinqReflection.LinqTest();
 
             // System.Data2.DataTable daaa = System.Data2.Tests.Sql2DataTableTest("SELECT * FROM T_Benutzer");
             // System.Console.WriteLine(daaa);
