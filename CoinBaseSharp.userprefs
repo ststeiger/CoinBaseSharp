@@ -2,10 +2,11 @@
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
   <MonoDevelop.Ide.Workbench>
     <Files>
-      <File FileName="TestApplication/Program.cs" Line="57" Column="10" />
+      <File FileName="TestApplication/Program.cs" Line="374" Column="52" />
       <File FileName="CoinBaseSharp/SQL/SELECT_t_map_currency_rate.sql" Line="1" Column="1" />
       <File FileName="CoinBaseSharp/ISO/ISO_4217.cs" Line="1" Column="1" />
       <File FileName="CoinBaseSharp/rdotnet.cs" Line="1" Column="1" />
+      <File FileName="TestApplication/DataTable.cs" Line="499" Column="20" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
