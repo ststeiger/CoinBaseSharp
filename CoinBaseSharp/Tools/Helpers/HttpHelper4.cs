@@ -3,7 +3,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 
 // http://www.codeproject.com/Articles/996857/Asynchronous-programming-and-Threading-in-Csharp-N
-namespace CoinBaseSharp.Tools.Helpers
+namespace CoinBaseSharp.Helpers
 {
 
 

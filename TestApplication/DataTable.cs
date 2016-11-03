@@ -488,7 +488,7 @@ namespace System.Data2
         public void Dispose()
         {
             Dispose(true);
-            GC.SuppressFinalize(this);
+            System.GC.SuppressFinalize(this);
         }
 
 
@@ -662,7 +662,7 @@ namespace System.Data2
         public void Dispose()
         {
             Dispose(true);
-            GC.SuppressFinalize(this);
+            System.GC.SuppressFinalize(this);
         }
 
         protected virtual void Dispose(bool disposing)
@@ -700,8 +700,8 @@ namespace System.Data2
             {
                 System.Console.WriteLine(ds.Tables.Count);
 
-                DataTable dt1 = ds.Tables["foo"];
-                DataTable dt2 = ds.Tables[0];
+                System.Data.DataTable dt1 = ds.Tables["foo"];
+                System.Data.DataTable dt2 = ds.Tables[0];
 
 
                 // DataTable[]
@@ -744,7 +744,7 @@ namespace System.Data2
                 return "";
             }
 
-            private System.Data.Common.DbProviderFactor fac;
+            private System.Data.Common.DbProviderFactory fac;
 
             public virtual System.Data.Common.DbProviderFactory GetFactory()
             {
@@ -755,7 +755,7 @@ namespace System.Data2
 
             public virtual System.Data.Common.DbConnection GetConnection(string connetionString)
             {
-                
+                return null;
             }
 
 
@@ -791,7 +791,7 @@ namespace System.Data2
             {
                 System.Data.Common.DbProviderFactory fac = this.GetFactory();
 
-                using (System.Data.Common.DbDataAdapter da = new Data.SqlClient.SqlDataAdapter("cmd", "conn"))
+                using (System.Data.Common.DbDataAdapter da = new System.Data.SqlClient.SqlDataAdapter("cmd", "conn"))
                 {
                     // da.Update
                     System.Data.DataRow dr = null;
@@ -800,7 +800,7 @@ namespace System.Data2
                     //da.UpdateBatchSize
 
                     // da.GetFillParameters
-                    da.Fill(msDT);
+                    // da.Fill(msDT);
                 } // End Using da
             }
 
@@ -811,7 +811,7 @@ namespace System.Data2
         {
             System.Data.DataTable msDT = null;
 
-            using (System.Data.Common.DbDataAdapter da = new Data.SqlClient.SqlDataAdapter("cmd", "conn"))
+            using (System.Data.Common.DbDataAdapter da = new System.Data.SqlClient.SqlDataAdapter("cmd", "conn"))
             {
                 da.Fill(msDT);
             } // End Using da
@@ -846,7 +846,7 @@ namespace System.Data2
                 dt = new DataTable();
             //else dt.Clear();
 
-            using (System.Data.Common.DbDataReader rdr = CoinBaseSharp.SQL.ExecuteReader(cmd, Data.CommandBehavior.SequentialAccess | Data.CommandBehavior.CloseConnection))
+            using (System.Data.Common.DbDataReader rdr = CoinBaseSharp.SQL.ExecuteReader(cmd, System.Data.CommandBehavior.SequentialAccess | System.Data.CommandBehavior.CloseConnection))
             {
                 int fieldCount = rdr.FieldCount;
 

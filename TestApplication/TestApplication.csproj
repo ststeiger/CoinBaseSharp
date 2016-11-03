@@ -70,6 +70,7 @@
     <None Include="connections.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <Compile Include="TSL.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\CoinBaseSharp\CoinBaseSharp.csproj">

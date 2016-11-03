@@ -1,5 +1,5 @@
 ﻿
-namespace CoinBaseSharp.Tools.Helpers
+namespace CoinBaseSharp.Helpers
 {
 
     // http://www.c-sharpcorner.com/uploadfile/vendettamit/delegate-and-async-programming-C-Sharp-asynccallback-and-object-state/

@@ -50,7 +50,8 @@ namespace CoinBaseSharp.ExchangeRates
                 string fileName = MapProjectPath(@"~CoinBaseSharp/ExchangeRates/ecb_feed.xml");
                 System.Console.WriteLine(fileName);
 
-
+                // global::Tools.XML.Serialization.DeserializeXmlFromUrl
+                // vs. CoinBaseSharp.Tools
                 CoinBaseSharp.ExchangeRates.ECB.Envelope env =
                     Tools.XML.Serialization.DeserializeXmlFromUrl<CoinBaseSharp.ExchangeRates.ECB.Envelope>(url);
                     // Tools.XML.Serialization.DeserializeXmlFromFile<CoinBaseSharp.ExchangeRates.ECB.Envelope>(fileName);
