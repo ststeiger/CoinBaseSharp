@@ -66,6 +66,8 @@
     <Compile Include="ExchangeRates\OpenExchangeRates.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Exchanges\CoinBase\Time.cs" />
+    <Compile Include="Tools\Helpers\HttpHelper4.cs" />
+    <Compile Include="Tools\Helpers\OldAsync.cs" />
     <Compile Include="Tools\JSON.cs" />
     <Compile Include="Tools\LinqReflection.cs" />
     <Compile Include="Tools\SQL.cs" />
