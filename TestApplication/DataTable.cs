@@ -25,6 +25,40 @@ namespace System.Data2
                 this.m_ColumnData = new System.Collections.Generic.Dictionary<string, object>(System.StringComparer.OrdinalIgnoreCase);
         }
 
+        //dr.IsNull(
+        //dr.RowState
+        // dr.RowState = System.Data.DataRowState.Added;
+        // dr.RowState = System.Data.DataRowState.Deleted;
+        // dr.RowState = System.Data.DataRowState.Detached;
+        // dr.RowState = System.Data.DataRowState.Modified;
+        // dr.RowState = System.Data.DataRowState.Unchanged;
+
+
+        public object[] ItemArray
+        {
+            get
+            { 
+                object[] items = new object[this.Table.Columns.Count];
+                for (int i = 0; i < this.Table.Columns.Count; ++i)
+                {
+                    items[i] = this[i];
+                }
+
+                return items;
+            }
+            set
+            { 
+                if (value == null)
+                    return;
+                
+                for (int i = 0; i < value.Length; ++i)
+                {
+                    this[i] = value[i];
+                }
+            }
+        }
+
+
 
         public object this[string columnName]
         {
@@ -303,7 +337,7 @@ namespace System.Data2
 
 
 
-    public class DataTable
+    public class DataTable : System.IDisposable 
     {
 
         public string NameSpace;
@@ -436,7 +470,6 @@ namespace System.Data2
             }
 
 
-
             sb.AppendLine("</tbody>");
 
             // sb.AppendLine("<tfoot>");
@@ -450,6 +483,28 @@ namespace System.Data2
 
             return sb.ToString();
         }
+
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposing) 
+            {
+                // free managed resources
+                this.Columns.Clear();
+                this.Columns = null;
+                this.Rows.Clear();
+                this.Rows = null;
+            }
+            // free native resources if there are any.
+        }
+
 
     } // End Class DataTable 
 
@@ -557,7 +612,7 @@ namespace System.Data2
     } // End Class DataTableCollection
 
 
-    public class DataSet
+    public class DataSet :System.IDisposable 
     {
         public bool CaseSensitive;
         public DataTableCollection Tables;
@@ -583,6 +638,7 @@ namespace System.Data2
         {
             this.DataSetName = dataSetName;
             this.Namespace = dataSetNamespace;
+            this.Tables = new DataTableCollection(this);
         }
 
         public void WriteXml(System.IO.Stream stream)
@@ -593,7 +649,31 @@ namespace System.Data2
 
         public void Clear()
         {
+            // Is this right ? 
+            for (int i = 0; i < this.Tables.Count; ++i)
+            {
+                this.Tables[i].Dispose(); 
+            } // Next i 
+            // Is the above right ? 
             this.Tables.Clear();
+        } // End Sub Clear
+
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposing) 
+            {
+                // free managed resources
+                this.Clear();
+                this.Tables = null;
+            }
+            // free native resources if there are any.
         }
 
     } // End Class DataSet 
@@ -616,30 +696,115 @@ namespace System.Data2
 
         public static void DataSetTest()
         {
-            System.Data.DataSet ds = new System.Data.DataSet();
-            // ds.Tables.Count
-            var dt1 = ds.Tables["foo"];
-            var dt2 = ds.Tables[0];
-
-
-            // DataTable[]
-
-            //ds.Tables.AddRange();
-            //ds.Tables.Add();
-
-            // ds.HasErrors
-
-            // ds.WriteXml
-            // ds.WriteXmlSchema
-            // ds.Load
-
-            foreach (System.Data.DataTable dt in ds.Tables)
+            using (System.Data.DataSet ds = new System.Data.DataSet())
             {
-                System.Console.WriteLine(dt);
-                // dt.Locale
+                System.Console.WriteLine(ds.Tables.Count);
+
+                DataTable dt1 = ds.Tables["foo"];
+                DataTable dt2 = ds.Tables[0];
+
+
+                // DataTable[]
+
+                //ds.Tables.AddRange();
+                //ds.Tables.Add();
+
+                // ds.HasErrors
+
+                // ds.WriteXml
+                // ds.WriteXmlSchema
+                // ds.Load
+
+                foreach (System.Data.DataTable dt in ds.Tables)
+                {
+                    System.Console.WriteLine(dt);
+                    // dt.Locale
+                }
+            }
+            System.Data.Common.DataAdapter da = null;
+        } // End Sub DataSetTest 
+
+        public class DataAdapter
+        {
+            public DataAdapter()
+            {}
+
+            public DataAdapter(System.Data.Common.DbCommand selectCommand)
+            {}
+
+
+            public DataAdapter(string selectCommand, string selectConnectionString)
+            {}
+
+            public DataAdapter(string selectCommand, System.Data.Common.DbConnection selectConnection)
+            {}
+
+            public virtual string GetConnectionString()
+            {
+                return "";
             }
 
-        } // End Sub DataSetTest 
+            private System.Data.Common.DbProviderFactor fac;
+
+            public virtual System.Data.Common.DbProviderFactory GetFactory()
+            {
+                System.Data.SqlClient.SqlClientFactory fac = null;
+                return fac;
+            }
+
+
+            public virtual System.Data.Common.DbConnection GetConnection(string connetionString)
+            {
+                
+            }
+
+
+            public System.Data.Common.DbCommand InsertCommand
+            {
+                get;
+                set;
+            }
+
+
+            public System.Data.Common.DbCommand SelectCommand
+            {
+                get;
+                set;
+            }
+
+
+            public System.Data.Common.DbCommand UpdateCommand
+            {
+                get;
+                set;
+            }
+
+
+            public System.Data.Common.DbCommand DeleteCommand
+            {
+                get;
+                set;
+            }
+
+
+            public void Fill()
+            {
+                System.Data.Common.DbProviderFactory fac = this.GetFactory();
+
+                using (System.Data.Common.DbDataAdapter da = new Data.SqlClient.SqlDataAdapter("cmd", "conn"))
+                {
+                    // da.Update
+                    System.Data.DataRow dr = null;
+
+                    DataRow dar = null;
+                    //da.UpdateBatchSize
+
+                    // da.GetFillParameters
+                    da.Fill(msDT);
+                } // End Using da
+            }
+
+        }
 
 
         public void Fill(DataTable dt)
