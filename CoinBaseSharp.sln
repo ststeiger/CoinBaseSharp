@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.21005.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.26430.15
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CoinBaseSharp", "CoinBaseSharp\CoinBaseSharp.csproj", "{CC9F99B6-1FF6-4F71-9667-B649783946FC}"
 EndProject
@@ -10,6 +10,10 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Jil", "Jil\Jil.csproj", "{73D243E7-DD9B-4546-9B71-4EE8BF5ED6C3}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServiceStack.Text", "ServiceStack.Text\ServiceStack.Text.csproj", "{579B3FDB-CDAD-44E1-8417-885C38E49A0E}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "libCoinBaseSharp", "libCoinBaseSharp\libCoinBaseSharp.csproj", "{F42F056E-5BA0-4655-84D6-68C8456955E5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "libAsyncCoin", "libAsyncCoin\libAsyncCoin.csproj", "{C13FEDDA-D39F-4D9D-902B-617AAF24AC08}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -60,6 +64,26 @@ Global
 		{579B3FDB-CDAD-44E1-8417-885C38E49A0E}.Release|Any CPU.Build.0 = Release|Any CPU
 		{579B3FDB-CDAD-44E1-8417-885C38E49A0E}.Signed|Any CPU.ActiveCfg = Signed|Any CPU
 		{579B3FDB-CDAD-44E1-8417-885C38E49A0E}.Signed|Any CPU.Build.0 = Signed|Any CPU
+		{F42F056E-5BA0-4655-84D6-68C8456955E5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F42F056E-5BA0-4655-84D6-68C8456955E5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F42F056E-5BA0-4655-84D6-68C8456955E5}.MonoTouch|Any CPU.ActiveCfg = Debug|Any CPU
+		{F42F056E-5BA0-4655-84D6-68C8456955E5}.MonoTouch|Any CPU.Build.0 = Debug|Any CPU
+		{F42F056E-5BA0-4655-84D6-68C8456955E5}.Release_ExhaustiveTest|Any CPU.ActiveCfg = Release|Any CPU
+		{F42F056E-5BA0-4655-84D6-68C8456955E5}.Release_ExhaustiveTest|Any CPU.Build.0 = Release|Any CPU
+		{F42F056E-5BA0-4655-84D6-68C8456955E5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F42F056E-5BA0-4655-84D6-68C8456955E5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F42F056E-5BA0-4655-84D6-68C8456955E5}.Signed|Any CPU.ActiveCfg = Debug|Any CPU
+		{F42F056E-5BA0-4655-84D6-68C8456955E5}.Signed|Any CPU.Build.0 = Debug|Any CPU
+		{C13FEDDA-D39F-4D9D-902B-617AAF24AC08}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C13FEDDA-D39F-4D9D-902B-617AAF24AC08}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C13FEDDA-D39F-4D9D-902B-617AAF24AC08}.MonoTouch|Any CPU.ActiveCfg = Debug|Any CPU
+		{C13FEDDA-D39F-4D9D-902B-617AAF24AC08}.MonoTouch|Any CPU.Build.0 = Debug|Any CPU
+		{C13FEDDA-D39F-4D9D-902B-617AAF24AC08}.Release_ExhaustiveTest|Any CPU.ActiveCfg = Release|Any CPU
+		{C13FEDDA-D39F-4D9D-902B-617AAF24AC08}.Release_ExhaustiveTest|Any CPU.Build.0 = Release|Any CPU
+		{C13FEDDA-D39F-4D9D-902B-617AAF24AC08}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C13FEDDA-D39F-4D9D-902B-617AAF24AC08}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C13FEDDA-D39F-4D9D-902B-617AAF24AC08}.Signed|Any CPU.ActiveCfg = Debug|Any CPU
+		{C13FEDDA-D39F-4D9D-902B-617AAF24AC08}.Signed|Any CPU.Build.0 = Debug|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
