@@ -14,7 +14,7 @@ namespace EasyJSON
         private static System.IO.Stream GetEmbeddedFileAsStream(string name)
         {
             
-            System.Reflection.Assembly ass = System.Reflection.IntrospectionExtensions.GetTypeInfo(typeof(JsonHelper)).Assembly;
+            System.Reflection.Assembly ass = System.Reflection.Assembly2.GetExecutingAssembly<JsonHelper>();
             string resourceName = null;
 
             foreach (string thisResourceName in ass.GetManifestResourceNames())

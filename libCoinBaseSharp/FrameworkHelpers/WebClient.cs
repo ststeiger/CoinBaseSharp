@@ -3,13 +3,6 @@ using System.Collections.Generic;
 using System.Text;
 
 
-
-namespace EasyJSON
-{
-
-}
-
-
 namespace System.ComponentModel
 {
     public class AsyncCompletedEventArgs : EventArgs
@@ -118,26 +111,6 @@ namespace System.Net
             // GC.SuppressFinalize(this);
         }
         #endregion
-
-    }
-}
-
-
-namespace Tools.XML
-{
-    internal static class foobar
-    {
-
-        public static void Close(this System.IO.Stream strm)
-        { }
-
-        public static void Close(this System.IO.TextWriter strm)
-        { }
-
-        public static void Close(this System.IO.StreamReader strm)
-        { }
-
-        
 
     }
 }
