@@ -1,8 +1,4 @@
 ﻿
-using System.Collections.Generic;
-
-
-#if true 
 namespace CoinBaseSharp.Exchanges.Bitfinex
 {
 
@@ -27,7 +23,7 @@ namespace CoinBaseSharp.Exchanges.Bitfinex
         // {"foo": ["btcusd","ltcusd","ltcbtc","ethusd","ethbtc"] }
         public class SymbolsRootObject
         {
-            public List<string> foo { get; set; }
+            public System.Collections.Generic.List<string> foo { get; set; }
         }
 
         public class PubTickerRootObject
@@ -83,70 +79,44 @@ namespace CoinBaseSharp.Exchanges.Bitfinex
             // https://api.bitfinex.com/v1/order/new
 
             // http://bitcoin.stackexchange.com/questions/25835/bitfinex-api-call-returns-400-bad-request
-            public static void GetBalance()
+            public static async void GetBalance()
             {
                 string APISECRET = "";
                 string APIKEY = "";
 
-                // long nonce = System.DateTime.Now.ToUnixTimestampMS(); //returns a strictly increasing timestamp based number e.g. 1402207693893
-                long nonce = DateHelper.GetCurrentUnixTimestampMillis();
-
-                string path = "https://api.bitfinex.com/v1/balances";
-                string paramDict = "{\"request\": \"/v1/balances\",\"nonce\": \"" + nonce + "\"}"; //ie. {"request": "/v1/balances","nonce": "1402207693893"}
-                string payload = System.Convert.ToBase64String(System.Text.Encoding.UTF8.GetBytes(paramDict));
-
-                //API Sign
-                string hexHash = null;
-                using (System.Security.Cryptography.HMACSHA384 hmac =
-                           new System.Security.Cryptography.HMACSHA384(System.Text.Encoding.UTF8.GetBytes(APISECRET)))
-                {
-                    byte[] hash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(payload));
-                    hexHash = System.BitConverter.ToString(hash).Replace("-", "").ToLowerInvariant();
-                }
-
-
-                System.Collections.Specialized.NameValueCollection headers = new System.Collections.Specialized.NameValueCollection();
-                headers.Add("X-BFX-APIKEY", APIKEY); //My API KEY
-                headers.Add("X-BFX-PAYLOAD", payload);
-                headers.Add("X-BFX-SIGNATURE", hexHash);
-
                 //POST data
                 try
                 {
-                    // libCoinBaseSharp.WebClientHelper.PostStream<>
+                    // long nonce = System.DateTime.Now.ToUnixTimestampMS(); //returns a strictly increasing timestamp based number e.g. 1402207693893
+                    long nonce = DateHelper.GetCurrentUnixTimestampMillis();
 
-                    //create post request
-                    System.Net.HttpWebRequest request = (System.Net.HttpWebRequest)System.Net.HttpWebRequest.Create(path);
-                    request.KeepAlive = true;
-                    request.Method = System.Net.Http.HttpMethod.Post.Method;
+                    string uri = "https://api.bitfinex.com/v1/balances";
+                    string paramDict = "{\"request\": \"/v1/balances\",\"nonce\": \"" + nonce + "\"}"; //ie. {"request": "/v1/balances","nonce": "1402207693893"}
+                    string payload = System.Convert.ToBase64String(System.Text.Encoding.UTF8.GetBytes(paramDict));
 
-
-                    //add headers
-                    request.Headers.Add(headers);
-
-                    //write out payload
-                    byte[] byteArray = System.Text.Encoding.UTF8.GetBytes(paramDict);
-                    request.ContentLength = byteArray.Length;
-                    using (System.IO.Stream writer = request.GetRequestStream())
+                    //API Sign
+                    string hexHash = null;
+                    using (System.Security.Cryptography.HMACSHA384 hmac =
+                               new System.Security.Cryptography.HMACSHA384(System.Text.Encoding.UTF8.GetBytes(APISECRET)))
                     {
-                        writer.Write(byteArray, 0, byteArray.Length);
+                        byte[] hash = hmac.ComputeHash(System.Text.Encoding.UTF8.GetBytes(payload));
+                        hexHash = System.BitConverter.ToString(hash).Replace("-", "").ToLowerInvariant();
                     }
 
-                    //read reply
-                    using (System.Net.HttpWebResponse response = request.GetResponse() as System.Net.HttpWebResponse)
-                    {
-                        using (System.IO.TextReader reader = new System.IO.StreamReader(response.GetResponseStream()))
-                        {
-                            //get reply (JSON)
-                            string responseContent = reader.ReadToEnd();
-                            System.Console.WriteLine(responseContent);
-                        }
-                    }
+
+                    System.Collections.Generic.Dictionary<string, string> headers =
+                        new System.Collections.Generic.Dictionary<string, string>();
+
+                    headers.Add("X-BFX-APIKEY", APIKEY); //My API KEY
+                    headers.Add("X-BFX-PAYLOAD", payload);
+                    headers.Add("X-BFX-SIGNATURE", hexHash);
+
+                    string responseContent = await libCoinBaseSharp.WebClientHelper.PostStream<string>(uri, null, headers); 
                 }
                 catch (System.Exception e)
                 {
-                    //always throws an exception here
                     System.Diagnostics.Debug.WriteLine(e.Message);
+                    throw;
                 }
             }
 
@@ -175,11 +145,7 @@ namespace CoinBaseSharp.Exchanges.Bitfinex
         // https://api.bitfinex.com/v1/book/btcusd
         // https://api.bitfinex.com/v1/book/btcusd
 
-    }
+    } // End Class 
 
 
-}
-
-
-    
-#endif 
+} // End Namespace 

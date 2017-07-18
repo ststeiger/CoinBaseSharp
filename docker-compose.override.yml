@@ -1,0 +1,8 @@
+version: '2'
+
+services:
+  coinbasecore:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    ports:
+      - "80"

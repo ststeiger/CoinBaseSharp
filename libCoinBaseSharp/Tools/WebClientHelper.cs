@@ -57,12 +57,37 @@ namespace libCoinBaseSharp
 
                 } // End if (parameters != null)
 
-                // Task<System.IO.Stream> tsk = client.GetStreamAsync(requestUri);
-                using (System.IO.Stream jsonResponse = await client.GetStreamAsync(requestUri))
+
+                using (HttpResponseMessage response = await client.GetAsync(requestUri))
                 {
-                    if (jsonResponse != null)
-                        retValue = EasyJSON.JsonHelper.Deserialize<T>(jsonResponse);
-                } // End Using jsonResponse 
+                    response.EnsureSuccessStatusCode();
+
+                    // if(response.StatusCode == System.Net.HttpStatusCode.OK)
+                    if (!response.IsSuccessStatusCode)
+                    {
+                        return retValue;
+                    }
+
+                    if (object.ReferenceEquals(typeof(T), typeof(System.IO.Stream)))
+                        retValue = (T)(object)await response.Content.ReadAsStreamAsync();
+                    else if (object.ReferenceEquals(typeof(T), typeof(string)))
+                    {
+                        retValue = (T)(object)await response.Content.ReadAsStringAsync();
+                    }
+                    else if (object.ReferenceEquals(typeof(T), typeof(byte[])))
+                    {
+                        retValue = (T)(object)await response.Content.ReadAsByteArrayAsync();
+                    }
+                    else
+                    {
+                        using (System.IO.Stream jsonResponse = await response.Content.ReadAsStreamAsync())
+                        {
+                            if (jsonResponse != null)
+                                retValue = EasyJSON.JsonHelper.Deserialize<T>(jsonResponse);
+                        } // End Using strm 
+                    }
+
+                } // End Using response 
 
             } // End Using client 
 
@@ -107,6 +132,7 @@ namespace libCoinBaseSharp
 
                     using (HttpResponseMessage response = await client.PostAsync(requestUri, null))
                     {
+                        response.EnsureSuccessStatusCode();
 
                         // if(response.StatusCode == System.Net.HttpStatusCode.OK)
                         if (!response.IsSuccessStatusCode)
@@ -114,11 +140,24 @@ namespace libCoinBaseSharp
                             return retValue;
                         }
 
-                        using (System.IO.Stream jsonResponse = await response.Content.ReadAsStreamAsync())
+                        if (object.ReferenceEquals(typeof(T), typeof(System.IO.Stream)))
+                            retValue = (T)(object)await response.Content.ReadAsStreamAsync();
+                        else if (object.ReferenceEquals(typeof(T), typeof(string)))
                         {
-                            if (jsonResponse != null)
-                                retValue = EasyJSON.JsonHelper.Deserialize<T>(jsonResponse);
-                        } // End Using strm 
+                            retValue = (T)(object) await response.Content.ReadAsStringAsync();
+                        }
+                        else if (object.ReferenceEquals(typeof(T), typeof(byte[])))
+                        {
+                            retValue = (T)(object)await response.Content.ReadAsByteArrayAsync();
+                        }
+                        else
+                        {
+                            using (System.IO.Stream jsonResponse = await response.Content.ReadAsStreamAsync())
+                            {
+                                if (jsonResponse != null)
+                                    retValue = EasyJSON.JsonHelper.Deserialize<T>(jsonResponse);
+                            } // End Using strm 
+                        }
 
                     } // End Using response 
 
